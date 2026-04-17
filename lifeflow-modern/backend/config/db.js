@@ -2,17 +2,34 @@ import { Sequelize, DataTypes } from 'sequelize';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME || 'lifeflow',
-  process.env.DB_USER || 'root',
-  process.env.DB_PASS || '',
-  {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 3306,
-    dialect: 'mysql',
+let sequelize;
+
+if (process.env.DATABASE_URL) {
+  // Cloud environment (PostgreSQL/MySQL/etc via URL)
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: process.env.DB_DIALECT || 'postgres',
     logging: false,
-  }
-);
+    dialectOptions: process.env.DATABASE_URL.includes('render.com') ? {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    } : {}
+  });
+} else {
+  // Local environment (XAMPP MySQL)
+  sequelize = new Sequelize(
+    process.env.DB_NAME || 'lifeflow',
+    process.env.DB_USER || 'root',
+    process.env.DB_PASS || '',
+    {
+      host: process.env.DB_HOST || 'localhost',
+      port: process.env.DB_PORT || 3307,
+      dialect: 'mysql',
+      logging: false,
+    }
+  );
+}
 
 // ─── Models ────────────────────────────────────────────────────────────────
 
