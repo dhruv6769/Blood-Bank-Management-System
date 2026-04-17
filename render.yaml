@@ -29,10 +29,7 @@ services:
     startCommand: npm start
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: lifeflow-backend
-          property: host
+        value: https://lifeflow-backend.onrender.com/api
 
 databases:
   - name: lifeflow-db
