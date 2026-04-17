@@ -4,7 +4,7 @@ services:
     name: lifeflow-backend
     env: node
     plan: free
-    rootDir: backend
+    rootDir: lifeflow-modern/backend
     buildCommand: npm install
     startCommand: npm start
     envVars:
@@ -24,7 +24,7 @@ services:
     name: lifeflow-frontend
     env: static
     plan: free
-    rootDir: frontend
+    rootDir: lifeflow-modern/frontend
     buildCommand: npm install && npm run build
     publishPath: dist
     envVars:
