@@ -2,19 +2,11 @@ import express from 'express';
 import { User, Donation, sequelize } from '../config/db.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 import { Op } from 'sequelize';
+import { BADGES } from '../utils/gamification.js';
 
 const router = express.Router();
 
-// Enhanced badge system
-const BADGES = {
-    'Starter': { minPoints: 0, emoji: '🌟', color: '#60A5FA', description: 'Welcome to LifeFlow!' },
-    'Bronze': { minPoints: 50, emoji: '🥉', color: '#F59E0B', description: 'First milestone reached' },
-    'Silver': { minPoints: 150, emoji: '🥈', color: '#94A3B8', description: 'Dedicated donor' },
-    'Gold': { minPoints: 250, emoji: '🥇', color: '#FBBF24', description: 'Outstanding contributor' },
-    'Platinum': { minPoints: 500, emoji: '🤈', color: '#38BDF8', description: 'Elite lifesaver' },
-    'Diamond': { minPoints: 1000, emoji: '💎', color: '#818CF8', description: 'Legendary hero' },
-    'Legend': { minPoints: 2500, emoji: '👑', color: '#F43F5E', description: 'Ultimate champion' }
-};
+// BADGES logic moved to gamification.js
 
 // Achievement system
 const ACHIEVEMENTS = {
@@ -44,12 +36,25 @@ router.get('/top-donors', async (req, res) => {
         });
 
         // Add rank and badge info
-        const enhancedLeaderboard = topDonors.map((user, index) => ({
-            rank: index + 1,
-            ...user.toJSON(),
-            badgeInfo: BADGES[user.badge] || BADGES.Starter,
-            donationStreak: Math.min(user.dataValues.totalDonations, 10) // Simplified streak
-        }));
+        const enhancedLeaderboard = topDonors.map((user, index) => {
+            const userData = user.toJSON();
+            const points = userData.points || 0;
+            
+            // Recalculate badge dynamically to ensure accuracy
+            let effectiveBadge = 'Starter';
+            const badgeEntries = Object.entries(BADGES).sort((a, b) => a[1].minPoints - b[1].minPoints);
+            for (const [name, info] of badgeEntries) {
+                if (points >= info.minPoints) effectiveBadge = name;
+            }
+
+            return {
+                rank: index + 1,
+                ...userData,
+                badge: effectiveBadge,
+                badgeInfo: BADGES[effectiveBadge],
+                donationStreak: Math.min(userData.totalDonations, 10)
+            };
+        });
 
         res.json({ 
             status: 'success', 
@@ -129,8 +134,14 @@ router.get('/achievements', verifyToken, async (req, res) => {
 
         // Calculate next badge progress
         const calculatedPoints = totalDonations * 50;
-        const currentBadge = user.badge || 'Starter';
-        const badgeEntries = Object.entries(BADGES);
+        
+        // Recalculate current badge dynamically
+        let currentBadge = 'Starter';
+        const badgeEntries = Object.entries(BADGES).sort((a, b) => a[1].minPoints - b[1].minPoints);
+        for (const [name, info] of badgeEntries) {
+            if (calculatedPoints >= info.minPoints) currentBadge = name;
+        }
+
         const currentIndex = badgeEntries.findIndex(([name]) => name === currentBadge);
         const nextBadge = badgeEntries[currentIndex + 1];
         
@@ -236,8 +247,14 @@ router.get('/achievements/:userId', verifyToken, async (req, res) => {
 
         // Calculate next badge progress
         const calculatedPoints = totalDonations * 50;
-        const currentBadge = user.badge || 'Starter';
-        const badgeEntries = Object.entries(BADGES);
+        
+        // Recalculate current badge dynamically
+        let currentBadge = 'Starter';
+        const badgeEntries = Object.entries(BADGES).sort((a, b) => a[1].minPoints - b[1].minPoints);
+        for (const [name, info] of badgeEntries) {
+            if (calculatedPoints >= info.minPoints) currentBadge = name;
+        }
+
         const currentIndex = badgeEntries.findIndex(([name]) => name === currentBadge);
         const nextBadge = badgeEntries[currentIndex + 1];
         

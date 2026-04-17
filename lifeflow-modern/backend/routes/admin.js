@@ -74,15 +74,7 @@ router.put('/requests/:id', verifyAdmin, async (req, res) => {
 });
 
 // ─── Donation Offers ──────────────────────────────────────────────────────────
-const BADGES = {
-    'Starter': { minPoints: 0, emoji: '🌟', color: '#6B7280', description: 'Welcome to LifeFlow!' },
-    'Bronze': { minPoints: 50, emoji: '🥉', color: '#CD7F32', description: 'First milestone reached' },
-    'Silver': { minPoints: 150, emoji: '🥈', color: '#C0C0C0', description: 'Dedicated donor' },
-    'Gold': { minPoints: 250, emoji: '🥇', color: '#FFD700', description: 'Outstanding contributor' },
-    'Platinum': { minPoints: 500, emoji: '💎', color: '#E5E7EB', description: 'Elite lifesaver' },
-    'Diamond': { minPoints: 1000, emoji: '💍', color: '#8B5CF6', description: 'Legendary hero' },
-    'Legend': { minPoints: 2500, emoji: '👑', color: '#EF4444', description: 'Ultimate champion' }
-};
+// BADGES logic moved to gamification.js
 router.get('/donations/pending', verifyAdmin, async (req, res) => {
     try {
         const donations = await Donation.findAll({
@@ -108,27 +100,6 @@ router.put('/donations/:id', verifyAdmin, async (req, res) => {
 
         const previousStatus = donation.status;
         await donation.update({ status });
-
-        // Badge system based on donation count (as requested by user)
-        const BADGE_SYSTEM = {
-            0: 'Starter',
-            1: 'Bronze',
-            3: 'Silver', 
-            5: 'Gold',
-            10: 'Platinum',
-            20: 'Diamond',
-            50: 'Legend'
-        };
-
-        function calculateBadge(donationCount) {
-            const thresholds = Object.keys(BADGE_SYSTEM).map(Number).sort((a, b) => b - a);
-            for (const threshold of thresholds) {
-                if (donationCount >= threshold) {
-                    return BADGE_SYSTEM[threshold];
-                }
-            }
-            return 'Starter';
-        }
 
         // Award points and update badge when donation is approved or completed (but not both)
         if ((status === 'APPROVED' || status === 'COMPLETED') && previousStatus === 'PENDING') {

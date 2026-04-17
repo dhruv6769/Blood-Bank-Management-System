@@ -1,6 +1,7 @@
 import express from 'express';
 import { User, Request, Donation, Notification } from '../config/db.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
+import { BADGES } from '../utils/gamification.js';
 
 const router = express.Router();
 
@@ -48,11 +49,20 @@ router.get('/dashboard', verifyToken, async (req, res) => {
             }
         }
 
+        const points = approvedDonations.length * 50;
+        
+        // Dynamic badge calculation
+        let dynamicBadge = 'Starter';
+        const sortedBadges = Object.entries(BADGES).sort((a, b) => a[1].minPoints - b[1].minPoints);
+        for (const [name, info] of sortedBadges) {
+            if (points >= info.minPoints) dynamicBadge = name;
+        }
+
         const dashboardData = {
             requests: requests.map(r => r.get({ plain: true })),
             donations: donations.map(d => d.get({ plain: true })),
-            points: approvedDonations.length * 50,
-            badge: user ? user.badge || 'Starter' : 'Starter',
+            points,
+            badge: dynamicBadge,
             totalDonations: totalDonations,
             pendingRequests: requests.filter(r => r.status === 'PENDING').length,
             livesSaved,

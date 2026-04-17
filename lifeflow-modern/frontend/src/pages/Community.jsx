@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Heart, MessageCircle, Share2, Send, Newspaper, AlertTriangle, ShieldCheck, HeartPulse, Trash2, X, ArrowRight, Clock } from 'lucide-react';
 import { useAuthStore } from '../context/authStore';
+import { useThemeStore } from '../context/themeStore';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 
@@ -68,6 +69,7 @@ const MOCK_NEWS = [
 
 const Community = () => {
     const { user, isAuthenticated } = useAuthStore();
+    const { isDark } = useThemeStore();
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState("");
     const [isLoading, setIsLoading] = useState(true);
@@ -105,7 +107,7 @@ const Community = () => {
                 setNewPost("");
                 toast.success("Story posted successfully!");
             }
-        } catch (err) {
+        } catch {
             toast.error("Failed to post story.");
         }
     };
@@ -120,7 +122,7 @@ const Community = () => {
                     return p;
                 }));
             }
-        } catch (err) {
+        } catch {
             toast.error("Failed to like post.");
         }
     };
@@ -139,7 +141,7 @@ const Community = () => {
                 }));
                 setCommentText("");
             }
-        } catch (err) {
+        } catch {
             toast.error("Failed to add comment.");
         }
     };
@@ -154,7 +156,7 @@ const Community = () => {
                 }));
                 toast.success("Comment deleted");
             }
-        } catch (err) {
+        } catch {
             toast.error("Failed to delete comment.");
         }
     };
@@ -178,7 +180,7 @@ const Community = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#050510] flex flex-col font-sans selection:bg-red-500/30">
+        <div className={`min-h-screen ${isDark ? 'bg-[#050510]' : 'bg-gray-50'} flex flex-col font-sans selection:bg-red-500/30 transition-colors duration-500`}>
             {/* News Detail Overlay */}
             <AnimatePresence>
                 {selectedNews && (
@@ -186,7 +188,7 @@ const Community = () => {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 bg-[#050510]/80 backdrop-blur-xl flex items-center justify-end p-4 md:p-0"
+                        className={`fixed inset-0 z-50 ${isDark ? 'bg-[#050510]/80' : 'bg-black/20'} backdrop-blur-xl flex items-center justify-end p-4 md:p-0`}
                         onClick={() => setSelectedNews(null)}
                     >
                         <Motion.div
@@ -194,7 +196,7 @@ const Community = () => {
                             animate={{ x: 0, opacity: 1 }}
                             exit={{ x: '100%', opacity: 0.5 }}
                             transition={{ type: 'spring', damping: 30, stiffness: 200 }}
-                            className="w-full max-w-xl h-full bg-[#0a0a1a] border-l border-white/10 shadow-[0_0_100px_rgba(0,0,0,1)] overflow-y-auto relative"
+                            className={`w-full max-w-xl h-full ${isDark ? 'bg-[#0a0a1a] border-white/10' : 'bg-white border-gray-100'} border-l shadow-[0_0_100px_rgba(0,0,0,0.3)] overflow-y-auto relative`}
                             onClick={e => e.stopPropagation()}
                         >
                             {/* Panel Background Elements */}
@@ -202,25 +204,25 @@ const Community = () => {
 
                             <div className="p-10 pb-8 relative z-10">
                                 <div className="flex items-start justify-between mb-8">
-                                    <span className={`text-[10px] font-black uppercase tracking-[0.3em] px-4 py-2 rounded-lg border ${selectedNews.tagColor.replace('bg-', 'bg-').replace('-100', '-500/10').replace('text-', 'text-')} border-white/10`}>
+                                    <span className={`text-[10px] font-black uppercase tracking-[0.3em] px-4 py-2 rounded-lg border ${selectedNews.tagColor.replace('bg-', 'bg-').replace('-100', '-500/10').replace('text-', 'text-')} ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
                                         {selectedNews.tag}
                                     </span>
-                                    <button onClick={() => setSelectedNews(null)} className="text-white/20 hover:text-white transition-all p-2 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/10">
+                                    <button onClick={() => setSelectedNews(null)} className={`${isDark ? 'text-white/20 hover:text-white hover:bg-white/5 border-white/10' : 'text-gray-400 hover:text-gray-900 hover:bg-gray-100 border-gray-100'} transition-all p-2 rounded-xl border`}>
                                         <X className="w-6 h-6" />
                                     </button>
                                 </div>
-                                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 border border-white/10 shadow-2xl ${selectedNews.bg.replace('bg-', 'bg-').replace('-50', '-500/10')} ${selectedNews.color}`}>
+                                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 border ${isDark ? 'border-white/10' : 'border-gray-100'} shadow-2xl ${selectedNews.bg.replace('bg-', 'bg-').replace('-50', '-500/10')} ${selectedNews.color}`}>
                                     <selectedNews.icon className="w-8 h-8" />
                                 </div>
-                                <h2 className="text-4xl font-black text-white leading-[1.1] mb-6 brand-font tracking-tighter">{selectedNews.title}</h2>
-                                <div className="flex items-center gap-3 text-white/30">
+                                <h2 className={`text-4xl font-black ${isDark ? 'text-white' : 'text-gray-900'} leading-[1.1] mb-6 brand-font tracking-tighter`}>{selectedNews.title}</h2>
+                                <div className={`flex items-center gap-3 ${isDark ? 'text-white/30' : 'text-gray-400'}`}>
                                     <Clock className="w-4 h-4" />
                                     <span className="text-[10px] font-black uppercase tracking-widest">{selectedNews.readTime}</span>
                                 </div>
                             </div>
 
                             {/* Divider */}
-                            <div className="h-px bg-white/5 mx-10" />
+                            <div className={`h-px ${isDark ? 'bg-white/5' : 'bg-gray-100'} mx-10`} />
 
                             {/* Article Body */}
                             <div className="p-10 space-y-10 relative z-10">
@@ -231,20 +233,20 @@ const Community = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: 0.2 + idx * 0.1 }}
                                     >
-                                        <h3 className="text-xs font-black text-white/50 uppercase tracking-[0.2em] mb-4 flex items-center gap-4">
+                                        <h3 className={`text-xs font-black ${isDark ? 'text-white/50' : 'text-gray-400'} uppercase tracking-[0.2em] mb-4 flex items-center gap-4`}>
                                             <span className="w-8 h-px bg-red-500/50"></span>
                                             {section.heading}
                                         </h3>
-                                        <p className="text-white/70 leading-relaxed font-medium text-[15px]">{section.text}</p>
+                                        <p className={`${isDark ? 'text-white/70' : 'text-gray-600'} leading-relaxed font-medium text-[15px]`}>{section.text}</p>
                                     </Motion.div>
                                 ))}
                             </div>
 
                             {/* CTA Footer */}
                             <div className="px-10 pb-12 relative z-10">
-                                <div className="bg-white/5 rounded-[2rem] p-8 border border-white/10 backdrop-blur-3xl shadow-2xl overflow-hidden relative group">
+                                <div className={`${isDark ? 'bg-white/5 border-white/10' : 'bg-gray-50 border-gray-100'} rounded-[2rem] p-8 border backdrop-blur-3xl shadow-2xl overflow-hidden relative group`}>
                                     <div className="absolute -top-10 -right-10 w-32 h-32 bg-red-500/20 rounded-full blur-[50px] pointer-events-none"></div>
-                                    <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mb-6">Join the movement</p>
+                                    <p className={`text-[10px] font-black ${isDark ? 'text-white/30' : 'text-gray-400'} uppercase tracking-[0.3em] mb-6`}>Join the movement</p>
                                     <a href="/dashboard?section=donate" className="flex items-center justify-between w-full bg-red-600 text-white px-8 py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] hover:bg-red-500 transition-all shadow-2xl shadow-red-600/40 hover:-translate-y-1">
                                         <span>Schedule Donation</span>
                                         <ArrowRight className="w-5 h-5" />
@@ -256,8 +258,8 @@ const Community = () => {
                 )}
             </AnimatePresence>
             {/* Minimal Parallax Header */}
-            <div className="relative h-80 overflow-hidden bg-black border-b border-white/5">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-600/40 via-black/90 to-blue-900/40 z-10 backdrop-blur-[2px]"></div>
+            <div className={`relative h-80 overflow-hidden ${isDark ? 'bg-black' : 'bg-gray-900'} border-b ${isDark ? 'border-white/5' : 'border-gray-200'}`}>
+                <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-br from-red-600/40 via-black/90 to-blue-900/40' : 'bg-gradient-to-br from-red-600/20 via-white/40 to-blue-900/20'} z-10 backdrop-blur-[2px]`}></div>
                 <img 
                     src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&q=80&w=2560" 
                     alt="Community backdrop"
@@ -269,19 +271,19 @@ const Community = () => {
                         animate={{ opacity: 1, y: 0 }}
                         className="text-center"
                     >
-                        <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-black tracking-[0.3em] uppercase mb-6 backdrop-blur-3xl shadow-2xl">
+                        <div className={`inline-flex items-center gap-2 px-5 py-2 rounded-full ${isDark ? 'bg-white/5 border-white/10 text-white' : 'bg-white/20 border-white/30 text-white'} border text-[10px] font-black tracking-[0.3em] uppercase mb-6 backdrop-blur-3xl shadow-2xl`}>
                             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span>
                             Urgent Community Pulse
                         </div>
                         <h1 className="text-6xl md:text-8xl font-black text-white brand-font tracking-tighter mb-4">
                             The <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-300">Hub.</span>
                         </h1>
-                        <p className="text-gray-400 font-bold tracking-widest uppercase text-[10px]">Connecting Silent Heroes Worldwide</p>
+                        <p className={`${isDark ? 'text-gray-400' : 'text-gray-200'} font-bold tracking-widest uppercase text-[10px]`}>Connecting Silent Heroes Worldwide</p>
                     </Motion.div>
                 </div>
                 
                 {/* Bottom Mesh Gradient */}
-                <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050510] to-transparent z-15"></div>
+                <div className={`absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t ${isDark ? 'from-[#050510]' : 'from-gray-50'} to-transparent z-15`}></div>
             </div>
 
             <div className="container mx-auto px-4 lg:px-6 py-12 flex-grow flex flex-col lg:flex-row gap-8 lg:gap-12 relative z-20">
@@ -289,11 +291,11 @@ const Community = () => {
                 {/* Left Sidebar: News & Awareness (Sticky) */}
                 <div className="lg:w-1/3">
                     <div className="sticky top-28 space-y-6">
-                        <div className="bg-white/5 rounded-3xl p-7 border border-white/10 backdrop-blur-3xl shadow-2xl relative overflow-hidden group">
+                        <div className={`${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-100'} rounded-3xl p-7 border backdrop-blur-3xl shadow-2xl relative overflow-hidden group`}>
                             {/* Ambient glow */}
-                            <div className="absolute -top-20 -right-20 w-40 h-40 bg-red-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-red-500/20 transition-all duration-700"></div>
+                            <div className={`absolute -top-20 -right-20 w-40 h-40 ${isDark ? 'bg-red-500/10' : 'bg-red-500/5'} rounded-full blur-3xl pointer-events-none group-hover:bg-red-500/20 transition-all duration-700`}></div>
                             
-                            <h2 className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
+                            <h2 className={`text-[10px] font-black ${isDark ? 'text-white/40' : 'text-gray-400'} uppercase tracking-[0.3em] mb-8 flex items-center gap-3`}>
                                 <span className="w-4 h-px bg-red-500/50"></span>
                                 News Pulse
                             </h2>
@@ -307,19 +309,19 @@ const Community = () => {
                                         viewport={{ once: true }}
                                         transition={{ delay: i * 0.1 }}
                                         onClick={() => setSelectedNews(news)}
-                                        className="group/item relative rounded-2xl p-4 transition-all hover:bg-white/5 border border-transparent hover:border-white/10 cursor-pointer"
+                                        className={`group/item relative rounded-2xl p-4 transition-all ${isDark ? 'hover:bg-white/5 border-transparent hover:border-white/10' : 'hover:bg-gray-50 border-transparent hover:border-gray-200'} border cursor-pointer`}
                                     >
                                         <div className="flex gap-5">
-                                            <div className={`mt-1 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border border-white/10 ${news.bg.replace('bg-', 'bg-').replace('-50', '-500/10')} ${news.color}`}>
+                                            <div className={`mt-1 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border ${isDark ? 'border-white/10' : 'border-gray-100'} ${news.bg.replace('bg-', 'bg-').replace('-50', '-500/10')} ${news.color}`}>
                                                 <news.icon className="w-6 h-6" />
                                             </div>
                                             <div className="flex-1">
                                                 <div className="flex items-center justify-between mb-1.5">
                                                     <span className={`text-[8px] font-black px-2 py-0.5 rounded-sm uppercase tracking-widest ${news.tagColor.replace('bg-', 'bg-').replace('-100', '-500/20').replace('text-', 'text-')}`}>{news.tag}</span>
-                                                    <span className="text-[9px] text-white/30 font-bold tracking-widest">{news.readTime}</span>
+                                                    <span className={`text-[9px] ${isDark ? 'text-white/30' : 'text-gray-400'} font-bold tracking-widest`}>{news.readTime}</span>
                                                 </div>
-                                                <h3 className="text-sm font-black text-white group-hover/item:text-red-400 transition-colors leading-tight mb-2 brand-font tracking-tight">{news.title}</h3>
-                                                <p className="text-[11px] text-white/50 leading-relaxed font-medium line-clamp-2">{news.desc}</p>
+                                                <h3 className={`text-sm font-black ${isDark ? 'text-white' : 'text-gray-900'} group-hover/item:text-red-400 transition-colors leading-tight mb-2 brand-font tracking-tight`}>{news.title}</h3>
+                                                <p className={`text-[11px] ${isDark ? 'text-white/50' : 'text-gray-500'} leading-relaxed font-medium line-clamp-2`}>{news.desc}</p>
                                             </div>
                                         </div>
                                         
@@ -358,7 +360,7 @@ const Community = () => {
                     {isAuthenticated && (
                         <Motion.div 
                             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-                            className="bg-white/5 rounded-[2.5rem] p-6 md:p-10 border border-white/10 backdrop-blur-3xl shadow-2xl relative overflow-hidden group"
+                            className={`${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-100'} rounded-[2.5rem] p-6 md:p-10 border backdrop-blur-3xl shadow-2xl relative overflow-hidden group`}
                         >
                             <div className="absolute -top-20 -right-20 w-64 h-64 bg-red-500/5 rounded-full blur-[100px] pointer-events-none group-hover:bg-red-500/10 transition-all duration-1000"></div>
                             
@@ -372,9 +374,9 @@ const Community = () => {
                                             value={newPost}
                                             onChange={(e) => setNewPost(e.target.value)}
                                             placeholder="Share your heroic journey..."
-                                            className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-2xl px-6 py-5 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-red-500/40 transition-all resize-none font-medium h-32 shadow-2xl"
+                                            className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/20' : 'bg-gray-50 border-gray-100 text-gray-900 placeholder-gray-400'} border rounded-2xl px-6 py-5 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-red-500/40 transition-all resize-none font-medium h-32 shadow-2xl`}
                                         />
-                                        <div className="absolute bottom-4 right-4 text-[10px] font-black text-white/20 uppercase tracking-widest">Inspiration Flow</div>
+                                        <div className={`absolute bottom-4 right-4 text-[10px] font-black ${isDark ? 'text-white/20' : 'text-gray-300'} uppercase tracking-widest`}>Inspiration Flow</div>
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center pl-20">
@@ -401,12 +403,12 @@ const Community = () => {
                             <div className="w-10 h-10 border-4 border-red-500/20 border-t-red-500 rounded-full animate-spin"></div>
                         </div>
                     ) : posts.length === 0 ? (
-                        <div className="bg-white rounded-[2rem] p-16 text-center shadow-lg shadow-gray-200/50 border border-gray-100">
-                            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <MessageCircle className="w-10 h-10 text-gray-300" />
+                        <div className={`${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-100'} rounded-[2rem] p-16 text-center shadow-lg border`}>
+                            <div className="w-20 h-20 bg-gray-50/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <MessageCircle className={`w-10 h-10 ${isDark ? 'text-white/10' : 'text-gray-200'}`} />
                             </div>
-                            <h3 className="text-xl font-black text-gray-900 mb-2 brand-font">No stories yet</h3>
-                            <p className="text-gray-500 font-medium">Be the first to share your hero's journey.</p>
+                            <h3 className={`text-xl font-black ${isDark ? 'text-white' : 'text-gray-900'} mb-2 brand-font`}>No stories yet</h3>
+                            <p className={`${isDark ? 'text-white/40' : 'text-gray-500'} font-medium`}>Be the first to share your hero's journey.</p>
                         </div>
                     ) : (
                         <div className="space-y-6">
@@ -418,25 +420,25 @@ const Community = () => {
                                         whileInView={{ opacity: 1, scale: 1 }}
                                         viewport={{ once: true }}
                                         exit={{ opacity: 0, scale: 0.9 }}
-                                        className="bg-white/5 rounded-[2.5rem] p-8 border border-white/10 backdrop-blur-3xl shadow-2xl transition-all hover:bg-white/10 hover:-translate-y-1 group relative overflow-hidden"
+                                        className={`${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-100'} rounded-[2.5rem] p-8 border backdrop-blur-3xl shadow-2xl transition-all hover:bg-white/10 hover:-translate-y-1 group relative overflow-hidden`}
                                     >
                                         {/* Ambient Glow */}
-                                        <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-white/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-white/10 transition-all duration-700"></div>
+                                        <div className={`absolute -bottom-20 -left-20 w-40 h-40 ${isDark ? 'bg-white/5' : 'bg-gray-50'} rounded-full blur-[80px] pointer-events-none group-hover:bg-white/10 transition-all duration-700`}></div>
 
                                         {/* Post Header */}
                                         <div className="flex items-center justify-between mb-8 relative z-10">
                                             <div className="flex items-center gap-5">
-                                                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-white/10 to-transparent border border-white/20 shadow-2xl flex items-center justify-center shrink-0">
-                                                    <span className="font-black text-white text-xl brand-font">{post.user?.name?.charAt(0)}</span>
+                                                <div className={`w-14 h-14 rounded-2xl ${isDark ? 'bg-gradient-to-br from-white/10 to-transparent border-white/20' : 'bg-gradient-to-br from-gray-100 to-gray-50 border-gray-200'} border shadow-2xl flex items-center justify-center shrink-0`}>
+                                                    <span className={`font-black ${isDark ? 'text-white' : 'text-gray-900'} text-xl brand-font`}>{post.user?.name?.charAt(0)}</span>
                                                 </div>
                                                 <div>
-                                                    <h4 className="font-black text-white flex items-center gap-2 brand-font tracking-tight text-lg">
+                                                    <h4 className={`font-black ${isDark ? 'text-white' : 'text-gray-900'} flex items-center gap-2 brand-font tracking-tight text-lg`}>
                                                         {post.user?.name}
                                                         {post.user?.role === 'ORGANIZATION' && <ShieldCheck className="w-4 h-4 text-blue-400" title="Verified Organization" />}
                                                     </h4>
-                                                    <p className="text-[10px] text-white/40 font-bold flex items-center gap-3 uppercase tracking-widest">
+                                                    <p className={`text-[10px] ${isDark ? 'text-white/40' : 'text-gray-400'} font-bold flex items-center gap-3 uppercase tracking-widest`}>
                                                         {new Date(post.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-                                                        <span className="w-1 h-1 bg-white/20 rounded-full"></span>
+                                                        <span className={`w-1 h-1 ${isDark ? 'bg-white/20' : 'bg-gray-300'} rounded-full`}></span>
                                                         <span className="text-red-500 font-black tracking-[0.2em]">{post.user?.bloodGroup || 'Donor'}</span>
                                                     </p>
                                                 </div>
@@ -453,15 +455,15 @@ const Community = () => {
                                         </div>
 
                                         {/* Post Content */}
-                                        <p className="text-white/80 leading-relaxed font-medium text-[16px] mb-8 whitespace-pre-wrap relative z-10">{post.content}</p>
+                                        <p className={`${isDark ? 'text-white/80' : 'text-gray-700'} leading-relaxed font-medium text-[16px] mb-8 whitespace-pre-wrap relative z-10`}>{post.content}</p>
 
                                         {/* Post Actions */}
-                                        <div className="flex items-center gap-8 pt-6 border-t border-white/5 relative z-10">
+                                        <div className={`flex items-center gap-8 pt-6 border-t ${isDark ? 'border-white/5' : 'border-gray-100'} relative z-10`}>
                                             <button 
                                                 onClick={() => handleToggleLike(post.id)}
-                                                className={`flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] transition-all group/btn ${hasUserLiked(post.likes) ? 'text-red-500' : 'text-white/40 hover:text-red-500'}`}
+                                                className={`flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] transition-all group/btn ${hasUserLiked(post.likes) ? 'text-red-500' : `${isDark ? 'text-white/40 hover:text-red-500' : 'text-gray-400 hover:text-red-500'}`}`}
                                             >
-                                                <div className={`p-2 rounded-xl transition-all ${hasUserLiked(post.likes) ? 'bg-red-500/20' : 'bg-white/5 group-hover/btn:bg-red-500/10'}`}>
+                                                <div className={`p-2 rounded-xl transition-all ${hasUserLiked(post.likes) ? 'bg-red-500/20' : `${isDark ? 'bg-white/5 group-hover/btn:bg-red-500/10' : 'bg-gray-50 group-hover/btn:bg-red-50'}`}`}>
                                                     <Heart className={`w-5 h-5 ${hasUserLiked(post.likes) ? 'fill-current' : ''} transition-all active:scale-75`} />
                                                 </div>
                                                 <span>{post.likes.length > 0 ? post.likes.length : ''} Like</span>
@@ -469,16 +471,16 @@ const Community = () => {
                                             
                                             <button 
                                                 onClick={() => setActiveCommentPostId(activeCommentPostId === post.id ? null : post.id)}
-                                                className={`flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] transition-all group/btn ${activeCommentPostId === post.id ? 'text-blue-400' : 'text-white/40 hover:text-white'}`}
+                                                className={`flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] transition-all group/btn ${activeCommentPostId === post.id ? 'text-blue-400' : `${isDark ? 'text-white/40 hover:text-white' : 'text-gray-400 hover:text-gray-900'}`}`}
                                             >
-                                                <div className={`p-2 rounded-xl transition-all ${activeCommentPostId === post.id ? 'bg-blue-400/20' : 'bg-white/5 group-hover/btn:bg-white/10'}`}>
+                                                <div className={`p-2 rounded-xl transition-all ${activeCommentPostId === post.id ? 'bg-blue-400/20' : `${isDark ? 'bg-white/5 group-hover/btn:bg-white/10' : 'bg-gray-50 group-hover/btn:bg-gray-100'}`}`}>
                                                     <MessageCircle className="w-5 h-5 transition-transform active:scale-75" />
                                                 </div>
                                                 <span>{post.comments.length > 0 ? post.comments.length : ''} Comment</span>
                                             </button>
                                             
-                                            <button className="flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] text-white/40 hover:text-white transition-all ml-auto group/btn">
-                                                <div className="p-2 rounded-xl bg-white/5 group-hover/btn:bg-white/10 transition-all">
+                                            <button className={`flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] ${isDark ? 'text-white/40 hover:text-white' : 'text-gray-400 hover:text-gray-900'} transition-all ml-auto group/btn`}>
+                                                <div className={`p-2 rounded-xl ${isDark ? 'bg-white/5' : 'bg-gray-50'} group-hover/btn:${isDark ? 'bg-white/10' : 'bg-gray-100'} transition-all`}>
                                                     <Share2 className="w-4 h-4" />
                                                 </div>
                                                 <span>Share</span>
@@ -503,14 +505,14 @@ const Community = () => {
                                                                 animate={{ opacity: 1, x: 0 }}
                                                                 className="flex gap-4"
                                                             >
-                                                                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 mt-1">
-                                                                    <span className="font-black text-white/40 text-xs brand-font">{comment.user?.name?.charAt(0)}</span>
+                                                                <div className={`w-10 h-10 rounded-xl ${isDark ? 'bg-white/5' : 'bg-gray-100'} border ${isDark ? 'border-white/10' : 'border-gray-200'} flex items-center justify-center shrink-0 mt-1`}>
+                                                                    <span className={`font-black ${isDark ? 'text-white/40' : 'text-gray-400'} text-xs brand-font`}>{comment.user?.name?.charAt(0)}</span>
                                                                 </div>
-                                                                <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none p-4 px-5 w-full backdrop-blur-md relative group/comment">
+                                                                <div className={`${isDark ? 'bg-white/5 border-white/10' : 'bg-gray-50 border-gray-200'} border rounded-2xl rounded-tl-none p-4 px-5 w-full backdrop-blur-md relative group/comment`}>
                                                                     <div className="flex items-center justify-between mb-2">
                                                                        <div className="flex items-center gap-3">
-                                                                           <span className="font-black text-white text-sm brand-font tracking-tight">{comment.user?.name}</span>
-                                                                           <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">
+                                                                           <span className={`font-black ${isDark ? 'text-white' : 'text-gray-900'} text-sm brand-font tracking-tight`}>{comment.user?.name}</span>
+                                                                           <span className={`text-[10px] font-bold ${isDark ? 'text-white/20' : 'text-gray-400'} uppercase tracking-widest`}>
                                                                                {new Date(comment.createdAt).toLocaleDateString()}
                                                                            </span>
                                                                        </div>
@@ -524,7 +526,7 @@ const Community = () => {
                                                                            </button>
                                                                        )}
                                                                     </div>
-                                                                    <p className="text-white/70 text-[14px] font-medium leading-relaxed">{comment.text}</p>
+                                                                    <p className={`${isDark ? 'text-white/70' : 'text-gray-600'} text-[14px] font-medium leading-relaxed`}>{comment.text}</p>
                                                                 </div>
                                                             </Motion.div>
                                                         ))}
@@ -540,7 +542,7 @@ const Community = () => {
                                                                         value={(activeCommentPostId === post.id) ? commentText : ""}
                                                                         onChange={(e) => setCommentText(e.target.value)}
                                                                         placeholder="Add to the story..."
-                                                                        className="w-full bg-white/5 border border-white/10 text-white placeholder-white/20 rounded-xl px-6 py-3 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-red-500/40 transition-all font-medium text-sm shadow-2xl"
+                                                                        className={`w-full ${isDark ? 'bg-white/5 border-white/10 text-white placeholder-white/20' : 'bg-gray-100 border-gray-200 text-gray-900 placeholder-gray-400'} border rounded-xl px-6 py-3 focus:outline-none focus:ring-4 focus:ring-red-500/10 focus:border-red-500/40 transition-all font-medium text-sm shadow-2xl`}
                                                                     />
                                                                     <button 
                                                                         type="submit"

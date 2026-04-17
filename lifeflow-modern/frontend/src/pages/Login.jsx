@@ -20,7 +20,7 @@ const Login = () => {
     if (success) {
         setFeedbackStatus('success');
         setTimeout(() => {
-            const storedUser = JSON.parse(localStorage.getItem('user'));
+            const storedUser = JSON.parse(sessionStorage.getItem('user'));
             if (storedUser?.role === 'ADMIN') {
                 navigate('/admin-dashboard');
             } else if (storedUser?.role === 'ORGANIZATION') {
@@ -112,7 +112,7 @@ const Login = () => {
                             <button
                                 type="button"
                                 onClick={() => setShowPassword(!showPassword)}
-                                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors p-1"
+                                className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors p-1.5 z-10"
                             >
                                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                             </button>
