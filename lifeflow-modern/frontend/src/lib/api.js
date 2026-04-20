@@ -4,6 +4,9 @@ let apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 // Fix for Render injected hostnames that lack protocol and path
 if (apiUrl && !apiUrl.startsWith('http')) {
+  if (!apiUrl.includes('.')) {
+    apiUrl = `${apiUrl}.onrender.com`;
+  }
   apiUrl = `https://${apiUrl}/api`;
 } else if (apiUrl && apiUrl.startsWith('http') && !apiUrl.endsWith('/api') && apiUrl.includes('render.com')) {
   apiUrl = `${apiUrl}/api`;
