@@ -10,6 +10,8 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: NODE_VERSION
+        value: 20
       - key: DATABASE_URL
         fromDatabase:
           name: lifeflow-db
@@ -30,6 +32,8 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://lifeflow-backend.onrender.com/api
+      - key: NODE_VERSION
+        value: 20
 
 databases:
   - name: lifeflow-db
