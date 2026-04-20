@@ -31,7 +31,10 @@ services:
     startCommand: npm start
     envVars:
       - key: VITE_API_URL
-        value: https://lifeflow-backend.onrender.com/api
+        fromService:
+          type: web
+          name: lifeflow-backend
+          property: host
       - key: NODE_VERSION
         value: 20
 

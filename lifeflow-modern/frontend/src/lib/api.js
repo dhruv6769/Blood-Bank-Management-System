@@ -1,7 +1,16 @@
 import axios from 'axios';
 
+let apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+
+// Fix for Render injected hostnames that lack protocol and path
+if (apiUrl && !apiUrl.startsWith('http')) {
+  apiUrl = `https://${apiUrl}/api`;
+} else if (apiUrl && apiUrl.startsWith('http') && !apiUrl.endsWith('/api') && apiUrl.includes('render.com')) {
+  apiUrl = `${apiUrl}/api`;
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api',
+  baseURL: apiUrl,
   timeout: 120000, // 120 second timeout for Render cold starts
   headers: {
     'Content-Type': 'application/json',
