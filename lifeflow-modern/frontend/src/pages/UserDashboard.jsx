@@ -504,7 +504,7 @@ const UserDashboard = () => {
                                     to="/camps"
                                     className="group relative h-64 rounded-[3rem] overflow-hidden bg-indigo-600 shadow-xl border border-white/5 no-underline block"
                                 >
-                                    <img src="/images/previews/camps.png" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" alt="Camps" />
+                                    <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=800" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" alt="Camps" />
                                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/40 to-transparent group-hover:scale-110 transition-transform duration-700"></div>
                                     <div className="relative h-full p-10 flex flex-col justify-between items-start text-white text-left">
                                         <MapPin className="w-12 h-12 mb-4" />

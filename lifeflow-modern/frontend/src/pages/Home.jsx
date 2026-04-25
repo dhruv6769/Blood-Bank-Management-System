@@ -269,9 +269,9 @@ const Home = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
                 {[
-                  { img: "/images/previews/register.png", title: "Join the Nexus", desc: "Initialize your identity in our global clinical network. Choose between Donor or Organization node protocols.", num: "01" },
-                  { img: "/images/previews/login.png", title: "Authenticated Access", desc: "Sign your secure clinical protocol to Access the Donor Sanctuary and manage your vital contributions in real-time.", num: "02" },
-                  { img: "/images/previews/camps.png", title: "Active Deployments", desc: "Locate mission-critical donation camps using our real-time geo-targeting grid. Every drop powers the ripple of life.", num: "03" }
+                  { img: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800", title: "Safe & Clinical", desc: "Equipped with state-of-the-art sterile tools, the process takes merely 10 minutes in a comforting environment.", num: "01" },
+                  { img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800", title: "Health Vitals Check", desc: "Every donor receives a complimentary advanced mini-physical, tracking pulse, blood pressure, and hemoglobin.", num: "02" },
+                  { img: "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&q=80&w=800", title: "Maximize Impact", desc: "A single pint is separated into plasma, platelets, and red cells—amplifying your heroic impact to save three lives.", num: "03" }
                 ].map((card, i) => (
                   <Motion.div 
                     key={i}
