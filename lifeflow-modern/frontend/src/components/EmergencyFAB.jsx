@@ -13,12 +13,14 @@ const EmergencyFAB = () => {
     <div className="fixed bottom-8 right-8 z-[1000] flex flex-col items-end gap-4">
       <AnimatePresence>
         {isOpen && (
-          <div className="flex flex-col items-end gap-3 mb-2">
+          <motion.div 
+            initial="hidden" animate="visible" exit="hidden"
+            variants={{ visible: { transition: { staggerChildren: 0.05, staggerDirection: -1 } } }}
+            className="flex flex-col items-end gap-3 mb-2"
+          >
             {/* Quick Links */}
             <motion.div
-              initial={{ opacity: 0, x: 20, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 20, scale: 0.8 }}
+              variants={{ hidden: { opacity: 0, x: 20, scale: 0.8 }, visible: { opacity: 1, x: 0, scale: 1, transition: { type: 'spring', stiffness: 300, damping: 20 } } }}
               className="flex items-center gap-3"
             >
               <span className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-black brand-font text-gray-900 border border-gray-100 shadow-sm uppercase tracking-wider text-right">Medical Assistant</span>
@@ -34,9 +36,7 @@ const EmergencyFAB = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 20, scale: 0.8 }}
+              variants={{ hidden: { opacity: 0, x: 20, scale: 0.8 }, visible: { opacity: 1, x: 0, scale: 1, transition: { type: 'spring', stiffness: 300, damping: 20 } } }}
               className="flex items-center gap-3"
             >
               <span className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-black brand-font text-gray-900 border border-gray-100 shadow-sm uppercase tracking-wider">Find Camps</span>
@@ -50,10 +50,7 @@ const EmergencyFAB = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 20, scale: 0.8 }}
-              transition={{ delay: 0.05 }}
+              variants={{ hidden: { opacity: 0, x: 20, scale: 0.8 }, visible: { opacity: 1, x: 0, scale: 1, transition: { type: 'spring', stiffness: 300, damping: 20 } } }}
               className="flex items-center gap-3"
             >
               <span className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-black brand-font text-gray-900 border border-gray-100 shadow-sm uppercase tracking-wider">Check Compatibility</span>
@@ -67,10 +64,7 @@ const EmergencyFAB = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 20, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 20, scale: 0.8 }}
-              transition={{ delay: 0.1 }}
+              variants={{ hidden: { opacity: 0, x: 20, scale: 0.8 }, visible: { opacity: 1, x: 0, scale: 1, transition: { type: 'spring', stiffness: 300, damping: 20 } } }}
               className="flex items-center gap-3"
             >
               <span className="bg-red-600 px-3 py-1.5 rounded-lg text-xs font-black brand-font text-white shadow-xl shadow-red-500/20 uppercase tracking-wider">Emergency Call</span>
@@ -81,18 +75,24 @@ const EmergencyFAB = () => {
                 <Phone className="w-5 h-5" />
               </a>
             </motion.div>
-          </div>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
 
-      <motion.button
-        whileHover={{ scale: 1.05, rotate: 5 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center shadow-2xl transition-all duration-500 relative ${
-          isOpen ? 'bg-gray-900 text-white rotate-90' : 'bg-red-600 text-white'
-        }`}
-      >
+      <div className="relative">
+        {/* Radar Ping */}
+        {!isOpen && (
+          <div className="absolute inset-0 rounded-[1.5rem] bg-red-600/40 animate-ping" style={{ animationDuration: '3s' }} />
+        )}
+        <motion.button
+          whileHover={{ scale: 1.05, rotate: 5 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setIsOpen(!isOpen)}
+          className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center shadow-[0_15px_30px_rgba(220,20,60,0.3)] transition-all duration-500 relative z-10 ${
+            isOpen ? 'bg-gray-900 text-white rotate-90 shadow-gray-900/30' : 'bg-[#dc143c] text-white'
+          }`}
+        >
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.div
@@ -115,7 +115,8 @@ const EmergencyFAB = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.button>
+        </motion.button>
+      </div>
     </div>
   );
 };

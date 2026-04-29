@@ -33,7 +33,13 @@ const Footer = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
                     
                     {/* Brand Section */}
-                    <div className="lg:col-span-4 space-y-10">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
+                        className="lg:col-span-4 space-y-10"
+                    >
                         <div className="flex items-center gap-5 group cursor-pointer">
                             <div className="w-14 h-14 rounded-2.5xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center shadow-[0_0_30px_rgba(220,20,60,0.1)] group-hover:scale-110 transition-all duration-500">
                                 <Droplet className="text-[#dc143c] w-7 h-7 fill-[#dc143c]/20" />
@@ -49,26 +55,30 @@ const Footer = () => {
                         </p>
 
                         <div className="flex gap-4">
-                            {SOCIAL.map((s) => (
-                                <Link 
-                                    key={s.label} 
-                                    to={s.href} 
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-12 h-12 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-all duration-300 shadow-sm group/icon"
-                                    style={{ '--hover-bg': s.brandColor }}
-                                    onMouseEnter={(e) => e.currentTarget.style.background = s.brandColor}
-                                    onMouseLeave={(e) => e.currentTarget.style.background = 'var(--bg-card)'}
-                                >
-                                    <s.icon size={18} className="transition-transform group-hover/icon:scale-110" />
-                                </Link>
+                            {SOCIAL.map((s, i) => (
+                                <motion.div key={s.label} whileHover={{ rotateX: 15, rotateY: -15, scale: 1.1 }} style={{ perspective: 1000 }}>
+                                    <Link 
+                                        to={s.href} 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="w-12 h-12 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-all duration-300 shadow-sm group/icon"
+                                        style={{ '--hover-bg': s.brandColor }}
+                                        onMouseEnter={(e) => e.currentTarget.style.background = s.brandColor}
+                                        onMouseLeave={(e) => e.currentTarget.style.background = 'var(--bg-card)'}
+                                    >
+                                        <s.icon size={18} className="transition-transform group-hover/icon:scale-110" />
+                                    </Link>
+                                </motion.div>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Navigation Columns */}
                     <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-12">
-                        <div className="space-y-8">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: 0.1, duration: 0.6, ease: [0.16,1,0.3,1] }}
+                            className="space-y-8"
+                        >
                             <h4 className="text-[10px] font-black text-[var(--text-muted)] opacity-50 uppercase tracking-[0.4em]">Navigation</h4>
                             <ul className="space-y-4">
                                 {[
@@ -85,9 +95,12 @@ const Footer = () => {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        </motion.div>
 
-                        <div className="space-y-8">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: 0.2, duration: 0.6, ease: [0.16,1,0.3,1] }}
+                            className="space-y-8"
+                        >
                             <h4 className="text-[10px] font-black text-[var(--text-muted)] opacity-50 uppercase tracking-[0.4em]">Protocol</h4>
                             <ul className="space-y-4">
                                 {[
@@ -104,9 +117,12 @@ const Footer = () => {
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        </motion.div>
 
-                        <div className="space-y-8 col-span-2 md:col-span-1">
+                        <motion.div 
+                            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: 0.3, duration: 0.6, ease: [0.16,1,0.3,1] }}
+                            className="space-y-8 col-span-2 md:col-span-1"
+                        >
                             <h4 className="text-[10px] font-black text-[var(--text-muted)] opacity-50 uppercase tracking-[0.4em]">Pulse Point</h4>
                             <div className="p-6 rounded-[2rem] bg-[var(--bg-card)] border border-[var(--border)] space-y-6">
                                 <div className="flex items-center gap-4">
@@ -128,7 +144,7 @@ const Footer = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
 

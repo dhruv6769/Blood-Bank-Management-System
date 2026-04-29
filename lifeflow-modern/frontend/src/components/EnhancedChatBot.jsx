@@ -103,9 +103,10 @@ const EnhancedChatBot = () => {
             {isOpen && (
                 <div className="fixed inset-0 z-[9999] pointer-events-none flex items-end justify-end p-6 md:p-12">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: 50, rotate: 2 }}
-                        animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-                        exit={{ opacity: 0, scale: 0.9, y: 50, rotate: -2 }}
+                        initial={{ opacity: 0, scale: 0.8, y: 100, x: 50, borderRadius: '5rem' }}
+                        animate={{ opacity: 1, scale: 1, y: 0, x: 0, borderRadius: '3rem' }}
+                        exit={{ opacity: 0, scale: 0.8, y: 100, x: 50, borderRadius: '5rem' }}
+                        transition={{ type: 'spring', stiffness: 200, damping: 20 }}
                         className="w-full max-w-[440px] h-[650px] pointer-events-auto bg-[var(--bg-primary)]/80 backdrop-blur-3xl rounded-[3rem] border border-white/20 shadow-[0_50px_100px_rgba(0,0,0,0.3)] flex flex-col overflow-hidden relative"
                     >
                         {/* Premium Header */}
@@ -143,8 +144,9 @@ const EnhancedChatBot = () => {
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
-                                    initial={{ opacity: 0, x: msg.sender === 'user' ? 20 : -20, y: 10 }}
-                                    animate={{ opacity: 1, x: 0, y: 0 }}
+                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    transition={{ type: 'spring', stiffness: 250, damping: 20 }}
                                     className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                                 >
                                     <div className={`max-w-[85%] relative ${msg.sender === 'user' ? 'order-2' : ''}`}>

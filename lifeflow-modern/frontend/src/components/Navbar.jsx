@@ -528,40 +528,57 @@ const Navbar = () => {
       <nav className={`lf-nav ${scrolled ? 'scrolled' : 'top'}`}>
         <div className="lf-nav-inner">
           {/* Logo */}
-          <Link to="/" className="lf-nav-logo">
+          <Link to="/" className="lf-nav-logo relative group">
+            {/* Logo Aura */}
+            <div className="absolute inset-0 bg-[#dc143c] blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-700 rounded-full scale-150" />
+            
             <motion.div
-              className="lf-nav-logo-icon"
+              className="lf-nav-logo-icon relative z-10"
               animate={{ boxShadow: ['0 0 16px rgba(220,20,60,0.4)', '0 0 28px rgba(220,20,60,0.7)', '0 0 16px rgba(220,20,60,0.4)'] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             >
               <Droplets size={18} color="#fff" />
             </motion.div>
-            <span className="lf-nav-logo-text">Life<span>Flow</span></span>
+            <span className="lf-nav-logo-text relative z-10">Life<span>Flow</span></span>
           </Link>
 
           {/* Desktop links */}
-          <div className="lf-nav-links">
+          <motion.div 
+            className="lf-nav-links"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              visible: { transition: { staggerChildren: 0.1 } }
+            }}
+          >
             {navLinks.map(link => {
               const isActive = location.pathname === link.path;
               return (
-                <Link
+                <motion.div 
                   key={link.path}
-                  to={link.path}
-                  className={`lf-nav-link relative ${isActive ? 'active' : ''}`}
-                  style={{ color: isActive ? 'var(--accent)' : 'var(--text-secondary)' }}
+                  variants={{
+                    hidden: { opacity: 0, y: -10 },
+                    visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
+                  }}
                 >
-                  {link.name}
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeNavTab"
-                      className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-[#dc143c] rounded-full shadow-[0_0_8px_rgba(220,20,60,0.4)]"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </Link>
+                  <Link
+                    to={link.path}
+                    className={`lf-nav-link relative ${isActive ? 'active' : ''}`}
+                    style={{ color: isActive ? 'var(--accent)' : 'var(--text-secondary)' }}
+                  >
+                    {link.name}
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeNavTab"
+                        className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-[#dc143c] rounded-full shadow-[0_0_8px_rgba(220,20,60,0.4)]"
+                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                  </Link>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
 
           {/* Desktop actions */}
           <div className="lf-nav-actions desktop">
@@ -573,10 +590,16 @@ const Navbar = () => {
                 </button>
                 <Link
                   to={user?.role === 'ADMIN' ? '/admin-dashboard' : user?.role === 'ORGANIZATION' ? '/org-dashboard' : '/dashboard'}
-                  className="lf-nav-user-chip"
+                  className="lf-nav-user-chip relative group"
                 >
-                  <AnimatedAvatar size="sm" user={user} />
-                  <span className="lf-nav-user-name">{user?.name?.split(' ')[0]}</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#dc143c] to-[#9b0023] rounded-[100px] blur opacity-0 group-hover:opacity-40 transition-opacity duration-300" />
+                  <div className="relative flex items-center gap-2 bg-[var(--bg-card)] rounded-[100px]">
+                    <div className="relative">
+                       <AnimatedAvatar size="sm" user={user} />
+                       <div className="absolute -inset-1 border border-[#dc143c]/30 rounded-full animate-[spin_4s_linear_infinite]" />
+                    </div>
+                    <span className="lf-nav-user-name relative z-10">{user?.name?.split(' ')[0]}</span>
+                  </div>
                 </Link>
                 <button onClick={handleLogout} className="lf-nav-logout" title="Logout">
                   <LogOut size={13} />
