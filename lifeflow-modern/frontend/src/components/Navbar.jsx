@@ -242,28 +242,28 @@ const Navbar = () => {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 24px;
-          height: 60px;
+          padding: 0 28px;
+          height: 72px;
         }
 
         /* Logo */
         .lf-nav-logo {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
           text-decoration: none;
           flex-shrink: 0;
         }
         .lf-nav-logo-icon {
-          width: 36px; height: 36px;
+          width: 42px; height: 42px;
           background: linear-gradient(135deg, #dc143c, #8b0000);
-          border-radius: 10px;
+          border-radius: 12px;
           display: flex; align-items: center; justify-content: center;
           box-shadow: 0 0 16px rgba(220,20,60,0.4);
           flex-shrink: 0;
         }
         .lf-nav-logo-text {
-          font-size: 1.15rem;
+          font-size: 1.3rem;
           font-weight: 900;
           color: var(--text-primary);
           letter-spacing: -0.02em;
@@ -274,13 +274,13 @@ const Navbar = () => {
         .lf-nav-links {
           display: flex;
           align-items: center;
-          gap: 2px;
+          gap: 4px;
         }
         .lf-nav-link {
-          font-size: 0.85rem;
+          font-size: 0.95rem;
           font-weight: 700;
           color: var(--text-secondary);
-          padding: 8px 16px;
+          padding: 10px 18px;
           border-radius: 12px;
           transition: all 0.3s;
           letter-spacing: 0.01em;

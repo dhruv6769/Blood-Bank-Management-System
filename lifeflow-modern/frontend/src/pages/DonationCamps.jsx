@@ -366,6 +366,26 @@ const DonationCamps = () => {
                                 ))}
                             </MapContainer>
 
+                            {/* Tactical Radar Overlay */}
+                            <div className="absolute inset-0 pointer-events-none z-[400] overflow-hidden mix-blend-screen opacity-50 dark:opacity-70">
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full border border-[#dc143c]/10" />
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-[#dc143c]/20" />
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] rounded-full border border-[#dc143c]/30" />
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-[#dc143c]/10" />
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-[1px] bg-[#dc143c]/10" />
+                                
+                                {/* Scanning Sweep */}
+                                <motion.div 
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                                    className="absolute top-1/2 left-1/2 origin-top-left w-[400px] h-[400px]"
+                                    style={{ background: 'conic-gradient(from 180deg at 0 0, transparent 0deg, rgba(220,20,60,0.3) 90deg, transparent 90deg)' }}
+                                />
+                                
+                                {/* Central Pulse */}
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-[#dc143c] rounded-full shadow-[0_0_20px_#dc143c] animate-ping" style={{ animationDuration: '2s' }} />
+                            </div>
+
                             {/* Floating Map Controls */}
                             <div className="absolute top-6 right-6 z-[800] flex flex-col gap-2">
                                 <motion.button 

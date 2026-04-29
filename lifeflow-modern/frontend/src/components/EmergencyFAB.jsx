@@ -75,7 +75,6 @@ const EmergencyFAB = () => {
                 <Phone className="w-5 h-5" />
               </a>
             </motion.div>
-            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

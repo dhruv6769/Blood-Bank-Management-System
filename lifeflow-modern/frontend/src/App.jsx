@@ -23,6 +23,7 @@ import { useAuthStore } from './context/authStore';
 import { useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import AnimatedPage from './components/AnimatedPage';
+import CustomCursor from './components/CustomCursor';
 
 function App() {
   const { isDark, initTheme } = useThemeStore();
@@ -40,6 +41,7 @@ function App() {
 
   return (
     <div className={`min-h-screen flex flex-col font-sans transition-all duration-500 bg-[var(--bg-primary)] text-[var(--text-primary)]`}>
+      <CustomCursor />
       <LiveTicker />
       <Navbar />
       

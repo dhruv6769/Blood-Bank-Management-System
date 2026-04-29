@@ -41,16 +41,6 @@ const LiquidHero = () => {
     const springX = useSpring(mouseX, { damping: 25, stiffness: 150 });
     const springY = useSpring(mouseY, { damping: 25, stiffness: 150 });
 
-    const [drops] = useState(() => [...Array(6)].map((_, i) => ({
-        id: i,
-        delay: i * 2,
-        duration: 15 + i * 2,
-        initialX: (Math.random() * 80 + 10) + "%",
-        targetX: (Math.random() * 80 + 10) + "%",
-        initialY: (Math.random() * 80 + 10) + "%",
-        targetY: (Math.random() * 80 + 10) + "%",
-    })));
-    
     useEffect(() => {
         const handleMouseMove = (e) => {
             mouseX.set(e.clientX - 150);
@@ -61,33 +51,43 @@ const LiquidHero = () => {
     }, [mouseX, mouseY]);
 
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {drops.map((drop) => (
-                <Motion.div
-                    key={drop.id}
-                    initial={{ x: drop.initialX, y: drop.initialY, scale: 1 }}
-                    animate={{ 
-                        x: [drop.initialX, drop.targetX, drop.initialX],
-                        y: [drop.initialY, drop.targetY, drop.initialY],
-                        scale: [1, 1.2, 0.9, 1]
-                    }}
-                    transition={{
-                        duration: drop.duration,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                    className="absolute w-64 h-64 bg-red-600/30 rounded-full liquid-drop"
-                />
-            ))}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+            {/* SVG Gooey Filter Definition */}
+            <svg className="absolute w-0 h-0">
+              <defs>
+                <filter id="goo">
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur" />
+                  <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" result="goo" />
+                  <feBlend in="SourceGraphic" in2="goo" />
+                </filter>
+              </defs>
+            </svg>
 
-            {/* Mouse Reactive Drop */}
-            <Motion.div
-                style={{
-                    x: springX,
-                    y: springY,
-                }}
-                className="absolute w-[300px] h-[300px] bg-red-500/40 rounded-full liquid-drop blur-3xl z-10"
-            />
+            {/* Gooey Container */}
+            <div className="absolute inset-0 w-full h-full" style={{ filter: 'url(#goo)' }}>
+                {/* Center Core */}
+                <Motion.div
+                    animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#dc143c] to-[#ff3355] rounded-full mix-blend-screen opacity-40 blur-xl"
+                />
+                
+                {/* Orbiting Blobs */}
+                <Motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] origin-center"
+                >
+                    <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-red-600 rounded-full mix-blend-multiply opacity-50 blur-2xl" />
+                    <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-pink-600 rounded-full mix-blend-multiply opacity-40 blur-2xl" />
+                </Motion.div>
+
+                {/* Mouse Reactive Drop */}
+                <Motion.div
+                    style={{ x: springX, y: springY }}
+                    className="absolute w-[300px] h-[300px] bg-[#dc143c] rounded-full mix-blend-screen opacity-60 blur-2xl"
+                />
+            </div>
         </div>
     );
 };

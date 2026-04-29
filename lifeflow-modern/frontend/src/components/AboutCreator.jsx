@@ -142,7 +142,7 @@ const AboutCreator = () => {
                 <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse mb-1"></div>
                 <span className="text-sm font-black brand-font text-[var(--text-primary)]">Passion for code</span>
               </Motion.div>
-            </div>
+            </Motion.div>
           </Motion.div>
         
         </div>
