@@ -51,41 +51,30 @@ const LiquidHero = () => {
     }, [mouseX, mouseY]);
 
     return (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-            {/* SVG Gooey Filter Definition */}
-            <svg className="absolute w-0 h-0">
-              <defs>
-                <filter id="goo">
-                  <feGaussianBlur in="SourceGraphic" stdDeviation="30" result="blur" />
-                  <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" result="goo" />
-                  <feBlend in="SourceGraphic" in2="goo" />
-                </filter>
-              </defs>
-            </svg>
-
-            {/* Gooey Container */}
-            <div className="absolute inset-0 w-full h-full" style={{ filter: 'url(#goo)' }}>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#0f0507]">
+            {/* Pure CSS Gooey Effect using high blur + contrast in parent */}
+            <div className="absolute inset-0 w-full h-full" style={{ filter: 'contrast(150%) brightness(1.2)' }}>
                 {/* Center Core */}
                 <Motion.div
                     animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
                     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-[#dc143c] to-[#ff3355] rounded-full mix-blend-screen opacity-40 blur-xl"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#dc143c] rounded-full mix-blend-screen opacity-30 blur-[100px] will-change-transform"
                 />
                 
                 {/* Orbiting Blobs */}
                 <Motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] origin-center"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] origin-center will-change-transform"
                 >
-                    <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-red-600 rounded-full mix-blend-multiply opacity-50 blur-2xl" />
-                    <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-pink-600 rounded-full mix-blend-multiply opacity-40 blur-2xl" />
+                    <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-red-600 rounded-full mix-blend-screen opacity-40 blur-[80px]" />
+                    <div className="absolute bottom-0 right-1/4 w-[350px] h-[350px] bg-[#ff3355] rounded-full mix-blend-screen opacity-30 blur-[80px]" />
                 </Motion.div>
 
-                {/* Mouse Reactive Drop */}
+                {/* Mouse Reactive Drop - Hardware Accelerated */}
                 <Motion.div
                     style={{ x: springX, y: springY }}
-                    className="absolute w-[300px] h-[300px] bg-[#dc143c] rounded-full mix-blend-screen opacity-60 blur-2xl"
+                    className="absolute w-[400px] h-[400px] bg-[#dc143c] rounded-full mix-blend-screen opacity-50 blur-[100px] will-change-transform"
                 />
             </div>
         </div>
