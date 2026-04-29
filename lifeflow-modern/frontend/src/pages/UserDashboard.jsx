@@ -310,9 +310,9 @@ const UserDashboard = () => {
     };
 
     const tabVars = {
-        hidden: { opacity: 0, scale: 0.98, y: 10 },
-        visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
-        exit: { opacity: 0, scale: 0.98, y: -10, transition: { duration: 0.2 } }
+        hidden:  { opacity: 0, scale: 0.97, y: 16 },
+        visible: { opacity: 1, scale: 1,    y: 0,  transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+        exit:    { opacity: 0, scale: 0.97, y: -12, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } }
     };
 
     return (
@@ -332,14 +332,22 @@ const UserDashboard = () => {
                             <button 
                                 key={item.id}
                                 onClick={() => setActiveSection(item.id)}
-                                className={`w-full flex items-center gap-4 px-6 py-5 rounded-[1.5rem] transition-all duration-300 font-bold group
+                                className={`w-full flex items-center gap-4 px-6 py-5 rounded-[1.5rem] transition-all duration-300 font-bold group relative
                                     ${activeSection === item.id 
-                                        ? 'bg-[var(--accent)] text-white shadow-lg shadow-red-500/20' 
+                                        ? 'text-white shadow-lg shadow-red-500/20' 
                                         : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)]'}`
                                 }
                             >
-                                <item.icon className={`w-5 h-5 ${activeSection === item.id ? 'text-white' : 'group-hover:text-[var(--accent)] transition-colors'}`} /> 
-                                <span className="text-sm tracking-wide">{item.label}</span>
+                                {activeSection === item.id && (
+                                    <motion.div
+                                        layoutId="userSidebarActive"
+                                        className="absolute inset-0 rounded-[1.5rem] bg-[var(--accent)]"
+                                        style={{ zIndex: 0 }}
+                                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                                    />
+                                )}
+                                <item.icon className={`w-5 h-5 relative z-10 ${activeSection === item.id ? 'text-white' : 'group-hover:text-[var(--accent)] transition-colors'}`} /> 
+                                <span className="text-sm tracking-wide relative z-10">{item.label}</span>
                             </button>
                         ))}
                         
@@ -694,7 +702,7 @@ const UserDashboard = () => {
                                         </div>
                                     )}
 
-                                    <button disabled={isLoading} className={`w-full py-6 rounded-2xl font-black brand-font tracking-[0.2em] uppercase transition-all shadow-xl hover:-translate-y-1 ${activeSection === 'request' ? 'bg-red-600 shadow-red-500/30' : 'bg-[var(--text-primary)] text-[var(--bg-primary)] shadow-[var(--shadow)]'} text-white`}>
+                                    <button disabled={isLoading} className={`w-full py-6 rounded-2xl font-black brand-font tracking-[0.2em] uppercase transition-all shadow-xl hover:-translate-y-1 ${activeSection === 'request' ? 'bg-red-600 text-white shadow-red-500/30' : 'bg-[var(--text-primary)] text-[var(--bg-primary)] shadow-[var(--shadow)]'}`}>
                                         {isLoading ? 'INITIATING...' : activeSection === 'request' ? 'SUBMIT EMERGENCY REQUEST' : 'CONFIRM DONATION OFFER'}
                                     </button>
                                 </form>

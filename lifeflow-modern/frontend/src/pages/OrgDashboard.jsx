@@ -80,9 +80,9 @@ const OrgDashboard = () => {
     };
 
     const tabVars = {
-        hidden: { opacity: 0, x: 20 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeOut' } },
-        exit: { opacity: 0, x: -20, transition: { duration: 0.3 } }
+        hidden:  { opacity: 0, x: 20 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+        exit:    { opacity: 0, x: -20, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } }
     };
 
     const approvedCount = camps.filter(c => c.status === 'APPROVED').length;
@@ -131,15 +131,20 @@ const OrgDashboard = () => {
                                 onClick={() => setActiveSection(item.id)}
                                 className={`w-full flex items-center gap-4 px-6 py-4 rounded-2xl transition-all font-black text-[10px] uppercase tracking-[0.2em] relative overflow-hidden group
                                     ${activeSection === item.id
-                                        ? 'bg-[#dc143c] text-white shadow-[0_15px_30px_rgba(220,20,60,0.3)]'
+                                        ? 'text-white shadow-[0_15px_30px_rgba(220,20,60,0.3)]'
                                         : 'hover:bg-[#dc143c]/10'}`}
                                 style={activeSection !== item.id ? { color: 'var(--text-muted)' } : {}}
                             >
-                                <item.icon className={`w-4 h-4 ${activeSection === item.id ? 'text-white' : 'text-var(--text-muted) group-hover:text-[#dc143c]'}`} /> 
-                                {item.label}
                                 {activeSection === item.id && (
-                                    <motion.div layoutId="navGlow" className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent pointer-events-none" />
+                                    <motion.div
+                                        layoutId="orgSidebarActive"
+                                        className="absolute inset-0 rounded-2xl bg-[#dc143c]"
+                                        style={{ zIndex: 0 }}
+                                        transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                                    />
                                 )}
+                                <item.icon className={`w-4 h-4 relative z-10 ${activeSection === item.id ? 'text-white' : 'group-hover:text-[#dc143c] transition-colors'}`} /> 
+                                <span className="relative z-10">{item.label}</span>
                             </button>
                         ))}
                     </nav>
@@ -242,7 +247,7 @@ const OrgDashboard = () => {
                                         <div className="md:col-span-2 space-y-4">
                                             <label className="text-[10px] font-black uppercase tracking-[0.4em] ml-2" style={{ color: 'var(--text-muted)' }}>Operation Designation</label>
                                             <input required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })}
-                                                className="w-full bg-var(--bg-primary) border rounded-[2.5rem] px-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
+                                                className="w-full bg-[var(--bg-primary)] border rounded-[2.5rem] px-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
                                                 style={{ color: 'var(--text-primary)', borderColor: 'var(--border)' }}
                                                 placeholder="e.g. ALPHA-CORE BLOOD DRIVE" />
                                         </div>
@@ -251,7 +256,7 @@ const OrgDashboard = () => {
                                             <label className="text-[10px] font-black uppercase tracking-[0.4em] ml-2" style={{ color: 'var(--text-muted)' }}>Mission Briefing</label>
                                             <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })}
                                                 rows={3}
-                                                className="w-full bg-var(--bg-primary) border rounded-[2.5rem] px-8 py-6 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all outline-none resize-none font-medium shadow-inner"
+                                                className="w-full bg-[var(--bg-primary)] border rounded-[2.5rem] px-8 py-6 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all outline-none resize-none font-medium shadow-inner"
                                                 style={{ color: 'var(--text-primary)', borderColor: 'var(--border)' }}
                                                 placeholder="Detailed logistics and core objectives..." />
                                         </div>
@@ -259,7 +264,7 @@ const OrgDashboard = () => {
                                         <div className="space-y-4">
                                             <label className="text-[10px] font-black uppercase tracking-[0.4em] ml-2" style={{ color: 'var(--text-muted)' }}>Deployment Date</label>
                                             <input required type="date" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })}
-                                                className="w-full bg-var(--bg-primary) border rounded-[2rem] px-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
+                                                className="w-full bg-[var(--bg-primary)] border rounded-[2rem] px-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
                                                 style={{ color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
                                         </div>
                                         
@@ -267,13 +272,13 @@ const OrgDashboard = () => {
                                             <div className="space-y-4">
                                                 <label className="text-[10px] font-black uppercase tracking-[0.4em] ml-2" style={{ color: 'var(--text-muted)' }}>Start T-Minus</label>
                                                 <input required type="time" value={form.startTime} onChange={e => setForm({ ...form, startTime: e.target.value })}
-                                                    className="w-full bg-var(--bg-primary) border rounded-[2rem] px-6 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
+                                                    className="w-full bg-[var(--bg-primary)] border rounded-[2rem] px-6 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
                                                     style={{ color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
                                             </div>
                                             <div className="space-y-4">
                                                 <label className="text-[10px] font-black uppercase tracking-[0.4em] ml-2" style={{ color: 'var(--text-muted)' }}>End T-Minus</label>
                                                 <input required type="time" value={form.endTime} onChange={e => setForm({ ...form, endTime: e.target.value })}
-                                                    className="w-full bg-var(--bg-primary) border rounded-[2rem] px-6 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
+                                                    className="w-full bg-[var(--bg-primary)] border rounded-[2rem] px-6 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
                                                     style={{ color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
                                             </div>
                                         </div>
@@ -283,7 +288,7 @@ const OrgDashboard = () => {
                                             <div className="relative group">
                                                 <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-[#dc143c]" />
                                                 <input required value={form.address} onChange={e => setForm({ ...form, address: e.target.value })}
-                                                    className="w-full bg-var(--bg-primary) border rounded-[2.5rem] pl-16 pr-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
+                                                    className="w-full bg-[var(--bg-primary)] border rounded-[2.5rem] pl-16 pr-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
                                                     style={{ color: 'var(--text-primary)', borderColor: 'var(--border)' }}
                                                     placeholder="Complete Sector Address..." />
                                             </div>
@@ -292,7 +297,7 @@ const OrgDashboard = () => {
                                         <div className="space-y-4">
                                             <label className="text-[10px] font-black uppercase tracking-[0.4em] ml-2" style={{ color: 'var(--text-muted)' }}>Sector Node (City)</label>
                                             <input required value={form.city} onChange={e => setForm({ ...form, city: e.target.value })}
-                                                className="w-full bg-var(--bg-primary) border rounded-[2rem] px-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
+                                                className="w-full bg-[var(--bg-primary)] border rounded-[2rem] px-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
                                                 style={{ color: 'var(--text-primary)', borderColor: 'var(--border)' }}
                                                 placeholder="e.g. Ahmedabad" list="cities" />
                                             <datalist id="cities">
@@ -305,7 +310,7 @@ const OrgDashboard = () => {
                                             <div className="relative">
                                                 <Users className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-500" />
                                                 <input type="number" min="10" value={form.totalSlots} onChange={e => setForm({ ...form, totalSlots: e.target.value })}
-                                                    className="w-full bg-var(--bg-primary) border rounded-[2rem] pl-16 pr-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
+                                                    className="w-full bg-[var(--bg-primary)] border rounded-[2rem] pl-16 pr-8 py-5 focus:ring-4 focus:ring-[#dc143c]/5 focus:border-[#dc143c]/40 transition-all font-bold outline-none shadow-inner"
                                                     style={{ color: 'var(--text-primary)', borderColor: 'var(--border)' }} />
                                             </div>
                                         </div>
@@ -319,7 +324,7 @@ const OrgDashboard = () => {
                                                     className={`px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest border transition-all active:scale-95 shadow-2xl
                                                         ${form.bloodGroupsNeeded.includes(bg)
                                                             ? 'bg-[#dc143c] text-white border-[#dc143c] shadow-[0_10px_20px_rgba(220,20,60,0.3)] scale-105'
-                                                            : 'bg-var(--bg-primary) border-var(--border) text-var(--text-muted) hover:text-var(--text-primary)'}`}>
+                                                            : 'bg-[var(--bg-primary)] border-var(--border) text-var(--text-muted) hover:text-var(--text-primary)'}`}>
                                                     {bg}
                                                 </button>
                                             ))}

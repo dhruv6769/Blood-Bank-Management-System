@@ -25,16 +25,16 @@ const InputField = ({ icon: Icon, type, name, value, onChange, placeholder, labe
     <div className="flex flex-col gap-2">
       {label && (
         <div className="flex items-center justify-between px-1">
-          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-var(--text-muted)">{label}</label>
+          <label className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--text-muted)' }}>{label}</label>
           {extra}
         </div>
       )}
-      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] bg-var(--bg-primary) shadow-[0_0_0_4px_rgba(220,20,60,0.08)]' : 'border-var(--border) bg-var(--bg-card)'}`}>
-        <div className={`flex w-12 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : 'text-var(--text-muted)'}`}>
+      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] shadow-[0_0_0_4px_rgba(220,20,60,0.1)]' : ''}`} style={{ background: focused ? 'var(--bg-primary)' : 'var(--bg-card)', borderColor: focused ? '#dc143c' : 'var(--border)' }}>
+        <div className={`flex w-12 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : ''}`} style={{ color: focused ? '#dc143c' : 'var(--text-muted)' }}>
           <Icon size={17} strokeWidth={focused ? 2.5 : 2} />
         </div>
         <input
-          className="flex-1 bg-transparent py-3.5 text-sm font-bold text-var(--text-primary) outline-none placeholder:text-var(--text-muted)/50"
+          className="flex-1 bg-transparent py-3.5 text-sm font-bold outline-none" style={{ color: 'var(--text-primary)' }}
           type={inputType}
           name={name}
           value={value}
@@ -47,7 +47,7 @@ const InputField = ({ icon: Icon, type, name, value, onChange, placeholder, labe
         {isPassword && (
           <button
             type="button"
-            className="flex w-12 items-center justify-center text-var(--text-muted) hover:text-[#dc143c] transition-colors"
+            className="flex w-12 items-center justify-center hover:text-[#dc143c] transition-colors" style={{ color: 'var(--text-muted)' }}
             onClick={() => setShowPw(p => !p)}
             tabIndex={-1}
           >
@@ -64,13 +64,13 @@ const SelectField = ({ icon: Icon, name, value, onChange, label, required, optio
   const [focused, setFocused] = useState(false);
   return (
     <div className="flex flex-col gap-2">
-      {label && <label className="text-[10px] font-black uppercase tracking-[0.2em] text-var(--text-muted) px-1">{label}</label>}
-      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] bg-var(--bg-primary) shadow-[0_0_0_4px_rgba(220,20,60,0.08)]' : 'border-var(--border) bg-var(--bg-card)'}`}>
-        <div className={`flex w-12 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : 'text-var(--text-muted)'}`}>
+      {label && <label className="text-[10px] font-black uppercase tracking-[0.2em] px-1" style={{ color: 'var(--text-muted)' }}>{label}</label>}
+      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] shadow-[0_0_0_4px_rgba(220,20,60,0.1)]' : ''}`} style={{ background: focused ? 'var(--bg-primary)' : 'var(--bg-card)', borderColor: focused ? '#dc143c' : 'var(--border)' }}>
+        <div className={`flex w-12 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : ''}`} style={{ color: focused ? '#dc143c' : 'var(--text-muted)' }}>
           <Icon size={17} strokeWidth={focused ? 2.5 : 2} />
         </div>
         <select
-          className="flex-1 bg-transparent py-3.5 text-sm font-bold text-var(--text-primary) outline-none appearance-none cursor-pointer"
+          className="flex-1 bg-transparent py-3.5 text-sm font-bold outline-none appearance-none cursor-pointer" style={{ color: 'var(--text-primary)' }}
           name={name}
           value={value}
           onChange={onChange}
@@ -81,7 +81,7 @@ const SelectField = ({ icon: Icon, name, value, onChange, label, required, optio
           <option value="" disabled className="bg-var(--bg-card)">Select...</option>
           {options.map(o => <option key={o} value={o} className="bg-var(--bg-card)">{o}</option>)}
         </select>
-        <div className="pr-4 pointer-events-none text-var(--text-muted)">
+        <div className="pr-4 pointer-events-none" style={{ color: 'var(--text-muted)' }}>
           <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
         </div>
       </div>
@@ -211,7 +211,7 @@ const Register = () => {
             </p>
           </motion.div>
           
-          <div className="mt-16 bg-var(--bg-card) backdrop-blur-xl border border-var(--border) p-8 rounded-[2rem] flex items-center gap-6 group hover:border-[#dc143c]/30 transition-all duration-300">
+          <div className="mt-16 backdrop-blur-xl p-8 rounded-[2rem] flex items-center gap-6 group hover:border-[#dc143c]/30 transition-all duration-300" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
             <div className="p-4 bg-[#dc143c]/10 rounded-2xl text-[#dc143c]">
               <Activity size={32} />
             </div>
@@ -231,7 +231,7 @@ const Register = () => {
         className="flex-1 flex items-center justify-center p-6 lg:p-12 z-10"
       >
         <div className="w-full max-w-[540px]">
-          <div className="bg-var(--bg-card) backdrop-blur-[32px] border border-var(--border) p-8 lg:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+          <div className="backdrop-blur-[32px] p-8 lg:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden group hover:shadow-[0_30px_60px_rgba(220,20,60,0.07)] transition-shadow duration-700" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
             {/* Subtle gloss effect */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#dc143c]/5 blur-[60px] rounded-full group-hover:bg-[#dc143c]/10 transition-colors duration-700"></div>
 
@@ -243,11 +243,11 @@ const Register = () => {
                     {[1, 2, 3].map((s) => (
                       <div 
                         key={s} 
-                        className={`h-1.5 rounded-full transition-all duration-500 ${s === step ? 'w-10 bg-[#dc143c]' : (s < step ? 'w-4 bg-[#dc143c]/40' : 'w-4 bg-var(--border)')}`}
+                        className={`h-1.5 rounded-full transition-all duration-500 ${s === step ? 'w-10 bg-[#dc143c]' : (s < step ? 'w-4 bg-[#dc143c]/40' : 'w-4')}`} style={{ background: (s !== step && s >= step) ? 'var(--border)' : undefined }}
                       />
                     ))}
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-var(--text-muted)">Protocol {step}/3</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--text-muted)' }}>Protocol {step}/3</span>
                 </div>
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -289,7 +289,7 @@ const Register = () => {
                           <button
                             type="button"
                             key={r.id}
-                            className={`w-full flex items-center gap-6 p-6 rounded-3xl border-2 transition-all duration-500 text-left ${isSelected ? 'border-[#dc143c] bg-[#dc143c]/5 shadow-[0_8px_24px_rgba(220,20,60,0.1)]' : 'border-var(--border) bg-var(--bg-primary) hover:border-var(--text-muted)'}`}
+                            className={`w-full flex items-center gap-6 p-6 rounded-3xl border-2 transition-all duration-500 text-left ${isSelected ? 'border-[#dc143c] bg-[#dc143c]/5 shadow-[0_8px_24px_rgba(220,20,60,0.15)]' : ''}`} style={{ borderColor: isSelected ? '#dc143c' : 'var(--border)', background: isSelected ? 'rgba(220,20,60,0.05)' : 'var(--bg-primary)' }}
                             onClick={() => { setProtocolRole(r.id); setIsProtocolsOpen(true); }}
                           >
                             <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-inner ${isSelected ? 'bg-[#dc143c] text-white' : 'bg-var(--bg-secondary) text-var(--text-muted)'}`}>
@@ -347,7 +347,7 @@ const Register = () => {
                           </>
                         )}
                         <div className="pt-8 flex gap-4">
-                          <button type="button" className="h-16 px-8 rounded-2xl border border-var(--border) text-var(--text-primary) font-black text-sm uppercase tracking-widest hover:bg-var(--bg-secondary) transition-all flex items-center gap-3" onClick={goBack}>
+                          <button type="button" className="h-16 px-8 rounded-2xl font-black text-sm uppercase tracking-widest transition-all flex items-center gap-3" style={{ border: '1px solid var(--border)', color: 'var(--text-primary)' }} onClick={goBack}>
                             <ArrowLeft size={18} /> Back
                           </button>
                           <button type="submit" className="flex-1 h-16 bg-gradient-to-r from-[#dc143c] to-[#8b0000] text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-[0_12px_24px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all">
@@ -384,7 +384,7 @@ const Register = () => {
                         </div>
 
                         <div className="flex gap-4">
-                          <button type="button" className="h-16 px-8 rounded-2xl border border-var(--border) text-var(--text-primary) font-black text-sm uppercase tracking-widest hover:bg-var(--bg-secondary) transition-all flex items-center gap-3" onClick={goBack}>
+                          <button type="button" className="h-16 px-8 rounded-2xl font-black text-sm uppercase tracking-widest transition-all flex items-center gap-3" style={{ border: '1px solid var(--border)', color: 'var(--text-primary)' }} onClick={goBack}>
                             <ArrowLeft size={18} /> Back
                           </button>
                           <button type="submit" disabled={isLoading} className="flex-1 h-16 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-[0_12px_24px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all">
@@ -398,7 +398,7 @@ const Register = () => {
               </div>
 
               {/* Footer */}
-              <div className="mt-10 pt-10 border-t border-var(--border) text-center">
+              <div className="mt-10 pt-10 text-center" style={{ borderTop: '1px solid var(--border)' }}>
                 <p className="text-sm font-bold opacity-60" style={{ color: 'var(--text-secondary)' }}>
                   Already registered? <Link to="/login" className="text-[#dc143c] hover:text-[#ff3355] ml-2 transition-colors no-underline">Sign Protocol →</Link>
                 </p>

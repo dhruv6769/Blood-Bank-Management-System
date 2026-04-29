@@ -9,10 +9,11 @@ import SurvivorGallery from '../components/SurvivorGallery';
 import LifePath from '../components/LifePath';
 import AboutCreator from '../components/AboutCreator';
 
-const Counter = ({ end, duration = 2.5, suffix = "" }) => {
+const Counter = ({ end, duration = 2.5, suffix = "", inView = true }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    if (!inView) return;
     let startTime = null;
     let frameId;
     
@@ -27,7 +28,7 @@ const Counter = ({ end, duration = 2.5, suffix = "" }) => {
     };
     frameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frameId);
-  }, [end, duration]);
+  }, [end, duration, inView]);
 
   return <span>{count}{suffix}</span>;
 };
@@ -227,13 +228,14 @@ const Home = () => {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
-                    transition={{ delay: idx * 0.1, duration: 0.6 }}
-                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ delay: idx * 0.08, duration: 0.6, ease: [0.16,1,0.3,1] }}
+                    whileHover={{ y: -8, scale: 1.02, boxShadow: `0 24px 48px ${stat.glowColor}` }}
                     style={{
                       background: 'var(--bg-card)',
                       border: '1px solid var(--border)',
                       borderRadius: '1.5rem', padding: '2rem',
                       position: 'relative', overflow: 'hidden', cursor: 'pointer',
+                      transition: 'box-shadow 0.4s ease',
                     }}
                   >
                     <div style={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: stat.glowColor, filter: 'blur(30px)', opacity: 0.8 }} />
@@ -241,7 +243,7 @@ const Home = () => {
                        <stat.icon style={{ width: 22, height: 22 }} />
                     </div>
                     <h3 className="text-4xl lg:text-5xl font-black brand-font mb-2" style={{ color: 'var(--text-primary)' }}>
-                       <Counter end={stat.value} suffix={stat.suffix} />
+                       <Counter end={stat.value} suffix={stat.suffix} inView={true} />
                     </h3>
                     <p className="font-bold uppercase tracking-widest text-xs" style={{ color: 'var(--text-muted)' }}>{stat.label}</p>
                   </Motion.div>

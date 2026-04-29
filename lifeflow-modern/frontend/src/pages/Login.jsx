@@ -34,12 +34,12 @@ const InputField = ({ icon: Icon, type, value, onChange, placeholder, label, ext
           {extra}
         </div>
       )}
-      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] bg-var(--bg-primary) shadow-[0_0_0_4px_rgba(220,20,60,0.08)]' : 'border-var(--border) bg-var(--bg-card)'}`}>
-        <div className={`flex w-14 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : 'text-var(--text-muted)'}`}>
+      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] shadow-[0_0_0_4px_rgba(220,20,60,0.1)]' : ''}`} style={{ background: focused ? 'var(--bg-primary)' : 'var(--bg-card)', borderColor: focused ? '#dc143c' : 'var(--border)' }}>
+        <div className={`flex w-14 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : ''}`} style={{ color: focused ? '#dc143c' : 'var(--text-muted)' }}>
           <Icon size={18} strokeWidth={focused ? 2.5 : 2} />
         </div>
         <input
-          className="flex-1 bg-transparent py-4 text-sm font-bold text-var(--text-primary) outline-none placeholder:text-var(--text-muted)/50"
+          className="flex-1 bg-transparent py-4 text-sm font-bold outline-none" style={{ color: 'var(--text-primary)' }}
           type={inputType}
           value={value}
           onChange={onChange}
@@ -51,7 +51,7 @@ const InputField = ({ icon: Icon, type, value, onChange, placeholder, label, ext
         {isPassword && (
           <button
             type="button"
-            className="flex w-14 items-center justify-center text-var(--text-muted) hover:text-[#dc143c] transition-colors"
+            className="flex w-14 items-center justify-center hover:text-[#dc143c] transition-colors" style={{ color: 'var(--text-muted)' }}
             onClick={() => setShowPw(p => !p)}
             tabIndex={-1}
           >
@@ -162,7 +162,7 @@ const Login = () => {
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.5 + i * 0.1 }}
-                className="p-6 bg-var(--bg-card) backdrop-blur-xl border border-var(--border) rounded-3xl flex flex-col gap-4 group hover:border-[#dc143c]/30 transition-all duration-300"
+                className="p-6 backdrop-blur-xl rounded-3xl flex flex-col gap-4 group hover:border-[#dc143c]/30 transition-all duration-300 hover:shadow-[0_8px_24px_rgba(220,20,60,0.1)]" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}
               >
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center`} style={{ backgroundColor: `${f.color}15`, color: f.color }}>
                   <f.icon size={20} />
@@ -182,7 +182,7 @@ const Login = () => {
         className="flex-1 flex items-center justify-center p-6 lg:p-12 z-10"
       >
         <div className="w-full max-w-[480px]">
-          <div className="bg-var(--bg-card) backdrop-blur-[32px] border border-var(--border) p-8 lg:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+          <div className="backdrop-blur-[32px] p-8 lg:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden group hover:shadow-[0_30px_60px_rgba(220,20,60,0.08)] transition-shadow duration-700" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
             {/* Subtle gloss effect */}
             <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#dc143c]/5 blur-[60px] rounded-full group-hover:bg-[#dc143c]/10 transition-colors duration-700"></div>
             
@@ -240,11 +240,11 @@ const Login = () => {
                 </div>
               </form>
 
-              <div className="mt-10 pt-10 border-t border-var(--border) text-center">
+              <div className="mt-10 pt-10 text-center" style={{ borderTop: '1px solid var(--border)' }}>
                 <p className="text-sm font-bold opacity-60 mb-6" style={{ color: 'var(--text-secondary)' }}>First time on the network?</p>
                 <Link 
                   to="/register" 
-                  className="inline-flex items-center gap-3 px-8 py-4 bg-var(--bg-primary) border border-var(--border) rounded-2xl text-xs font-black uppercase tracking-widest text-var(--text-primary) hover:border-[#dc143c]/40 hover:bg-var(--bg-secondary) transition-all no-underline"
+                  className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:border-[#dc143c]/40 transition-all no-underline" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
                 >
                   Create New Profile <Plus size={16} className="text-[#dc143c]" />
                 </Link>

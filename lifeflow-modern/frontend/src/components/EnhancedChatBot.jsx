@@ -5,6 +5,17 @@ import { X, Send, Bot, User, Sparkles, MessageSquare, ShieldCheck, Zap } from 'l
 import api from '../lib/api';
 import { useNavigate } from 'react-router-dom';
 import { useChatStore } from '../context/chatStore';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+// Fix leaflet icon
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 const EnhancedChatBot = () => {
     const navigate = useNavigate();
@@ -58,6 +69,7 @@ const EnhancedChatBot = () => {
                 sender: 'bot',
                 timestamp: new Date(),
                 role: response.data.data.role || 'Assistant',
+                ui_action: response.data.data.ui_action || null,
                 actions: response.data.data.actions || []
             };
 
@@ -155,6 +167,17 @@ const EnhancedChatBot = () => {
                                                             {action.label}
                                                         </button>
                                                     ))}
+                                                </div>
+                                            )}
+
+                                            {/* Micro-Apps (Item 4) */}
+                                            {msg.ui_action === 'SHOW_MAP' && (
+                                                <div className="mt-4 w-full h-48 rounded-2xl overflow-hidden border border-[var(--border)] shadow-inner" style={{ zIndex: 0 }}>
+                                                    <MapContainer center={[23.0225, 72.5714]} zoom={11} style={{ height: '100%', width: '100%', zIndex: 0 }} zoomControl={false}>
+                                                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                                                        <Marker position={[23.0225, 72.5714]}><Popup>Alpha Node Camp</Popup></Marker>
+                                                        <Marker position={[23.0525, 72.5314]}><Popup>Sector 7 Drive</Popup></Marker>
+                                                    </MapContainer>
                                                 </div>
                                             )}
                                         </div>

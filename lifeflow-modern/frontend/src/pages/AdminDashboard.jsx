@@ -237,9 +237,9 @@ const AdminDashboard = () => {
 
 
     const tabVars = {
-        hidden: { opacity: 0, y: 10 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
-        exit: { opacity: 0, y: -10, transition: { duration: 0.2 } }
+        hidden:  { opacity: 0, y: 16 },
+        visible: { opacity: 1, y: 0,  transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+        exit:    { opacity: 0, y: -12, transition: { duration: 0.25, ease: [0.4, 0, 1, 1] } }
     };
     useEffect(() => {
         if (activeSection === 'support') {
@@ -307,17 +307,25 @@ const AdminDashboard = () => {
                             <button 
                                 key={item.id} 
                                 onClick={() => setActiveSection(item.id)}
-                                className={`flex items-center justify-between p-5 rounded-2xl transition-all duration-500 group relative
+                                className={`flex items-center justify-between p-5 rounded-2xl transition-all duration-300 group relative
                                     ${isActive 
-                                        ? 'bg-[#dc143c] text-white shadow-[0_15px_40px_rgba(220,20,60,0.2)] scale-[1.02]' 
+                                        ? 'text-white shadow-[0_15px_40px_rgba(220,20,60,0.2)] scale-[1.02]' 
                                         : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)]'}`}
                             >
-                                <div className="flex items-center gap-4">
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="adminSidebarActive"
+                                        className="absolute inset-0 rounded-2xl bg-[#dc143c]"
+                                        style={{ zIndex: 0 }}
+                                        transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                                    />
+                                )}
+                                <div className="flex items-center gap-4 relative z-10">
                                     <item.icon className={`w-5 h-5 transition-transform duration-500 ${isActive ? 'rotate-0' : 'group-hover:scale-110'}`} />
                                     <span className="text-[10px] font-black uppercase tracking-[0.2em]">{item.label}</span>
                                 </div>
                                 {item.showBadge && (
-                                    <div className="relative flex h-2 w-2">
+                                    <div className="relative flex h-2 w-2 z-10">
                                         <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isActive ? 'bg-white' : 'bg-[#dc143c]'}`}></span>
                                         <span className={`relative inline-flex rounded-full h-2 w-2 ${isActive ? 'bg-white' : 'bg-[#dc143c]'}`}></span>
                                     </div>

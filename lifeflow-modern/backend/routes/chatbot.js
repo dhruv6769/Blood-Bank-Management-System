@@ -1,5 +1,8 @@
 import express from 'express';
 import { verifyToken } from '../middleware/authMiddleware.js';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import jwt from 'jsonwebtoken';
+import { User } from '../config/db.js';
 
 const router = express.Router();
 
@@ -12,8 +15,74 @@ router.post('/chat', async (req, res) => {
             return res.status(400).json({ status: 'error', message: 'Message is required' });
         }
 
+        // --- CONTEXT AWARENESS (Item 3) ---
+        let userContext = null;
+        try {
+            const authHeader = req.header('Authorization');
+            if (authHeader && authHeader.startsWith('Bearer ')) {
+                const token = authHeader.replace('Bearer ', '');
+                const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                const user = await User.findByPk(decoded.id);
+                if (user) {
+                    userContext = {
+                        name: user.name,
+                        role: user.role,
+                        bloodGroup: user.bloodGroup,
+                        city: user.city,
+                        lastDonationDate: user.lastDonDate
+                    };
+                }
+            }
+        } catch (e) {
+            console.log("Chatbot optional auth error (ignoring):", e.message);
+        }
+
         let response;
         
+        // --- TRUE LLM INTEGRATION (Item 1 & 4) ---
+        if (process.env.GEMINI_API_KEY) {
+            try {
+                const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+                const systemInstruction = `
+You are the advanced LifeFlow Nexus Medical AI Assistant.
+Your goal is to assist users with blood donation, medical screening, and emergencies.
+${userContext ? `IMPORTANT: You are currently talking to an authenticated user:
+Name: ${userContext.name}
+Role: ${userContext.role}
+Blood Group: ${userContext.bloodGroup || 'Unknown'}
+City: ${userContext.city || 'Unknown'}
+Use their name naturally and tailor your advice to their blood type and role if applicable.` : 'The user is not currently logged in.'}
+
+You must return a valid JSON object with the exact following structure:
+{
+  "role": "LifeFlow Assistant",
+  "message": "Your conversational text response here (use markdown for formatting).",
+  "ui_action": null, // Use "SHOW_MAP" if they explicitly ask to find camps/locations, otherwise null.
+  "actions": [] // Array of action buttons, e.g. [{"type": "navigate", "label": "Donate", "url": "/dashboard?section=donate", "requireAuth": true}]
+}
+Always answer strictly in this JSON format without any backticks or markdown code blocks surrounding it.
+`;
+                const prompt = `${systemInstruction}\n\nUser Message: ${message}`;
+                const result = await model.generateContent(prompt);
+                let responseText = result.response.text().trim();
+                
+                // Parse JSON from markdown block if necessary
+                if (responseText.startsWith('\`\`\`json')) {
+                    responseText = responseText.replace(/^\`\`\`json/, '').replace(/\`\`\`$/, '').trim();
+                } else if (responseText.startsWith('\`\`\`')) {
+                    responseText = responseText.replace(/^\`\`\`/, '').replace(/\`\`\`$/, '').trim();
+                }
+                
+                response = JSON.parse(responseText);
+                return res.json({ status: 'success', data: response });
+            } catch (aiError) {
+                console.error("Gemini AI Error, falling back to rule-based:", aiError);
+            }
+        }
+
+        // --- FALLBACK TO RULE-BASED ---
         switch (mode) {
             case 'screening':
                 response = handleMedicalScreening(message);
@@ -29,6 +98,11 @@ router.post('/chat', async (req, res) => {
                 break;
             default:
                 response = handleGeneralInquiry(message);
+        }
+        
+        // Check for UI Action fallback mapping (Item 4)
+        if (!response.ui_action && (message.toLowerCase().includes('camps') || message.toLowerCase().includes('find camp') || message.toLowerCase().includes('map'))) {
+            response.ui_action = 'SHOW_MAP';
         }
 
         res.json({ status: 'success', data: response });

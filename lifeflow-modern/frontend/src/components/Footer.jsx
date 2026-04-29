@@ -115,7 +115,7 @@ const Footer = () => {
                                     </div>
                                     <div>
                                         <p className="text-[9px] font-black text-[var(--text-muted)] uppercase tracking-widest">HQ Sector</p>
-                                        <p className="text-xs font-bold text-[var(--text-primary)]">Surat, Gujarat</p>
+                                        <p className="text-xs font-bold text-[var(--text-primary)]">Far from the west there is a land called "VINLAND"</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
