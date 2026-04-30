@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion as Motion, AnimatePresence } from 'framer-motion';
 import { Quote, Heart, ChevronRight, X, Calendar, MapPin, Activity, ArrowRight } from 'lucide-react';
 
@@ -126,28 +127,33 @@ const StoryCard = ({ story, idx, onOpen }) => {
 
 const DetailsModal = ({ story, onClose }) => {
     useEffect(() => {
-        document.body.style.overflow = 'hidden';
+        if (story) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
         return () => { document.body.style.overflow = ''; };
-    }, []);
+    }, [story]);
 
-    if (!story) return null;
-    
-    return (
-        <Motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1000] flex items-center justify-center p-6 bg-black/80 backdrop-blur-3xl"
-            onClick={onClose}
-        >
-            <Motion.div 
-                initial={{ scale: 0.9, opacity: 0, rotateX: 10 }}
-                animate={{ scale: 1, opacity: 1, rotateX: 0 }}
-                exit={{ scale: 0.9, opacity: 0, rotateX: 10 }}
-                className="relative w-full max-w-5xl bg-[var(--bg-primary)] border border-white/10 rounded-[4rem] overflow-hidden shadow-2xl glass-premium"
-                onClick={e => e.stopPropagation()}
-            >
-                <div className="flex flex-col lg:flex-row h-full min-h-[600px]">
+    return createPortal(
+        <AnimatePresence>
+            {story && (
+                <Motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[99999] flex items-center justify-center p-4 md:p-10 bg-black/90 backdrop-blur-2xl"
+                    onClick={onClose}
+                >
+                    <Motion.div 
+                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="relative w-full max-w-4xl bg-[#0a0a0f] border border-white/10 rounded-[2.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl"
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <div className="flex flex-col lg:flex-row h-full min-h-[400px] md:min-h-[500px]">
                     {/* Left: Image Side */}
                     <div className="w-full lg:w-1/2 relative overflow-hidden">
                         <img src={story.image} className="absolute inset-0 w-full h-full object-cover" alt="" />
@@ -161,51 +167,54 @@ const DetailsModal = ({ story, onClose }) => {
                     </div>
                     
                     {/* Right: Content Side */}
-                    <div className="w-full lg:w-1/2 p-16 lg:p-24 flex flex-col justify-center relative">
-                        <button onClick={onClose} className="absolute top-12 right-12 text-white/40 hover:text-[#dc143c] bg-white/5 p-4 rounded-3xl border border-white/10 transition-all hover:scale-110">
-                            <X size={28} />
+                    <div className="w-full lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center relative">
+                        <button onClick={onClose} className="absolute top-8 right-8 text-white/40 hover:text-[#dc143c] bg-white/5 p-3 rounded-2xl border border-white/10 transition-all hover:scale-110">
+                            <X size={20} />
                         </button>
                         
-                        <div className="space-y-12">
+                        <div className="space-y-8">
                             <div>
-                                <div className="flex items-center gap-4 text-[#dc143c] mb-6">
-                                    <Activity size={24} />
-                                    <span className="text-[10px] font-black uppercase tracking-[0.5em]">{story.tagline}</span>
+                                <div className="flex items-center gap-3 text-[#dc143c] mb-4">
+                                    <Activity size={18} />
+                                    <span className="text-[9px] font-black uppercase tracking-[0.4em]">{story.tagline}</span>
                                 </div>
-                                <h2 className="text-6xl md:text-7xl font-black tracking-tighter leading-[0.9] mb-4">{story.name}</h2>
-                                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc143c] bg-[#dc143c]/10 px-5 py-2 rounded-full inline-block">
-                                    {story.dynamicStats ? `${story.dynamicStats.livesImpacted} Clinical Synchronizations` : story.stats}
+                                <h2 className="text-3xl md:text-5xl font-black tracking-tighter leading-[0.9] mb-3 text-white">{story.name}</h2>
+                                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-[#dc143c] bg-[#dc143c]/10 px-4 py-1.5 rounded-full inline-block">
+                                    {story.dynamicStats ? `${story.dynamicStats.livesImpacted} Syncs` : (story.stats || 'Hero')}
                                 </p>
                             </div>
                             
-                            <div className="grid grid-cols-2 gap-10 py-10 border-y border-white/5">
-                                <div className="space-y-2">
-                                    <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] flex items-center gap-2">
-                                        <MapPin size={12} /> Registry Node
+                            <div className="grid grid-cols-2 gap-6 py-6 border-y border-white/5">
+                                <div className="space-y-1">
+                                    <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] flex items-center gap-2">
+                                        <MapPin size={10} /> Node
                                     </p>
-                                    <p className="text-lg font-bold tracking-tight">{story.hospital}</p>
+                                    <p className="text-sm font-bold tracking-tight text-white/90">{story.hospital}</p>
                                 </div>
-                                <div className="space-y-2">
-                                    <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] flex items-center gap-2">
-                                        <Calendar size={12} /> Sync Date
+                                <div className="space-y-1">
+                                    <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.2em] flex items-center gap-2">
+                                        <Calendar size={10} /> Date
                                     </p>
-                                    <p className="text-lg font-bold tracking-tight">{story.date}</p>
+                                    <p className="text-sm font-bold tracking-tight text-white/90">{story.date}</p>
                                 </div>
                             </div>
                             
-                            <div className="space-y-6">
-                                <p className="text-2xl font-bold leading-relaxed italic opacity-90 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">"{story.gratitude}"</p>
-                                <p className="text-base font-bold leading-relaxed opacity-60 max-w-lg">{story.story}</p>
+                            <div className="space-y-4">
+                                <p className="text-lg font-bold leading-relaxed italic opacity-90 text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60">"{story.gratitude}"</p>
+                                <p className="text-xs font-bold leading-relaxed opacity-60 max-w-sm">{story.story}</p>
                             </div>
                             
-                            <button className="btn-nexus w-full py-6 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2.5rem] font-black uppercase text-xs tracking-[0.3em] shadow-[0_20px_50px_rgba(220,20,60,0.3)]">
-                                Initiate Connection with {story.name.split(' ')[0]}
+                            <button className="btn-nexus w-full py-4 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] shadow-lg hover:shadow-red-500/20">
+                                Initiate Connection
                             </button>
                         </div>
                     </div>
                 </div>
-            </Motion.div>
-        </Motion.div>
+                    </Motion.div>
+                </Motion.div>
+            )}
+        </AnimatePresence>,
+        document.body
     );
 }
 
@@ -272,14 +281,10 @@ const SurvivorGallery = () => {
                     ))}
                 </div>
 
-                <AnimatePresence mode="wait">
-                    {selectedStory && (
-                        <DetailsModal 
-                            story={selectedStory} 
-                            onClose={() => setSelectedStory(null)} 
-                        />
-                    )}
-                </AnimatePresence>
+                <DetailsModal 
+                    story={selectedStory} 
+                    onClose={() => setSelectedStory(null)} 
+                />
 
                 {/* Call to Action Footer — Ultra Premium */}
                 <Motion.div 

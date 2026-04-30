@@ -190,6 +190,7 @@ const DonationCamps = () => {
     }, [camps, search, city, bloodGroup]);
 
     return (
+        <>
             <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col pt-4">
                 
                 {/* 🌌 Cinematic Hero Context */}
@@ -454,7 +455,7 @@ const DonationCamps = () => {
                 .premium-popup .leaflet-popup-content { margin: 0; }
                 .premium-popup .leaflet-popup-tip { background: var(--bg-card); border: 1px solid var(--border); }
             `}} />
-        </div>
+        </>
     );
 };
 

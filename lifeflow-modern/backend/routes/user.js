@@ -49,7 +49,7 @@ router.get('/dashboard', verifyToken, async (req, res) => {
             }
         }
 
-        const points = approvedDonations.length * 50;
+        const points = user.points || 0;
         
         // Dynamic badge calculation
         let dynamicBadge = 'Starter';
