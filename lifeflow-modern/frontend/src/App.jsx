@@ -39,14 +39,23 @@ function App() {
     }
   }, [initTheme, initAuth]);
 
+  useEffect(() => {
+    if (isDashboard) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isDashboard]);
+
   const isDashboard = location.pathname.includes('dashboard');
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-all duration-500 bg-[var(--bg-primary)] text-[var(--text-primary)] ${isDashboard ? 'overflow-hidden h-screen' : ''}`}>
+    <div className={`min-h-screen flex flex-col font-sans transition-all duration-500 bg-[var(--bg-primary)] text-[var(--text-primary)] ${isDashboard ? 'h-screen overflow-hidden' : ''}`}>
       <LiveTicker />
-      {!isDashboard && <Navbar />}
+      <Navbar />
       
-      <main className={`flex-grow ${isDashboard ? 'pt-0' : 'pt-32 lg:pt-40'}`}>
+      <main className={`flex-grow ${isDashboard ? 'h-[calc(100vh-160px)]' : 'pt-32 lg:pt-40'}`}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />
@@ -64,7 +73,7 @@ function App() {
         </AnimatePresence>
       </main>
 
-      {!isDashboard && <Footer />}
+      <Footer />
       <EmergencyFAB />
       <EnhancedChatBot />
 
