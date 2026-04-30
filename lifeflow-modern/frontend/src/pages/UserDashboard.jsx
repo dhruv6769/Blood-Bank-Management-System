@@ -463,10 +463,10 @@ const UserDashboard = () => {
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: isSidebarOpen ? 0 : (window.innerWidth < 1024 ? -400 : 0), opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className={`fixed top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-40 h-full shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-transform duration-500 shrink-0 pt-32 lg:pt-[122px] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+                className={`fixed top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-40 h-full shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-transform duration-500 shrink-0 pt-20 lg:pt-24 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
             >
-                <div className="p-8 flex flex-col h-full">
-                    <div className="flex items-center gap-4 mb-10 group cursor-pointer">
+                <div className="p-8 pt-4 flex flex-col h-full">
+                    <div className="flex items-center gap-4 mb-6 group cursor-pointer">
                         <div className="relative">
                             <div className="absolute inset-0 bg-[#dc143c] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
                             <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#9b0023] rounded-xl flex items-center justify-center relative z-10 border border-white/20 shadow-2xl group-hover:rotate-6 transition-transform duration-500">

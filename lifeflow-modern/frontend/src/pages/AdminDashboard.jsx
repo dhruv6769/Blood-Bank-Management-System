@@ -298,11 +298,11 @@ const AdminDashboard = () => {
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className="fixed top-0 left-0 w-[320px] h-full shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 pt-[122px] flex flex-col z-30 overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
+                className="fixed top-0 left-0 w-[320px] h-full shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 pt-24 flex flex-col z-30 overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
             >
                 {/* Global Brand Header */}
-                <div className="mb-14 px-2">
-                    <div className="flex items-center gap-5 mb-12 group cursor-pointer">
+                <div className="mb-8 px-2">
+                    <div className="flex items-center gap-5 mb-8 group cursor-pointer">
                         <div className="relative">
                             <div className="absolute inset-0 bg-[#dc143c] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
                             <div className="w-14 h-14 bg-gradient-to-br from-[#dc143c] to-[#9b0023] rounded-[1.5rem] flex items-center justify-center relative z-10 border border-white/20 shadow-2xl group-hover:rotate-6 transition-transform duration-500">
