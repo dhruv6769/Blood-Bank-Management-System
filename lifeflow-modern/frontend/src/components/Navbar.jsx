@@ -712,11 +712,10 @@ const Navbar = () => {
 
           {/* Mobile hamburger */}
           <button
-            className="lf-mobile-trigger"
+            className="lf-mobile-trigger flex md:hidden"
             style={{
               width: 36, height: 36, borderRadius: 10, border: '1px solid var(--border)',
-              background: 'var(--bg-card)', color: 'var(--text-secondary)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'var(--bg-card)', color: 'var(--text-secondary)', alignItems: 'center', justifyContent: 'center',
               cursor: 'pointer',
             }}
             onClick={() => setMobileOpen(v => !v)}
