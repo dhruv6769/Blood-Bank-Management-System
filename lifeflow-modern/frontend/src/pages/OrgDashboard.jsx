@@ -34,6 +34,7 @@ const OrgDashboard = () => {
     const [camps, setCamps] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [form, setForm] = useState(emptyForm);
+    const [supportedCities, setSupportedCities] = useState([]);
 
     const fetchMyCamps = async () => {
         try {
@@ -49,7 +50,19 @@ const OrgDashboard = () => {
 
     useEffect(() => {
         fetchMyCamps();
+        fetchSupportedCities();
     }, []);
+
+    const fetchSupportedCities = async () => {
+        try {
+            const res = await api.get('/org/cities');
+            if (res.data.status === 'success') {
+                setSupportedCities(res.data.cities.sort());
+            }
+        } catch (err) {
+            console.error('Failed to fetch cities:', err);
+        }
+    };
 
     const toggleBloodGroup = (bg) => {
         setForm(f => ({
@@ -293,12 +306,14 @@ const OrgDashboard = () => {
                                             />
                                         </div>
 
-                                        <NexusInput
-                                            label="Clinical Node (City)"
+                                        <NexusSelect
+                                            label="Clinical Strategic Node (City)"
                                             required
                                             value={form.city}
                                             onChange={e => setForm({ ...form, city: e.target.value })}
-                                            placeholder="e.g. Patan Strategic Node"
+                                            icon={MapPin}
+                                            options={supportedCities}
+                                            placeholder="Select verified city node..."
                                         />
 
                                         <NexusInput

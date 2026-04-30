@@ -10,7 +10,8 @@ const NexusSelect = ({
     required = false, 
     icon: Icon,
     disabled = false,
-    className = ""
+    className = "",
+    placeholder = ""
 }) => {
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value && value.toString().length > 0;
@@ -57,7 +58,7 @@ const NexusSelect = ({
                         appearance-none cursor-pointer text-sm
                     `}
                 >
-                    <option value="" disabled hidden></option>
+                    <option value="" disabled hidden>{placeholder}</option>
                     {options.map((opt, idx) => (
                         <option key={idx} value={opt.value || opt} className="bg-[var(--bg-card)] text-[var(--text-primary)]">
                             {opt.label || opt}

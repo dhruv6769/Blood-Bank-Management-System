@@ -1,10 +1,18 @@
 import express from 'express';
 import { Camp, User, Donation } from '../config/db.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
-import { getCityCoordinatesWithFallback } from '../utils/geocoding.js';
+import { getCityCoordinatesWithFallback, getSupportedCities } from '../utils/geocoding.js';
 import { Op } from 'sequelize';
 
 const router = express.Router();
+
+// ─── Get Supported Cities (Public) ───────────────────────────────────────────
+router.get('/cities', (req, res) => {
+    res.json({ 
+        status: 'success', 
+        cities: getSupportedCities() 
+    });
+});
 
 // ─── Middleware: Only Organizations ─────────────────────────────────────────
 const verifyOrg = (req, res, next) => {
