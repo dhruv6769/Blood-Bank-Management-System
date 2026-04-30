@@ -39,12 +39,14 @@ function App() {
     }
   }, [initTheme, initAuth]);
 
+  const isDashboard = location.pathname.includes('dashboard');
+
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-all duration-500 bg-[var(--bg-primary)] text-[var(--text-primary)]`}>
+    <div className={`min-h-screen flex flex-col font-sans transition-all duration-500 bg-[var(--bg-primary)] text-[var(--text-primary)] ${isDashboard ? 'overflow-hidden h-screen' : ''}`}>
       <LiveTicker />
-      <Navbar />
+      {!isDashboard && <Navbar />}
       
-      <main className="flex-grow pt-32 lg:pt-40">
+      <main className={`flex-grow ${isDashboard ? 'pt-0' : 'pt-32 lg:pt-40'}`}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />
@@ -62,7 +64,7 @@ function App() {
         </AnimatePresence>
       </main>
 
-      <Footer />
+      {!isDashboard && <Footer />}
       <EmergencyFAB />
       <EnhancedChatBot />
 
