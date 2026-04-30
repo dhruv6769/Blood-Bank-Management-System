@@ -6,6 +6,7 @@ import LiveTicker from './components/LiveTicker';
 import Footer from './components/Footer';
 import EmergencyFAB from './components/EmergencyFAB';
 import EnhancedChatBot from './components/EnhancedChatBot';
+
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -64,6 +65,7 @@ function App() {
       <Footer />
       <EmergencyFAB />
       <EnhancedChatBot />
+
       
       <Toaster 
         position="top-right"

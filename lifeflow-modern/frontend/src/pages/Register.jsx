@@ -10,84 +10,13 @@ import {
 import { useAuthStore } from '../context/authStore';
 import AvatarFeedback from '../components/AvatarFeedback';
 import ProtocolsModal from '../components/ProtocolsModal';
+import NexusInput from '../components/NexusInput';
+import NexusSelect from '../components/NexusSelect';
 
 /* ─── Step config ─────────────────────────────────────────────── */
 const TOTAL_STEPS = 3;
 
 /* ─── Reusable Components ─────────────────────────────────────── */
-const InputField = ({ icon: Icon, type, name, value, onChange, placeholder, label, required, children, extra }) => {
-  const [focused, setFocused] = useState(false);
-  const [showPw, setShowPw] = useState(false);
-  const isPassword = type === 'password';
-  const inputType = isPassword ? (showPw ? 'text' : 'password') : type;
-
-  return (
-    <div className="flex flex-col gap-2">
-      {label && (
-        <div className="flex items-center justify-between px-1">
-          <label className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--text-muted)' }}>{label}</label>
-          {extra}
-        </div>
-      )}
-      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] shadow-[0_0_0_4px_rgba(220,20,60,0.1)]' : ''}`} style={{ background: focused ? 'var(--bg-primary)' : 'var(--bg-card)', borderColor: focused ? '#dc143c' : 'var(--border)' }}>
-        <div className={`flex w-12 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : ''}`} style={{ color: focused ? '#dc143c' : 'var(--text-muted)' }}>
-          <Icon size={17} strokeWidth={focused ? 2.5 : 2} />
-        </div>
-        <input
-          className="flex-1 bg-transparent py-3.5 text-sm font-bold outline-none" style={{ color: 'var(--text-primary)' }}
-          type={inputType}
-          name={name}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          required={required}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-        />
-        {isPassword && (
-          <button
-            type="button"
-            className="flex w-12 items-center justify-center hover:text-[#dc143c] transition-colors" style={{ color: 'var(--text-muted)' }}
-            onClick={() => setShowPw(p => !p)}
-            tabIndex={-1}
-          >
-            {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
-          </button>
-        )}
-        {children}
-      </div>
-    </div>
-  );
-};
-
-const SelectField = ({ icon: Icon, name, value, onChange, label, required, options }) => {
-  const [focused, setFocused] = useState(false);
-  return (
-    <div className="flex flex-col gap-2">
-      {label && <label className="text-[10px] font-black uppercase tracking-[0.2em] px-1" style={{ color: 'var(--text-muted)' }}>{label}</label>}
-      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] shadow-[0_0_0_4px_rgba(220,20,60,0.1)]' : ''}`} style={{ background: focused ? 'var(--bg-primary)' : 'var(--bg-card)', borderColor: focused ? '#dc143c' : 'var(--border)' }}>
-        <div className={`flex w-12 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : ''}`} style={{ color: focused ? '#dc143c' : 'var(--text-muted)' }}>
-          <Icon size={17} strokeWidth={focused ? 2.5 : 2} />
-        </div>
-        <select
-          className="flex-1 bg-transparent py-3.5 text-sm font-bold outline-none appearance-none cursor-pointer" style={{ color: 'var(--text-primary)' }}
-          name={name}
-          value={value}
-          onChange={onChange}
-          required={required}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-        >
-          <option value="" disabled className="bg-var(--bg-card)">Select...</option>
-          {options.map(o => <option key={o} value={o} className="bg-var(--bg-card)">{o}</option>)}
-        </select>
-        <div className="pr-4 pointer-events-none" style={{ color: 'var(--text-muted)' }}>
-          <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const ROLES = [
   {
@@ -141,21 +70,72 @@ const Register = () => {
       setFeedbackStatus('success');
       setTimeout(() => {
         navigate(role === 'ORGANIZATION' ? '/org-dashboard' : '/dashboard');
-      }, 2000);
+      }, 1500);
     } else {
       setFeedbackStatus('error');
     }
   };
 
   const variants = {
-    enter: dir => ({ x: dir * 40, opacity: 0 }),
-    center: { x: 0, opacity: 1 },
-    exit: dir => ({ x: dir * -40, opacity: 0 }),
+    enter: dir => ({ 
+      x: dir * 100, 
+      opacity: 0, 
+      scale: 0.9,
+      rotateY: dir * 10,
+      filter: 'blur(10px)'
+    }),
+    center: { 
+      x: 0, 
+      opacity: 1, 
+      scale: 1,
+      rotateY: 0,
+      filter: 'blur(0px)',
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 30
+      }
+    },
+    exit: dir => ({ 
+      x: dir * -100, 
+      opacity: 0, 
+      scale: 1.1,
+      rotateY: dir * -10,
+      filter: 'blur(10px)',
+      transition: {
+        duration: 0.4
+      }
+    }),
   };
 
   return (
-    <div className="min-h-screen relative flex overflow-hidden font-['Inter','Outfit',sans-serif]" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <div className="min-h-screen relative flex overflow-hidden font-['Outfit','Inter',sans-serif] noise" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <AvatarFeedback status={feedbackStatus} onDismiss={() => setFeedbackStatus('idle')} />
+      
+      {/* ── Ultra Premium Mesh Backdrop ── */}
+      <div className="mesh-gradient absolute inset-0 pointer-events-none">
+        <motion.div 
+          animate={{ 
+            x: [0, 50, -100, 0], 
+            y: [0, 100, -50, 0],
+            scale: [1, 1.3, 0.9, 1],
+            rotate: [0, 120, 240, 0]
+          }} 
+          transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[1000px] h-[1000px] -top-[400px] -right-[400px] bg-[#dc143c]/20 rounded-full blur-[180px] mix-blend-screen" 
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, -50, 100, 0], 
+            y: [0, -100, 50, 0],
+            scale: [1, 0.9, 1.3, 1],
+            rotate: [0, -120, -240, 0]
+          }} 
+          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[800px] h-[800px] -bottom-[300px] -left-[300px] bg-indigo-600/20 rounded-full blur-[160px] mix-blend-screen" 
+        />
+      </div>
+
       <ProtocolsModal
         isOpen={isProtocolsOpen}
         onClose={() => setIsProtocolsOpen(false)}
@@ -169,12 +149,6 @@ const Register = () => {
         }}
         role={protocolRole}
       />
-
-      {/* ── Background Effects ── */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#dc143c]/10 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/10 rounded-full blur-[120px]"></div>
-      </div>
 
       {/* ── Left Side: Brand Visuals ── */}
       <motion.div 
@@ -227,14 +201,14 @@ const Register = () => {
       <motion.div 
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="flex-1 flex items-center justify-center p-6 lg:p-12 z-10"
       >
         <div className="w-full max-w-[540px]">
-          <div className="backdrop-blur-[32px] p-8 lg:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden group hover:shadow-[0_30px_60px_rgba(220,20,60,0.07)] transition-shadow duration-700" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-            {/* Subtle gloss effect */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#dc143c]/5 blur-[60px] rounded-full group-hover:bg-[#dc143c]/10 transition-colors duration-700"></div>
-
+          <div className="glass-premium p-8 lg:p-12 rounded-[3.5rem] relative overflow-hidden group hover:shadow-[0_40px_80px_rgba(220,20,60,0.12)] transition-all duration-700">
+            {/* Glossy Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
+            
             <div className="relative z-10">
               {/* Header */}
               <div className="mb-10">
@@ -243,7 +217,7 @@ const Register = () => {
                     {[1, 2, 3].map((s) => (
                       <div 
                         key={s} 
-                        className={`h-1.5 rounded-full transition-all duration-500 ${s === step ? 'w-10 bg-[#dc143c]' : (s < step ? 'w-4 bg-[#dc143c]/40' : 'w-4')}`} style={{ background: (s !== step && s >= step) ? 'var(--border)' : undefined }}
+                        className={`h-1.5 rounded-full transition-all duration-500 ${step >= s ? 'w-8 bg-[#dc143c]' : 'w-2 bg-gray-200 dark:bg-gray-800'}`}
                       />
                     ))}
                   </div>
@@ -286,37 +260,50 @@ const Register = () => {
                       {ROLES.map((r) => {
                         const isSelected = role === r.id;
                         return (
-                          <button
+                          <motion.button
                             type="button"
                             key={r.id}
-                            className={`w-full flex items-center gap-6 p-6 rounded-3xl border-2 transition-all duration-500 text-left ${isSelected ? 'border-[#dc143c] bg-[#dc143c]/5 shadow-[0_8px_24px_rgba(220,20,60,0.15)]' : ''}`} style={{ borderColor: isSelected ? '#dc143c' : 'var(--border)', background: isSelected ? 'rgba(220,20,60,0.05)' : 'var(--bg-primary)' }}
+                            whileHover={{ scale: 1.02, x: 5 }}
+                            whileTap={{ scale: 0.98 }}
+                            className={`w-full flex items-center gap-6 p-7 rounded-[2rem] border-2 transition-all duration-500 text-left ${isSelected ? 'border-[#dc143c] bg-[#dc143c]/5 shadow-[0_20px_40px_rgba(220,20,60,0.1)]' : 'border-transparent bg-white/5'}`}
                             onClick={() => { setProtocolRole(r.id); setIsProtocolsOpen(true); }}
                           >
-                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 shadow-inner ${isSelected ? 'bg-[#dc143c] text-white' : 'bg-var(--bg-secondary) text-var(--text-muted)'}`}>
-                              <r.icon size={28} />
+                            <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-700 ${isSelected ? 'bg-[#dc143c] text-white shadow-[0_0_30px_rgba(220,20,60,0.4)]' : 'bg-gray-100 dark:bg-gray-800 text-gray-400'}`}>
+                              <r.icon size={32} />
                             </div>
                             <div className="flex-1">
-                              <h3 className="text-lg font-black tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>{r.label}</h3>
-                              <p className="text-xs font-bold opacity-60 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{r.desc}</p>
+                              <h3 className="text-xl font-black tracking-tight mb-1" style={{ color: 'var(--text-primary)' }}>{r.label}</h3>
+                              <p className="text-xs font-bold opacity-60 leading-relaxed uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>{r.desc}</p>
                             </div>
                             {isSelected && (
-                              <div className="w-8 h-8 rounded-full bg-[#dc143c] flex items-center justify-center shadow-lg shadow-red-500/40">
-                                <CheckCircle2 size={16} color="#fff" />
-                              </div>
+                              <motion.div 
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                className="w-10 h-10 rounded-full bg-[#dc143c] flex items-center justify-center shadow-lg shadow-red-500/40"
+                              >
+                                <CheckCircle2 size={20} color="#fff" />
+                              </motion.div>
                             )}
-                          </button>
+                          </motion.button>
                         );
                       })}
                       
-                      <div className="pt-10">
-                        <button type="button" className="w-full h-16 bg-gradient-to-r from-[#dc143c] to-[#8b0000] text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-[0_12px_24px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all" onClick={goNext}>
-                          Synchronize Identity <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
-                        </button>
+                      <div className="pt-12">
+                        <motion.button 
+                          whileHover={{ y: -8, scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          type="button" 
+                          className="btn-nexus w-full h-24 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[0.6em] shadow-[0_30px_60px_rgba(220,20,60,0.3)] hover:shadow-[0_45px_90px_rgba(220,20,60,0.45)] flex items-center justify-center gap-6 group transition-all relative overflow-hidden" 
+                          onClick={goNext}
+                        >
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                          Synchronize Identity <ArrowRight size={22} className="group-hover:translate-x-4 transition-transform duration-500" />
+                        </motion.button>
                       </div>
                     </motion.div>
                   )}
 
-                  {step === 2 && (
+                   {step === 2 && (
                     <motion.div
                       key="step2"
                       variants={variants}
@@ -325,24 +312,24 @@ const Register = () => {
                       exit="exit"
                       custom={slideDir}
                     >
-                      <form onSubmit={goNext} className="space-y-5">
+                      <form onSubmit={goNext} className="space-y-6">
                         {role === 'DONOR' ? (
                           <>
-                            <InputField icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="First, Last Name" label="Full Identity" required />
-                            <InputField icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="mission@lifeflow.com" label="Nexus Email" required />
-                            <div className="grid grid-cols-2 gap-4">
-                              <SelectField icon={Droplet} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} label="Blood Type" required options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} />
-                              <InputField icon={CalendarDays} type="number" name="age" value={formData.age} onChange={handleChange} placeholder="18-65" label="Age Profile" required />
+                            <NexusInput icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="First, Last Name" label="Full Identity" required />
+                            <NexusInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="mission@lifeflow.com" label="Nexus Email" required />
+                            <div className="grid grid-cols-2 gap-6">
+                              <NexusSelect icon={Droplet} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} label="Blood Type" required options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} />
+                              <NexusInput icon={CalendarDays} type="number" name="age" value={formData.age} onChange={handleChange} placeholder="18-65" label="Age Profile" required />
                             </div>
                           </>
                         ) : (
                           <>
-                            <InputField icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Authorized Personnel" label="Contact Protocol" required />
-                            <InputField icon={Building2} type="text" name="orgName" value={formData.orgName} onChange={handleChange} placeholder="Clinical / Civic Institution" label="Organization Code" required />
-                            <InputField icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="ops@institution.org" label="Operational Email" required />
-                            <div className="grid grid-cols-2 gap-4">
-                              <InputField icon={Phone} type="tel" name="orgPhone" value={formData.orgPhone} onChange={handleChange} placeholder="+91..." label="Comm Link" />
-                              <InputField icon={MapPin} type="text" name="orgAddress" value={formData.orgAddress} onChange={handleChange} placeholder="City, State" label="Neutral Zone" />
+                            <NexusInput icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Authorized Personnel" label="Contact Protocol" required />
+                            <NexusInput icon={Building2} type="text" name="orgName" value={formData.orgName} onChange={handleChange} placeholder="Clinical / Civic Institution" label="Organization Code" required />
+                            <NexusInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="ops@institution.org" label="Operational Email" required />
+                            <div className="grid grid-cols-2 gap-6">
+                              <NexusInput icon={Phone} type="tel" name="orgPhone" value={formData.orgPhone} onChange={handleChange} placeholder="+91..." label="Comm Link" />
+                              <NexusInput icon={MapPin} type="text" name="orgAddress" value={formData.orgAddress} onChange={handleChange} placeholder="City, State" label="Neutral Zone" />
                             </div>
                           </>
                         )}
@@ -368,28 +355,52 @@ const Register = () => {
                       custom={slideDir}
                     >
                       <form onSubmit={handleRegister} className="space-y-8">
-                        <InputField icon={Lock} type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Min. 8 Chars" label="Encryption Key" required />
+                        <NexusInput 
+                          icon={Lock} 
+                          type="password" 
+                          name="password" 
+                          value={formData.password} 
+                          onChange={handleChange} 
+                          placeholder="Min. 8 Chars" 
+                          label="Encryption Key" 
+                          required 
+                          showPasswordToggle
+                        />
                         
-                        <div className="p-6 bg-[#dc143c]/5 border border-[#dc143c]/20 rounded-3xl flex items-start gap-5">
-                          <div className="w-12 h-12 rounded-2xl bg-[#dc143c] flex items-center justify-center text-white shadow-lg shadow-red-500/20">
-                            <ShieldCheck size={24} />
+                        <div className="p-8 glass-premium rounded-[2.5rem] flex items-start gap-6 relative overflow-hidden">
+                          <div className="absolute top-0 right-0 w-24 h-24 bg-[#dc143c]/5 blur-3xl rounded-full" />
+                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#dc143c] to-[#8b0000] flex items-center justify-center text-white shadow-xl shadow-red-500/30 shrink-0">
+                            <ShieldCheck size={28} />
                           </div>
                           <div className="flex-1">
-                            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#dc143c] mb-1">Final Validation</p>
-                            <h4 className="text-sm font-black tracking-tight" style={{ color: 'var(--text-primary)' }}>{formData.name || 'Nexus User'}</h4>
-                            <p className="text-xs font-bold opacity-60 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                              Deploying profile as <span className="text-[#dc143c]">{role}</span> node on the LifeFlow Clinical Grid.
+                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc143c] mb-2">Final Node Validation</p>
+                            <h4 className="text-xl font-black tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>{formData.name || 'Nexus Participant'}</h4>
+                            <p className="text-sm font-bold opacity-60 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                              Deploying node as <span className="text-[#dc143c] font-black">{role}</span> on the clinical grid.
                             </p>
                           </div>
                         </div>
 
-                        <div className="flex gap-4">
-                          <button type="button" className="h-16 px-8 rounded-2xl font-black text-sm uppercase tracking-widest transition-all flex items-center gap-3" style={{ border: '1px solid var(--border)', color: 'var(--text-primary)' }} onClick={goBack}>
-                            <ArrowLeft size={18} /> Back
-                          </button>
-                          <button type="submit" disabled={isLoading} className="flex-1 h-16 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-[0_12px_24px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all">
-                             {isLoading ? <div className="w-6 h-6 border-[3px] border-white/30 border-t-white rounded-full animate-spin" /> : <>Complete Deployment <Plus size={18} /></>}
-                          </button>
+                        <div className="flex gap-6 pt-4">
+                          <motion.button 
+                            whileHover={{ x: -4 }}
+                            whileTap={{ scale: 0.98 }}
+                            type="button" 
+                            className="h-20 px-10 rounded-[2rem] font-black text-sm uppercase tracking-widest transition-all flex items-center gap-3 bg-white/5 border border-white/10 hover:bg-white/10" 
+                            style={{ color: 'var(--text-primary)' }} 
+                            onClick={goBack}
+                          >
+                            <ArrowLeft size={20} />
+                          </motion.button>
+                          <motion.button 
+                            whileHover={{ y: -4 }}
+                            whileTap={{ scale: 0.98 }}
+                            type="submit" 
+                            disabled={isLoading} 
+                            className="btn-nexus flex-1 h-20 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all"
+                          >
+                             {isLoading ? <div className="w-8 h-8 border-[4px] border-white/30 border-t-white rounded-full animate-spin" /> : <>Complete Deployment <Plus size={20} /></>}
+                          </motion.button>
                         </div>
                       </form>
                     </motion.div>

@@ -10,21 +10,39 @@ import {
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 
-const StatCard = ({ label, value, icon: Icon, color, glowColor }) => (
+const StatCard = ({ label, value, icon: Icon, color, glowColor, trend }) => (
     <motion.div 
         whileHover={{ scale: 1.02, y: -5 }}
-        className="bg-[var(--bg-card)] backdrop-blur-3xl p-8 rounded-[3rem] border border-[var(--border)] shadow-2xl relative overflow-hidden group transition-all duration-500"
+        className="bg-[var(--bg-card)] backdrop-blur-3xl p-5 rounded-3xl border border-[var(--border)] shadow-2xl relative overflow-hidden group transition-all duration-500"
     >
-        <div className={`absolute top-0 right-0 w-32 h-32 ${glowColor} blur-[60px] opacity-0 group-hover:opacity-20 transition-opacity duration-700`}></div>
+        {/* Animated Glow Pattern */}
+        <div className={`absolute top-0 right-0 w-48 h-48 ${glowColor} blur-[80px] opacity-0 group-hover:opacity-20 transition-opacity duration-700 -rotate-45`}></div>
+        <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white/5 blur-3xl rounded-full"></div>
+        
         <div className="relative z-10">
-            <div className={`w-14 h-14 ${color} rounded-2xl flex items-center justify-center mb-6 shadow-2xl group-hover:rotate-6 transition-transform duration-500`}>
-                {Icon && <Icon className="w-7 h-7 text-white" />}
+            <div className="flex justify-between items-start mb-6">
+                <div className={`w-14 h-14 ${color} rounded-2xl flex items-center justify-center shadow-[0_10px_30px_rgba(0,0,0,0.3)] group-hover:rotate-6 transition-transform duration-500 border border-white/10`}>
+                    {Icon && <Icon className="w-7 h-7 text-white" />}
+                </div>
+                {trend && (
+                    <div className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[9px] font-black text-[var(--text-muted)] uppercase tracking-widest">
+                        {trend}
+                    </div>
+                )}
             </div>
-            <p className="text-[10px] text-[var(--text-muted)] uppercase font-black tracking-[0.4em] mb-1">{label}</p>
-            <h2 className="text-5xl font-black text-[var(--text-primary)] brand-font tracking-tight flex items-baseline gap-2">
-                {value ?? '–'}
-                <span className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest">{label === 'Blood Stock' ? 'Units' : 'Active'}</span>
-            </h2>
+            
+            <p className="text-[9px] text-[var(--text-muted)] uppercase font-black tracking-[0.4em] mb-1 px-1">{label}</p>
+            <div className="flex items-baseline gap-3">
+                <h2 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tighter leading-none">
+                    {value ?? '0'}
+                </h2>
+                <div className="flex flex-col">
+                    <span className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-widest leading-none">
+                        {label === 'Blood Stock' ? 'Units' : 'Total'}
+                    </span>
+                    <div className="h-0.5 w-full bg-[#dc143c]/30 mt-1 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500"></div>
+                </div>
+            </div>
         </div>
     </motion.div>
 );
@@ -269,65 +287,82 @@ const AdminDashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col md:flex-row relative overflow-hidden selection:bg-[#dc143c]/30 selection:text-white">
+        <div className="min-h-screen bg-[var(--bg-primary)] flex flex-row relative overflow-hidden selection:bg-[#dc143c]/30 selection:text-white">
             {/* Cinematic Background */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,_#dc143c15,_transparent)]"></div>
             </div>
 
-            {/* Sidebar - Floating Nexus Pillar */}
+            {/* Sidebar - Nexus Command Pillar */}
             <motion.div 
-                initial={{ x: -100, opacity: 0 }} 
+                initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }}
-                transition={{ type: "spring", damping: 30, stiffness: 100 }}
-                className="w-full md:w-80 bg-[var(--bg-card)] backdrop-blur-3xl border-r border-[var(--border)] p-8 flex flex-col z-20 relative overflow-y-auto custom-scrollbar"
+                transition={{ type: "spring", damping: 32, stiffness: 120 }}
+                className="w-[320px] shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 flex flex-col z-30 relative overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
             >
-                <div className="mb-12 px-2">
-                    <div className="flex items-center gap-4 mb-10">
-                        <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#9b0023] rounded-2xl flex items-center justify-center shadow-[0_10px_30px_rgba(220,20,60,0.3)] rotate-3">
-                             <Activity className="w-7 h-7 text-white" />
+                {/* Global Brand Header */}
+                <div className="mb-14 px-2">
+                    <div className="flex items-center gap-5 mb-12 group cursor-pointer">
+                        <div className="relative">
+                            <div className="absolute inset-0 bg-[#dc143c] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                            <div className="w-14 h-14 bg-gradient-to-br from-[#dc143c] to-[#9b0023] rounded-[1.5rem] flex items-center justify-center relative z-10 border border-white/20 shadow-2xl group-hover:rotate-6 transition-transform duration-500">
+                                <Activity className="w-8 h-8 text-white" />
+                            </div>
                         </div>
                         <div>
-                            <h2 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none">Nexus</h2>
-                            <p className="text-[8px] text-[#dc143c] font-black uppercase tracking-[0.4em] mt-1">Core Command</p>
+                            <h2 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none mb-1">Nexus</h2>
+                            <div className="flex items-center gap-2">
+                                <div className="w-2 h-2 rounded-full bg-[#dc143c] animate-pulse"></div>
+                                <p className="text-[9px] text-[#dc143c] font-black uppercase tracking-[0.5em]">Central Command</p>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="p-6 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border)] relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-16 h-16 bg-[#dc143c]/10 rounded-bl-full blur-xl"></div>
-                        <p className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em] mb-2">Current System Op</p>
-                        <p className="text-sm font-black text-[var(--text-primary)] tracking-tight">Admin Terminal 01</p>
+                    <div className="p-8 rounded-[2.5rem] bg-[var(--bg-primary)] border border-[var(--border)] relative overflow-hidden group shadow-inner">
+                        <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#dc143c]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
+                        <p className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-3">System Identity</p>
+                        <div className="flex items-center gap-4">
+                            <div className="w-2 h-10 bg-[#dc143c] rounded-full"></div>
+                            <div>
+                                <p className="text-base font-black text-[var(--text-primary)] tracking-tight leading-none mb-1">Admin Alpha-01</p>
+                                <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol: Established</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                {/* Primary Navigation Deck */}
                 <nav className="flex flex-col gap-2">
+                    <p className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.5em] mb-1 px-4">Core Operations</p>
                     {navItems.map(item => {
                         const isActive = activeSection === item.id;
                         return (
                             <button 
                                 key={item.id} 
                                 onClick={() => setActiveSection(item.id)}
-                                className={`flex items-center justify-between p-5 rounded-2xl transition-all duration-300 group relative
+                                className={`flex items-center justify-between p-3 px-4 rounded-xl transition-all duration-500 group relative
                                     ${isActive 
-                                        ? 'text-white shadow-[0_15px_40px_rgba(220,20,60,0.2)] scale-[1.02]' 
-                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)]'}`}
+                                        ? 'text-white shadow-[0_20px_50px_rgba(220,20,60,0.3)] scale-[1.02]' 
+                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] border border-transparent hover:border-[var(--border)]'}`}
                             >
                                 {isActive && (
                                     <motion.div
                                         layoutId="adminSidebarActive"
-                                        className="absolute inset-0 rounded-2xl bg-[#dc143c]"
+                                        className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-r from-[#dc143c] to-[#9b0023]"
                                         style={{ zIndex: 0 }}
-                                        transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                     />
                                 )}
-                                <div className="flex items-center gap-4 relative z-10">
-                                    <item.icon className={`w-5 h-5 transition-transform duration-500 ${isActive ? 'rotate-0' : 'group-hover:scale-110'}`} />
-                                    <span className="text-[10px] font-black uppercase tracking-[0.2em]">{item.label}</span>
+                                <div className="flex items-center gap-5 relative z-10">
+                                    <div className={`p-2 rounded-xl transition-all duration-500 ${isActive ? 'bg-white/10' : 'group-hover:bg-[#dc143c]/10'}`}>
+                                        <item.icon className={`w-5 h-5 transition-all duration-500 ${isActive ? 'scale-110' : 'group-hover:scale-110 group-hover:text-[#dc143c]'}`} />
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-[0.25em]">{item.label}</span>
                                 </div>
                                 {item.showBadge && (
-                                    <div className="relative flex h-2 w-2 z-10">
+                                    <div className="relative flex h-3 w-3 z-10 mr-2">
                                         <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${isActive ? 'bg-white' : 'bg-[#dc143c]'}`}></span>
-                                        <span className={`relative inline-flex rounded-full h-2 w-2 ${isActive ? 'bg-white' : 'bg-[#dc143c]'}`}></span>
+                                        <span className={`relative inline-flex rounded-full h-3 w-3 border-2 ${isActive ? 'bg-white border-red-500' : 'bg-[#dc143c] border-black/20'}`}></span>
                                     </div>
                                 )}
                             </button>
@@ -335,53 +370,58 @@ const AdminDashboard = () => {
                     })}
                 </nav>
 
-                <div className="mt-auto pt-8 border-t border-[var(--border)]">
-                    <button className="w-full p-5 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-muted)] hover:text-red-500 hover:bg-red-500/5 transition-all text-[9px] font-black uppercase tracking-[0.3em]">
-                        Emergency Override
+                <div className="mt-auto pt-10 border-t border-[var(--border)]">
+                    <button className="w-full p-6 rounded-[2rem] bg-[#dc143c]/5 border border-[#dc143c]/20 text-[#dc143c] hover:bg-[#dc143c] hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.4em] shadow-xl group">
+                        <span className="flex items-center justify-center gap-3">
+                            Emergency Sync <Activity className="w-4 h-4 group-hover:animate-spin" />
+                        </span>
                     </button>
                 </div>
             </motion.div>
 
-            {/* Main Content */}
-            <div className="flex-grow p-6 md:p-12 z-10 relative overflow-auto">
+            {/* Main Content Deck */}
+            <div className="flex-grow p-6 md:p-10 z-10 relative overflow-auto custom-scrollbar bg-[radial-gradient(circle_at_top_right,_#dc143c05,_transparent_40%)]">
                 <AnimatePresence mode="wait">
 
                     {/* MONITOR */}
                     {activeSection === 'monitor' && (
-                        <motion.div key="monitor" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-7xl mx-auto py-4">
-                            <div className="mb-12">
-                                <h1 className="text-5xl md:text-7xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Nexus Monitor<span className="text-[#dc143c]">.</span></h1>
-                                <p className="text-[var(--text-muted)] font-bold uppercase tracking-[0.5em] text-[10px]">Real-time infrastructure overview & global supply nodes</p>
+                        <motion.div key="monitor" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-7xl mx-auto py-2">
+                            <div className="mb-8">
+                                <h1 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-2 tracking-tighter">Nexus Monitor<span className="text-[#dc143c]">.</span></h1>
+                                <p className="text-[var(--text-muted)] font-bold uppercase tracking-[0.3em] text-[9px]">Real-time infrastructure overview & global supply nodes</p>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-20">
-                                <StatCard label="Donors" value={stats.totalUsers} icon={Users} color="bg-blue-600" glowColor="bg-blue-500" />
-                                <StatCard label="Orgs" value={stats.totalOrgs} icon={Building2} color="bg-indigo-600" glowColor="bg-indigo-500" />
-                                <StatCard label="Pending Requests" value={stats.pendingRequests} icon={Clock3} color="bg-amber-600" glowColor="bg-amber-500" />
-                                <StatCard label="Pending Camps" value={stats.pendingCamps} icon={MapPin} color="bg-[var(--accent)]" glowColor="bg-[var(--accent)]" />
-                                <StatCard label="Approved Camps" value={stats.approvedCamps} icon={CheckCircle} color="bg-emerald-600" glowColor="bg-emerald-500" />
-                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-12">
+                                 <StatCard label="Donors" value={stats.totalUsers} icon={Users} color="bg-blue-600" glowColor="bg-blue-500" trend="+12% Vol" />
+                                 <StatCard label="Orgs" value={stats.totalOrgs} icon={Building2} color="bg-indigo-600" glowColor="bg-indigo-500" trend="Stable" />
+                                 <StatCard label="Requests" value={stats.pendingRequests} icon={Clock3} color="bg-amber-600" glowColor="bg-amber-500" trend="Critical" />
+                                 <StatCard label="Camps" value={stats.pendingCamps} icon={MapPin} color="bg-[#dc143c]" glowColor="bg-[#dc143c]" trend="Deploying" />
+                                 <StatCard label="Verified" value={stats.approvedCamps} icon={CheckCircle} color="bg-emerald-600" glowColor="bg-emerald-500" trend="Active" />
+                             </div>
+                             
+                             <div className="flex items-center gap-6 mb-8">
+                                 <div className="w-12 h-px bg-gradient-to-r from-[#dc143c] to-transparent"></div>
+                                 <h3 className="font-black text-[var(--text-primary)] uppercase tracking-[0.4em] text-[9px] whitespace-nowrap">Vital Reserve Telemetry</h3>
+                                 <div className="flex-grow h-px bg-[var(--border)]"></div>
+                             </div>
                             
-                            <div className="flex items-center gap-6 mb-12">
-                                <div className="w-16 h-px bg-[var(--border)]"></div>
-                                <h3 className="font-black text-[var(--text-primary)] uppercase tracking-[0.4em] text-xs">Vital Reserve Inventory</h3>
-                                <div className="flex-grow h-px bg-[var(--border)]"></div>
-                            </div>
-                            
-                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-6">                                 {Object.entries(bloodStock).map(([bg, qty], idx) => (
+                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">                                {Object.entries(bloodStock).map(([bg, qty], idx) => (
                                     <motion.div 
                                         key={bg} 
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ delay: idx * 0.05 }}
-                                        whileHover={{ y: -8, backgroundColor: 'var(--bg-primary)' }}
-                                        className="bg-[var(--bg-card)] backdrop-blur-2xl rounded-[2.5rem] border border-[var(--border)] p-8 text-center shadow-2xl transition-all group overflow-hidden relative"
+                                        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                                        transition={{ delay: idx * 0.05, type: "spring", damping: 20 }}
+                                        whileHover={{ y: -8, scale: 1.05 }}
+                                        className="bg-[var(--bg-card)] backdrop-blur-3xl rounded-3xl border border-[var(--border)] p-5 text-center shadow-2xl transition-all group overflow-hidden relative"
                                     >
-                                        <div className="absolute inset-0 bg-gradient-to-b from-[#dc143c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <div className="absolute inset-0 bg-gradient-to-br from-[#dc143c]/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                         <div className="relative z-10">
-                                            <div className="text-[#dc143c] font-black text-3xl brand-font mb-4 drop-shadow-[0_0_10px_rgba(220,20,60,0.5)]">{bg}</div>
-                                            <div className="text-5xl font-black text-[var(--text-primary)] tracking-tighter mb-2 group-hover:scale-110 transition-transform duration-500">{qty}</div>
-                                            <div className="text-[10px] text-[var(--text-muted)] uppercase font-black tracking-widest">Units</div>
+                                            <div className="text-[#dc143c] font-black text-2xl brand-font mb-2 drop-shadow-[0_0_15px_rgba(220,20,60,0.4)] group-hover:scale-125 transition-transform duration-500">{bg}</div>
+                                            <div className="text-3xl font-black text-[var(--text-primary)] tracking-tighter mb-1">{qty}</div>
+                                            <div className="flex items-center justify-center gap-2">
+                                                <div className={`w-1.5 h-1.5 rounded-full ${qty > 10 ? 'bg-emerald-500' : 'bg-red-500 animate-pulse'}`}></div>
+                                                <div className="text-[8px] text-[var(--text-muted)] uppercase font-black tracking-widest">{qty > 10 ? 'Optimal' : 'Low Stock'}</div>
+                                            </div>
                                         </div>
                                     </motion.div>
                                 ))}
@@ -411,34 +451,36 @@ const AdminDashboard = () => {
                                     requests.map(req => (
                                         <motion.div 
                                             key={req.id} 
-                                            whileHover={{ scale: 1.01, x: 5 }}
+                                            whileHover={{ scale: 1.01, y: -4 }}
                                             className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
                                         >
-                                            <div className="absolute top-0 right-0 w-48 h-48 bg-[#dc143c]/5 rounded-bl-[100%] z-0 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                            <div className="absolute top-0 right-0 w-64 h-64 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <div className="flex items-center gap-10 relative z-10 w-full md:w-auto">
-                                                <div className="w-24 h-24 bg-[var(--bg-primary)] rounded-[2rem] flex flex-col items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] shadow-2xl transition-all shrink-0">
-                                                    <span className="text-[#dc143c] font-black text-4xl leading-none tracking-tighter drop-shadow-[0_0_8px_rgba(220,20,60,0.4)]">{req.bloodGroup}</span>
-                                                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] mt-2">Group</span>
+                                                <div className="w-24 h-24 bg-[var(--bg-primary)] rounded-[2.5rem] flex flex-col items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_30px_rgba(220,20,60,0.2)] shadow-2xl transition-all shrink-0">
+                                                    <span className="text-[#dc143c] font-black text-4xl leading-none tracking-tighter drop-shadow-[0_0_12px_rgba(220,20,60,0.5)] group-hover:scale-110 transition-transform">{req.bloodGroup}</span>
+                                                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)] mt-2">Factor</span>
                                                 </div>
-                                                <div className="space-y-3">
-                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] tracking-tight leading-none">{req.hospitalName}</h3>
+                                                <div className="space-y-4">
+                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight leading-none group-hover:text-[#dc143c] transition-colors">{req.hospitalName}</h3>
                                                     <div className="flex flex-wrap gap-6 items-center">
-                                                        <span className="flex items-center gap-2 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
-                                                            <MapPin className="w-4 h-4 text-[#dc143c]" /> {req.city}
-                                                        </span>
-                                                        <span className="flex items-center gap-2 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
-                                                            <Droplet className="w-4 h-4 text-[#dc143c]" /> {req.units} Units
-                                                        </span>
+                                                        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                                                            <MapPin className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                            <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest">{req.city} Sector</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2 px-4 py-2 bg-[#dc143c]/10 rounded-full border border-[#dc143c]/20">
+                                                            <Droplet className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                            <span className="text-[9px] text-[var(--text-primary)] font-black uppercase tracking-widest">{req.units} Units Needed</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="flex gap-4 w-full md:w-auto relative z-10">
                                                 <button onClick={() => handleRequestAction(req.id, 'REJECTED')}
-                                                    className="flex-grow md:flex-none px-10 py-5 rounded-2xl border border-[var(--border)] text-[var(--text-muted)] font-black text-[10px] uppercase tracking-[0.3em] hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/30 transition-all whitespace-nowrap">
+                                                    className="flex-grow md:flex-none px-10 py-5 rounded-2xl border border-[var(--border)] text-[var(--text-muted)] font-black text-[10px] uppercase tracking-[0.4em] hover:bg-red-500 hover:text-white hover:border-red-500 transition-all shadow-xl">
                                                     Abort
                                                 </button>
                                                 <button onClick={() => handleRequestAction(req.id, 'APPROVED')}
-                                                    className="flex-grow md:flex-none px-14 py-5 rounded-2xl bg-[var(--text-primary)] text-[var(--bg-primary)] font-black text-[10px] uppercase tracking-[0.3em] shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:-translate-y-1 transition-all whitespace-nowrap">
+                                                    className="flex-grow md:flex-none px-14 py-5 rounded-2xl bg-[#dc143c] text-white font-black text-[10px] uppercase tracking-[0.4em] shadow-[0_20px_40px_rgba(220,20,60,0.3)] hover:-translate-y-2 hover:shadow-[0_25px_50px_rgba(220,20,60,0.4)] transition-all">
                                                     Authorize
                                                 </button>
                                             </div>
@@ -469,33 +511,36 @@ const AdminDashboard = () => {
                                     pendingDonations.map(don => (
                                         <motion.div 
                                             key={don.id} 
-                                            whileHover={{ scale: 1.01, x: 5 }}
+                                            whileHover={{ scale: 1.01, y: -4 }}
                                             className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
                                         >
+                                            <div className="absolute top-0 right-0 w-64 h-64 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <div className="flex items-center gap-10 relative z-10 w-full md:w-auto">
-                                                <div className="w-24 h-24 bg-[var(--bg-primary)] rounded-[2rem] flex flex-col items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] shadow-2xl transition-all shrink-0">
-                                                    <span className="text-[#dc143c] font-black text-4xl leading-none tracking-tighter drop-shadow-[0_0_8px_rgba(220,20,60,0.4)]">{don.bloodGroup}</span>
-                                                    <span className="text-[9px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)] mt-2">Type</span>
+                                                <div className="w-24 h-24 bg-[var(--bg-primary)] rounded-[2.5rem] flex flex-col items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_30px_rgba(220,20,60,0.2)] shadow-2xl transition-all shrink-0">
+                                                    <span className="text-[#dc143c] font-black text-4xl leading-none tracking-tighter drop-shadow-[0_0_12px_rgba(220,20,60,0.5)] group-hover:scale-110 transition-transform">{don.bloodGroup}</span>
+                                                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)] mt-2">Type</span>
                                                 </div>
-                                                <div className="space-y-3">
-                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] tracking-tight leading-none">{don.user?.name || 'Anonymous Donor'}</h3>
+                                                <div className="space-y-4">
+                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight leading-none group-hover:text-[#dc143c] transition-colors">{don.user?.name || 'Anonymous Donor'}</h3>
                                                     <div className="flex flex-wrap gap-6 items-center">
-                                                        <span className="px-4 py-2 bg-[var(--bg-secondary)] rounded-xl text-[10px] text-[var(--text-secondary)] font-black uppercase tracking-[0.2em]">
-                                                            Age: {don.age}
-                                                        </span>
-                                                        <span className="px-4 py-2 bg-[var(--bg-secondary)] rounded-xl text-[10px] text-[var(--text-secondary)] font-black uppercase tracking-[0.2em]">
-                                                            Cond: {don.condition || 'Verified'}
-                                                        </span>
+                                                        <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+                                                            <User className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                            <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest">Age: {don.age}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 rounded-full border border-emerald-500/20">
+                                                            <Activity className="w-3.5 h-3.5 text-emerald-500" />
+                                                            <span className="text-[9px] text-emerald-500 font-black uppercase tracking-widest">{don.condition || 'Bio-Verified'}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="flex gap-4 w-full md:w-auto relative z-10">
                                                 <button onClick={() => handleDonationAction(don.id, 'REJECTED')}
-                                                    className="flex-grow md:flex-none px-10 py-5 rounded-2xl border border-[var(--border)] text-[var(--text-muted)] font-black text-[10px] uppercase tracking-[0.3em] hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/30 transition-all whitespace-nowrap">
+                                                    className="flex-grow md:flex-none px-10 py-5 rounded-2xl border border-[var(--border)] text-[var(--text-muted)] font-black text-[10px] uppercase tracking-[0.4em] hover:bg-red-500 hover:text-white hover:border-red-500 transition-all shadow-xl">
                                                     Decline
                                                 </button>
                                                 <button onClick={() => handleDonationAction(don.id, 'APPROVED')}
-                                                    className="flex-grow md:flex-none px-14 py-5 rounded-2xl bg-[var(--text-primary)] text-[var(--bg-primary)] font-black text-[10px] uppercase tracking-[0.3em] shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:-translate-y-1 transition-all whitespace-nowrap">
+                                                    className="flex-grow md:flex-none px-14 py-5 rounded-2xl bg-white text-black font-black text-[10px] uppercase tracking-[0.4em] shadow-[0_20px_40px_rgba(255,255,255,0.05)] hover:-translate-y-2 hover:shadow-[0_25px_50px_rgba(255,255,255,0.1)] transition-all">
                                                     Ingest
                                                 </button>
                                             </div>
@@ -526,30 +571,36 @@ const AdminDashboard = () => {
                                     pendingCamps.map(camp => (
                                         <motion.div 
                                             key={camp.id} 
-                                            whileHover={{ scale: 1.01 }}
-                                            className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-12 rounded-[4rem] border border-[var(--border)] shadow-[0_30px_60px_rgba(0,0,0,0.4)] relative overflow-hidden group"
+                                            whileHover={{ scale: 1.01, y: -8 }}
+                                            className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-12 rounded-[4rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500"
                                         >
-                                            <div className="absolute top-0 right-0 w-96 h-96 bg-[#dc143c]/5 rounded-bl-full z-0 blur-[100px]"></div>
+                                            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                                             <div className="relative z-10">
-                                                <div className="flex justify-between items-start flex-wrap gap-8 mb-12">
+                                                <div className="flex justify-between items-start flex-wrap gap-8 mb-14">
                                                     <div>
-                                                        <h3 className="text-4xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-3">{camp.name}</h3>
+                                                        <div className="flex items-center gap-3 mb-4">
+                                                            <div className="w-10 h-10 rounded-xl bg-[#dc143c]/10 border border-[#dc143c]/20 flex items-center justify-center">
+                                                                <MapPin className="w-5 h-5 text-[#dc143c]" />
+                                                            </div>
+                                                            <span className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em]">Sector Deployment</span>
+                                                        </div>
+                                                        <h3 className="text-5xl font-black text-[var(--text-primary)] brand-font tracking-tighter mb-4 group-hover:text-[#dc143c] transition-colors">{camp.name}</h3>
                                                         <div className="flex items-center gap-4">
-                                                            <div className="w-3 h-3 rounded-full bg-[#dc143c] animate-pulse shadow-[0_0_12px_#dc143c]"></div>
-                                                            <p className="text-[10px] text-[#dc143c] font-black uppercase tracking-[0.3em]">
-                                                                Commanded by {camp.organization?.orgName || camp.organization?.name}
+                                                            <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_12px_#10b981]"></div>
+                                                            <p className="text-[11px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">
+                                                                Orchestrated by <span className="text-[var(--text-primary)]">{camp.organization?.orgName || camp.organization?.name}</span>
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <span className="px-6 py-3 bg-[var(--bg-secondary)] text-[var(--text-muted)] border border-[var(--border)] rounded-2xl text-[10px] font-black uppercase tracking-[0.3em]">
-                                                        Strategic Review
-                                                    </span>
+                                                    <div className="px-8 py-4 bg-[var(--bg-primary)] border border-[var(--border)] rounded-[2rem] text-[10px] font-black text-[#dc143c] uppercase tracking-[0.4em] shadow-inner group-hover:border-[#dc143c]/30 transition-colors">
+                                                        Protocol Pending
+                                                    </div>
                                                 </div>
                                                 
-                                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
-                                                    <div className="space-y-2">
-                                                        <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-widest">Temporal Window</p>
-                                                        <div className="flex items-center gap-3 text-[var(--text-primary)] font-black text-sm">
+                                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 mb-14">
+                                                    <div className="space-y-3">
+                                                        <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Temporal Window</p>
+                                                        <div className="flex items-center gap-4 text-[var(--text-primary)] font-black text-base">
                                                             <Calendar className="w-5 h-5 text-[#dc143c]" />
                                                             {(() => {
                                                                 const d = new Date(camp.date);
@@ -557,40 +608,42 @@ const AdminDashboard = () => {
                                                             })()}
                                                         </div>
                                                     </div>
-                                                    <div className="space-y-2">
-                                                        <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-widest">Active Shift</p>
-                                                        <div className="flex items-center gap-3 text-[var(--text-primary)] font-black text-sm">
+                                                    <div className="space-y-3">
+                                                        <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Active Cycle</p>
+                                                        <div className="flex items-center gap-4 text-[var(--text-primary)] font-black text-base">
                                                             <Clock3 className="w-5 h-5 text-[#dc143c]" />
-                                                            {camp.startTime} – {camp.endTime}
+                                                            {camp.startTime} — {camp.endTime}
                                                         </div>
                                                     </div>
-                                                    <div className="space-y-2">
-                                                        <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-widest">Zone</p>
-                                                        <div className="flex items-center gap-3 text-[var(--text-primary)] font-black text-sm">
-                                                            <MapPin className="w-5 h-5 text-[#dc143c]" />
-                                                            {camp.city}
+                                                    <div className="space-y-3">
+                                                        <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Zone Node</p>
+                                                        <div className="flex items-center gap-4 text-[var(--text-primary)] font-black text-base">
+                                                            <Building2 className="w-5 h-5 text-[#dc143c]" />
+                                                            {camp.city} Node
                                                         </div>
                                                     </div>
-                                                    <div className="space-y-2">
-                                                        <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-widest">Throughput</p>
-                                                        <div className="flex items-center gap-3 text-[var(--text-primary)] font-black text-sm">
+                                                    <div className="space-y-3">
+                                                        <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Bio-Throughput</p>
+                                                        <div className="flex items-center gap-4 text-[var(--text-primary)] font-black text-base">
                                                             <Users className="w-5 h-5 text-[#dc143c]" />
                                                             {camp.totalSlots} Potential Units
                                                         </div>
                                                     </div>
                                                 </div>
                                                 
-                                                <div className="bg-[var(--bg-secondary)]/50 border border-[var(--border)] p-8 rounded-[2rem] mb-12">
-                                                    <p className="text-xs text-[var(--text-secondary)] leading-relaxed font-bold tracking-tight italic">"{camp.address}"</p>
+                                                <div className="bg-[var(--bg-primary)]/80 border border-[var(--border)] p-10 rounded-[3rem] mb-14 relative group-hover:border-[#dc143c]/20 transition-colors">
+                                                    <div className="absolute top-0 left-0 w-1.5 h-full bg-[#dc143c]/40"></div>
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">Location Logistics</p>
+                                                    <p className="text-base text-[var(--text-secondary)] leading-relaxed font-bold tracking-tight italic">"{camp.address}"</p>
                                                 </div>
  
                                                 <div className="flex flex-col md:flex-row gap-6">
                                                     <button onClick={() => handleCampAction(camp.id, 'APPROVED')}
-                                                        className="flex-grow bg-[var(--text-primary)] text-[var(--bg-primary)] px-12 py-6 rounded-3xl font-black text-[11px] uppercase tracking-[0.3em] shadow-2xl hover:-translate-y-1 transition-all">
+                                                        className="flex-grow bg-white text-black px-12 py-7 rounded-[2.5rem] font-black text-xs uppercase tracking-[0.4em] shadow-2xl hover:-translate-y-2 hover:shadow-[0_30px_60px_rgba(255,255,255,0.1)] transition-all">
                                                         Authorize Deployment
                                                     </button>
                                                     <button onClick={() => handleCampAction(camp.id, 'REJECTED')}
-                                                        className="px-12 py-6 rounded-3xl border border-[var(--border)] text-[var(--text-muted)] font-black text-[11px] uppercase tracking-[0.3em] hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/30 transition-all">
+                                                        className="px-12 py-7 rounded-[2.5rem] border border-[var(--border)] text-[var(--text-muted)] font-black text-xs uppercase tracking-[0.4em] hover:bg-red-500/10 hover:text-red-500 hover:border-red-500/40 transition-all">
                                                         Deny Access
                                                     </button>
                                                 </div>
@@ -715,27 +768,39 @@ const AdminDashboard = () => {
                                             whileHover={{ y: -10, backgroundColor: 'var(--bg-secondary)' }}
                                             className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] transition-all group relative overflow-hidden shadow-2xl"
                                         >
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#dc143c]/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <div className="flex justify-between items-start mb-10">
-                                                <div className="w-16 h-16 bg-[var(--bg-primary)] rounded-2xl flex items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] transition-all duration-500 shadow-2xl">
-                                                    <User className="w-7 h-7 text-[var(--text-muted)] group-hover:text-[var(--text-primary)]" />
+                                                <div className="w-16 h-16 bg-[var(--bg-primary)] rounded-2xl flex items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_20px_rgba(220,20,60,0.2)] transition-all duration-500 shadow-2xl">
+                                                    <User className="w-7 h-7 text-[var(--text-muted)] group-hover:text-[#dc143c]" />
                                                 </div>
                                                 <button onClick={() => handleRemoveUser(u.id, u.name)}
-                                                    className="w-12 h-12 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center shadow-2xl">
+                                                    className="w-12 h-12 bg-white/5 border border-white/10 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center shadow-2xl">
                                                     <Trash2 className="w-5 h-5" />
                                                 </button>
                                             </div>
-                                            <h3 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-6">{u.name}</h3>
+                                            <h3 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-2 truncate group-hover:text-[#dc143c] transition-colors">{u.name}</h3>
+                                            <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em] mb-8">Authenticated Subject</p>
+                                            
                                             <div className="space-y-5">
                                                 <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em] truncate">
-                                                    <Mail className="w-4 h-4 text-[#dc143c]" /> {u.email}
+                                                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+                                                        <Mail className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                    </div>
+                                                    {u.email}
                                                 </div>
                                                 <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
-                                                    <Droplet className="w-4 h-4 text-[#dc143c]" /> Factor: {u.bloodGroup || 'UNK'}
+                                                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+                                                        <Droplet className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                    </div>
+                                                    Factor: <span className="text-[var(--text-primary)] ml-1">{u.bloodGroup || 'UNK'}</span>
                                                 </div>
                                             </div>
                                             <div className="mt-10 pt-8 border-t border-[var(--border)] flex justify-between items-center">
                                                 <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol</span>
-                                                <span className="px-4 py-1.5 bg-blue-500/10 text-blue-400 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] border border-blue-500/20">Active Donor</span>
+                                                <div className="flex items-center gap-2 px-4 py-2 bg-[#dc143c]/10 text-[#dc143c] rounded-xl text-[9px] font-black uppercase tracking-[0.2em] border border-[#dc143c]/20 shadow-[0_0_15px_rgba(220,20,60,0.1)]">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#dc143c] animate-pulse"></div>
+                                                    Active Node
+                                                </div>
                                             </div>
                                         </motion.div>
                                     ))}
@@ -770,32 +835,45 @@ const AdminDashboard = () => {
                                             whileHover={{ y: -10, backgroundColor: 'var(--bg-secondary)' }}
                                             className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] transition-all group relative overflow-hidden shadow-2xl"
                                         >
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <div className="flex justify-between items-start mb-10">
-                                                <div className="w-16 h-16 bg-[var(--bg-primary)] rounded-2xl flex items-center justify-center border border-[var(--border)] group-hover:border-indigo-500 transition-all duration-500 shadow-2xl">
+                                                <div className="w-16 h-16 bg-[var(--bg-primary)] rounded-2xl flex items-center justify-center border border-[var(--border)] group-hover:border-indigo-500 group-hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] transition-all duration-500 shadow-2xl">
                                                     <Building2 className="w-7 h-7 text-[var(--text-muted)] group-hover:text-indigo-500" />
                                                 </div>
                                                 <button onClick={() => handleRemoveUser(org.id, org.orgName || org.name)}
-                                                    className="w-12 h-12 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center shadow-2xl">
+                                                    className="w-12 h-12 bg-white/5 border border-white/10 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center shadow-2xl">
                                                     <Trash2 className="w-5 h-5" />
                                                 </button>
                                             </div>
-                                            <h3 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-2 truncate">{org.orgName || org.name}</h3>
-                                            <p className="text-[10px] text-indigo-500 font-black uppercase tracking-[0.2em] mb-8">Clinical Authority</p>
+                                            <h3 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-2 truncate group-hover:text-indigo-500 transition-colors">{org.orgName || org.name}</h3>
+                                            <p className="text-[10px] text-indigo-500 font-black uppercase tracking-[0.3em] mb-8">Clinical Authority Node</p>
                                             
                                             <div className="space-y-5">
                                                 <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em] truncate">
-                                                    <Mail className="w-4 h-4 text-indigo-500" /> {org.email}
+                                                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+                                                        <Mail className="w-3.5 h-3.5 text-indigo-500" />
+                                                    </div>
+                                                    {org.email}
                                                 </div>
                                                 <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
-                                                    <Phone className="w-4 h-4 text-indigo-500" /> {org.orgPhone || 'N/A'}
+                                                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+                                                        <Phone className="w-3.5 h-3.5 text-indigo-500" />
+                                                    </div>
+                                                    {org.orgPhone || 'N/A'}
                                                 </div>
-                                                <div className="flex items-start gap-4 text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.1em] leading-relaxed italic">
-                                                    <MapPin className="w-4 h-4 text-indigo-500 shrink-0" /> {org.orgAddress}
+                                                <div className="flex items-start gap-4 text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.15em] leading-relaxed italic">
+                                                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10 shrink-0">
+                                                        <MapPin className="w-3.5 h-3.5 text-indigo-500" />
+                                                    </div>
+                                                    {org.orgAddress}
                                                 </div>
                                             </div>
                                             <div className="mt-10 pt-8 border-t border-[var(--border)] flex justify-between items-center">
-                                                <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol</span>
-                                                <span className="px-4 py-1.5 bg-indigo-500/10 text-indigo-400 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.15)]">Authenticated Node</span>
+                                                <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest">Registry</span>
+                                                <div className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 text-indigo-400 rounded-xl text-[9px] font-black uppercase tracking-[0.2em] border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.15)]">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></div>
+                                                    Authenticated Authority
+                                                </div>
                                             </div>
                                         </motion.div>
                                     ))}

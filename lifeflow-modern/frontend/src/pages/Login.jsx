@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Droplets, Heart, ShieldCheck, Users, Zap, CheckCircle2 } from 'lucide-react';
 import { useAuthStore } from '../context/authStore';
 import AvatarFeedback from '../components/AvatarFeedback';
+import NexusInput from '../components/NexusInput';
 
 const BLOOD_DROPS = [
   { x: '10%', y: '15%', size: 40, delay: 0, duration: 15 },
@@ -20,48 +21,6 @@ const LEFT_FEATURES = [
   { icon: Zap, text: 'Real-time emergency matching', color: '#f59e0b' },
 ];
 
-const InputField = ({ icon: Icon, type, value, onChange, placeholder, label, extra }) => {
-  const [focused, setFocused] = useState(false);
-  const isPassword = type === 'password' || type === 'text-password';
-  const [showPw, setShowPw] = useState(false);
-  const inputType = isPassword ? (showPw ? 'text' : 'password') : type;
-
-  return (
-    <div className="flex flex-col gap-2">
-      {label && (
-        <div className="flex items-center justify-between px-1">
-          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-var(--text-muted)">{label}</label>
-          {extra}
-        </div>
-      )}
-      <div className={`relative flex items-center rounded-2xl border-[1.5px] transition-all duration-300 group ${focused ? 'border-[#dc143c] shadow-[0_0_0_4px_rgba(220,20,60,0.1)]' : ''}`} style={{ background: focused ? 'var(--bg-primary)' : 'var(--bg-card)', borderColor: focused ? '#dc143c' : 'var(--border)' }}>
-        <div className={`flex w-14 items-center justify-center transition-colors duration-300 ${focused ? 'text-[#dc143c]' : ''}`} style={{ color: focused ? '#dc143c' : 'var(--text-muted)' }}>
-          <Icon size={18} strokeWidth={focused ? 2.5 : 2} />
-        </div>
-        <input
-          className="flex-1 bg-transparent py-4 text-sm font-bold outline-none" style={{ color: 'var(--text-primary)' }}
-          type={inputType}
-          value={value}
-          onChange={onChange}
-          placeholder={placeholder}
-          required
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-        />
-        {isPassword && (
-          <button
-            type="button"
-            className="flex w-14 items-center justify-center hover:text-[#dc143c] transition-colors" style={{ color: 'var(--text-muted)' }}
-            onClick={() => setShowPw(p => !p)}
-            tabIndex={-1}
-          >
-            {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
 
 const Login = () => {
   const navigate = useNavigate();
@@ -80,44 +39,46 @@ const Login = () => {
         if (storedUser?.role === 'ADMIN') navigate('/admin-dashboard');
         else if (storedUser?.role === 'ORGANIZATION') navigate('/org-dashboard');
         else navigate('/dashboard');
-      }, 2000);
+      }, 1500);
     } else {
       setFeedbackStatus('error');
     }
   };
 
   return (
-    <div className="min-h-screen relative flex overflow-hidden font-['Inter','Outfit',sans-serif]" style={{ backgroundColor: 'var(--bg-primary)' }}>
+    <div className="min-h-screen relative flex overflow-hidden font-['Outfit','Inter',sans-serif] noise" style={{ backgroundColor: 'var(--bg-primary)' }}>
       <AvatarFeedback status={feedbackStatus} onDismiss={() => setFeedbackStatus('idle')} />
       
-      {/* ── Background Effects ── */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#dc143c]/10 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/10 rounded-full blur-[120px]"></div>
-        {BLOOD_DROPS.map((drop, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full blur-[80px]"
-            style={{
-              left: drop.x,
-              top: drop.y,
-              width: drop.size,
-              height: drop.size,
-              backgroundColor: i % 2 === 0 ? 'rgba(220, 20, 60, 0.15)' : 'rgba(99, 102, 241, 0.1)',
-            }}
-            animate={{
-              y: [0, -30, 0],
-              scale: [1, 1.1, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: drop.duration,
-              repeat: Infinity,
-              delay: drop.delay,
-              ease: "easeInOut"
-            }}
-          />
-        ))}
+      {/* ── Ultra Premium Mesh Backdrop ── */}
+      <div className="mesh-gradient absolute inset-0 pointer-events-none">
+        <motion.div 
+          animate={{ 
+            x: [0, 100, -50, 0], 
+            y: [0, -50, 50, 0],
+            scale: [1, 1.2, 0.8, 1],
+            rotate: [0, 90, 180, 0]
+          }} 
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[1000px] h-[1000px] -top-[400px] -left-[400px] bg-[#dc143c]/20 rounded-full blur-[160px] mix-blend-screen" 
+        />
+        <motion.div 
+          animate={{ 
+            x: [0, -100, 50, 0], 
+            y: [0, 100, -50, 0],
+            scale: [1, 0.8, 1.2, 1],
+            rotate: [0, -90, -180, 0]
+          }} 
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[800px] h-[800px] -bottom-[200px] -right-[200px] bg-indigo-600/20 rounded-full blur-[140px] mix-blend-screen" 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.4, 1],
+            opacity: [0.1, 0.2, 0.1]
+          }} 
+          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+          className="absolute w-[1200px] h-[1200px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-rose-500/10 rounded-full blur-[200px] mix-blend-screen" 
+        />
       </div>
 
       {/* ── Left Side: Brand Visuals ── */}
@@ -173,80 +134,88 @@ const Login = () => {
           </div>
         </div>
       </motion.div>
-
+ 
       {/* ── Right Side: Auth Form ── */}
       <motion.div 
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         className="flex-1 flex items-center justify-center p-6 lg:p-12 z-10"
       >
         <div className="w-full max-w-[480px]">
-          <div className="backdrop-blur-[32px] p-8 lg:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden group hover:shadow-[0_30px_60px_rgba(220,20,60,0.08)] transition-shadow duration-700" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-            {/* Subtle gloss effect */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#dc143c]/5 blur-[60px] rounded-full group-hover:bg-[#dc143c]/10 transition-colors duration-700"></div>
+          <div className="glass-premium p-8 lg:p-12 rounded-[3rem] relative overflow-hidden group hover:shadow-[0_40px_80px_rgba(220,20,60,0.12)] transition-all duration-700">
+            {/* Glossy Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
             
             <div className="relative z-10">
               <div className="mb-10">
                 <div className="lg:hidden flex items-center gap-3 mb-8">
-                   <div className="w-10 h-10 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-xl flex items-center justify-center shadow-lg shadow-red-500/30">
-                    <Droplets size={20} color="#fff" />
+                   <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30">
+                    <Droplets size={24} color="#fff" />
                   </div>
-                  <span className="text-xl font-black tracking-tighter" style={{ color: 'var(--text-primary)' }}>
+                  <span className="text-2xl font-black tracking-tighter" style={{ color: 'var(--text-primary)' }}>
                     LifeFlow<span className="text-[#dc143c]">.</span>
                   </span>
                 </div>
-                <h2 className="text-4xl font-black tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>Welcome Back</h2>
-                <p className="text-sm font-bold opacity-60" style={{ color: 'var(--text-secondary)' }}>Continue your life-saving mission today.</p>
+                <h2 className="text-5xl font-black tracking-tight mb-4 text-glow" style={{ color: 'var(--text-primary)' }}>Welcome Back</h2>
+                <p className="text-base font-bold opacity-60" style={{ color: 'var(--text-secondary)' }}>Continue your life-saving mission today.</p>
               </div>
-
-              <form onSubmit={handleLogin} className="space-y-6">
-                <InputField
+ 
+              <form onSubmit={handleLogin} className="space-y-10">
+                <NexusInput
                   icon={Mail}
                   type="email"
+                  required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   label="Mission Email"
                   placeholder="name@nexus.com"
                 />
                 
-                <InputField
-                  icon={Lock}
-                  type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  label="Access Key"
-                  placeholder="••••••••"
-                  extra={<Link to="/forgot-password" size={14} className="text-[10px] font-black uppercase tracking-widest text-[#dc143c] hover:text-[#ff3355] transition-colors">Forgot?</Link>}
-                />
+                <div className="relative">
+                  <div className="absolute right-2 -top-7 z-10">
+                    <Link to="/forgot-password" size={14} className="text-[10px] font-black uppercase tracking-[0.2em] text-[#dc143c] hover:text-[#ff3355] transition-all">Forgot Key?</Link>
+                  </div>
+                  <NexusInput
+                    icon={Lock}
+                    type="password"
+                    required
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    label="Access Key"
+                    placeholder="••••••••"
+                    showPasswordToggle
+                  />
+                </div>
 
-                <div className="pt-4">
+                <div className="pt-6">
                   <motion.button
-                    whileHover={{ scale: 1.01, y: -2 }}
+                    whileHover={{ y: -8, scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     disabled={isLoading}
                     type="submit"
-                    className="w-full h-16 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-[0_12px_24px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all"
+                    className="btn-nexus w-full h-24 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[0.6em] shadow-[0_30px_60px_rgba(220,20,60,0.3)] hover:shadow-[0_45px_90px_rgba(220,20,60,0.45)] flex items-center justify-center gap-6 group transition-all relative overflow-hidden"
                   >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                     {isLoading ? (
-                      <div className="w-6 h-6 border-[3px] border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <div className="w-8 h-8 border-[4px] border-white/30 border-t-white rounded-full animate-spin"></div>
                     ) : (
                       <>
                         Initiate Access
-                        <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
+                        <ArrowRight size={22} className="group-hover:translate-x-3 transition-transform duration-500" />
                       </>
                     )}
                   </motion.button>
                 </div>
               </form>
-
-              <div className="mt-10 pt-10 text-center" style={{ borderTop: '1px solid var(--border)' }}>
-                <p className="text-sm font-bold opacity-60 mb-6" style={{ color: 'var(--text-secondary)' }}>First time on the network?</p>
+ 
+              <div className="mt-12 pt-12 text-center" style={{ borderTop: '1px solid var(--border)' }}>
+                <p className="text-xs font-bold opacity-40 mb-8" style={{ color: 'var(--text-secondary)' }}>First time on the life-saving network?</p>
                 <Link 
                   to="/register" 
-                  className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest hover:border-[#dc143c]/40 transition-all no-underline" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
+                  className="inline-flex items-center gap-4 px-10 py-5 rounded-[2rem] text-[10px] font-black uppercase tracking-widest hover:border-[#dc143c]/40 hover:-translate-y-2 transition-all no-underline shadow-2xl" style={{ background: 'var(--bg-primary)', border: '1px solid var(--border)', color: 'var(--text-primary)' }}
                 >
-                  Create New Profile <Plus size={16} className="text-[#dc143c]" />
+                  Register New Node <Plus size={18} className="text-[#dc143c]" />
                 </Link>
               </div>
             </div>

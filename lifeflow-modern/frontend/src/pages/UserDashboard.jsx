@@ -5,12 +5,15 @@ import { Link, useSearchParams } from 'react-router-dom';
 import AnimatedAvatar from '../components/AnimatedAvatar';
 import CertificateGenerator from '../components/CertificateGenerator';
 import SupportPanel from '../components/SupportPanel';
-import { FileText, Hourglass, CheckCircle2, Activity, HandHeart, Clock, UserCheck, Droplet, CalendarDays, AlertCircle, ChevronDown, CheckCircle, Clock3, MapPin, ArrowRightLeft, Heart, LifeBuoy } from 'lucide-react';
+import { FileText, Hourglass, CheckCircle2, Activity, HandHeart, Clock, UserCheck, Droplet, CalendarDays, AlertCircle, ChevronDown, CheckCircle, Clock3, MapPin, ArrowRightLeft, Heart, LifeBuoy, Building2, Sparkles } from 'lucide-react';
+
 import { useAuthStore } from '../context/authStore';
 import { useThemeStore } from '../context/themeStore';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 import PremiumMedal from '../components/PremiumMedal';
+import NexusInput from '../components/NexusInput';
+import NexusSelect from '../components/NexusSelect';
 
 
 const StatCard = ({ title, value, colorClass, Icon, delay }) => (
@@ -18,17 +21,17 @@ const StatCard = ({ title, value, colorClass, Icon, delay }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay }}
-        className={`bg-[var(--bg-secondary)] border border-[var(--border)] p-8 rounded-[2.5rem] shadow-[var(--shadow)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500`}
+        className={`bg-[var(--bg-secondary)] border border-[var(--border)] p-6 rounded-[1.8rem] shadow-[var(--shadow)] relative overflow-hidden group hover:-translate-y-1 transition-all duration-500`}
     >
         <div className="relative z-10">
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 border border-[var(--border)] bg-[var(--bg-primary)] ${colorClass} shadow-inner`}>
-                <Icon className="w-7 h-7" />
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-5 border border-[var(--border)] bg-[var(--bg-primary)] ${colorClass} shadow-inner`}>
+                <Icon className="w-6 h-6" />
             </div>
-            <p className="text-[var(--text-muted)] font-black text-[10px] uppercase tracking-[0.2em]">{title}</p>
-            <h2 className={`text-4xl font-black mt-2 brand-font truncate text-[var(--text-primary)]`}>{value}</h2>
+            <p className="text-[var(--text-muted)] font-black text-[9px] uppercase tracking-[0.2em]">{title}</p>
+            <h2 className={`text-2xl font-black mt-1 brand-font truncate text-[var(--text-primary)]`}>{value}</h2>
         </div>
         <div className="absolute right-0 bottom-0 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity">
-            <Icon className="w-32 h-32 -mr-8 -mb-8" />
+            <Icon className="w-24 h-24 -mr-6 -mb-6" />
         </div>
     </motion.div>
 );
@@ -64,26 +67,26 @@ const EligibilityRing = ({ date }) => {
 
     return (
         <div className="flex flex-col items-center justify-center relative">
-            <div className="w-48 h-48 relative">
-                <svg className="w-full h-full transform -rotate-90">
-                    <circle cx="96" cy="96" r="88" stroke="var(--border)" strokeWidth="12" fill="transparent" />
+            <div className="w-36 h-36 relative">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45" stroke="var(--border)" strokeWidth="8" fill="transparent" />
                     <motion.circle 
-                        initial={{ strokeDasharray: "553", strokeDashoffset: "553" }}
-                        animate={{ strokeDashoffset: 553 - (553 * percentage) / 100 }}
+                        initial={{ strokeDasharray: "283", strokeDashoffset: "283" }}
+                        animate={{ strokeDashoffset: 283 - (283 * percentage) / 100 }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
-                        cx="96" cy="96" r="88" stroke="var(--accent)" strokeWidth="12" strokeLinecap="round" fill="transparent" 
+                        cx="50" cy="50" r="45" stroke="var(--accent)" strokeWidth="8" strokeLinecap="round" fill="transparent" 
                     />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                     {isEligible ? (
                         <>
-                            <CheckCircle className="w-12 h-12 text-green-500 mb-1" />
-                            <span className="text-xs font-black uppercase tracking-tighter text-green-600">Eligible</span>
+                            <CheckCircle className="w-10 h-10 text-green-500 mb-1" />
+                            <span className="text-[10px] font-black uppercase tracking-tighter text-green-600">Eligible</span>
                         </>
                     ) : (
                         <>
-                            <span className="text-4xl font-black brand-font text-[var(--accent)]">{diffDays}</span>
-                            <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Days Left</span>
+                            <span className="text-2xl font-black brand-font text-[var(--accent)]">{diffDays}</span>
+                            <span className="text-[8px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Days Left</span>
                         </>
                     )}
                 </div>
@@ -92,7 +95,115 @@ const EligibilityRing = ({ date }) => {
     );
 };
 
+const DonationJourney = ({ points }) => {
+    const tiers = [
+        { name: 'Starter', min: 0, max: 100, icon: '🥉' },
+        { name: 'Bronze', min: 100, max: 250, icon: '🥈' },
+        { name: 'Silver', min: 250, max: 500, icon: '🥇' },
+        { name: 'Gold', min: 500, max: 1000, icon: '🏆' },
+        { name: 'Hero', min: 1000, max: 5000, icon: '🦸' }
+    ];
+
+    const currentTier = tiers.find(t => points >= t.min && points < t.max) || tiers[tiers.length - 1];
+    const nextTier = tiers[tiers.indexOf(currentTier) + 1] || null;
+    
+    const progress = nextTier 
+        ? ((points - currentTier.min) / (nextTier.min - currentTier.min)) * 100 
+        : 100;
+
+    return (
+        <div className="glass-premium p-8 rounded-[2rem] border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="relative z-10">
+                <div className="flex justify-between items-end mb-6">
+                    <div>
+                        <p className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-1">Donation Journey</p>
+                        <h3 className="text-2xl font-black brand-font text-[var(--text-primary)]">Road to {nextTier ? nextTier.name : 'Max Tier'}</h3>
+                    </div>
+                    <div className="text-right">
+                        <span className="text-2xl font-black text-[#dc143c] brand-font">{points}</span>
+                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase ml-2">Total XP</span>
+                    </div>
+                </div>
+
+                <div className="relative h-4 w-full bg-white/5 rounded-full overflow-hidden border border-white/5 mb-6">
+                    <motion.div 
+                        initial={{ width: 0 }}
+                        animate={{ width: `${progress}%` }}
+                        transition={{ duration: 1.5, ease: "easeOut" }}
+                        className="h-full bg-gradient-to-r from-[#dc143c] via-[#ff3b5c] to-[#9b0023] relative"
+                    >
+                        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20" />
+                        <motion.div 
+                            animate={{ x: ['0%', '100%'] }}
+                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent w-1/2"
+                        />
+                    </motion.div>
+                </div>
+
+                <div className="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)]">
+                    <div className="flex items-center gap-2">
+                        <span className="text-xl">{currentTier.icon}</span>
+                        {currentTier.name}
+                    </div>
+                    {nextTier && (
+                        <div className="flex items-center gap-2">
+                            {points < nextTier.min ? `${nextTier.min - points} XP needed` : 'Threshold reached'}
+                            <span className="text-xl opacity-40">{nextTier.icon}</span>
+                        </div>
+                    )}
+                </div>
+            </div>
+            <div className="absolute -right-10 -bottom-10 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-1000">
+                <Sparkles className="w-64 h-64 rotate-12" />
+            </div>
+        </div>
+    );
+};
+
+const HealthInsights = ({ bloodGroup }) => {
+    const insights = {
+        'O-': [
+            { title: 'Universal Hero', text: 'You are a universal donor. Your blood can be given to anyone in emergencies.', icon: Heart },
+            { title: 'Hydration Protocol', text: 'Maintain high fluid intake 24h before donation to optimize plasma volume.', icon: Activity }
+        ],
+        'O+': [
+            { title: 'Crucial Supply', text: 'O+ is the most common blood type. Your contribution is vital for daily surgeries.', icon: CheckCircle2 },
+            { title: 'Iron Focus', text: 'Incorporate leafy greens into your diet to maintain healthy hemoglobin levels.', icon: Droplet }
+        ],
+        'default': [
+            { title: 'Heroic Impact', text: 'Every donation can save up to three lives. Your contribution is mission-critical.', icon: Heart },
+            { title: 'Recovery Phase', text: 'Avoid heavy exercise for 12 hours post-donation to allow bio-equilibration.', icon: Activity }
+        ]
+    };
+
+    const data = insights[bloodGroup] || insights['default'];
+
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+            {data.map((item, idx) => (
+                <motion.div 
+                    key={idx}
+                    whileHover={{ y: -5 }}
+                    className="glass-premium p-7 rounded-[1.8rem] border-white/5 relative overflow-hidden group shadow-2xl"
+                >
+                    <div className="relative z-10 flex items-start gap-6">
+                        <div className="w-12 h-12 rounded-xl bg-[#dc143c]/10 flex items-center justify-center shrink-0 border border-[#dc143c]/20 group-hover:bg-[#dc143c] group-hover:text-white transition-all duration-500">
+                            <item.icon className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h4 className="text-xl font-black brand-font text-[var(--text-primary)] mb-1 tracking-tight">{item.title}</h4>
+                            <p className="text-xs font-bold text-[var(--text-secondary)] leading-relaxed opacity-70">{item.text}</p>
+                        </div>
+                    </div>
+                </motion.div>
+            ))}
+        </div>
+    );
+};
+
 const UserDashboard = () => {
+
     const { user, refreshUser } = useAuthStore();
     const { isDark } = useThemeStore();
 
@@ -102,6 +213,7 @@ const UserDashboard = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [activeSection, setActiveSection] = useState('main');
     const [isSupportOpen, setIsSupportOpen] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     // Handle section parameter from URL
     useEffect(() => {
@@ -316,396 +428,375 @@ const UserDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col items-center">
-            {/* Immersive Sidebar (Fixed) */}
-            <div style={{ overscrollBehavior: 'contain' }} className="fixed left-0 top-0 bottom-0 w-24 md:w-80 bg-[var(--bg-secondary)] border-r border-[var(--border)] hidden lg:flex flex-col z-30 pt-24 pb-12 px-6 overflow-y-auto">
-                <div className="mb-12">
-                    <h2 className="text-xs font-black uppercase tracking-[0.3em] text-[var(--text-muted)] mb-8 ml-4">Sanctuary Menu</h2>
-                    <nav className="space-y-3">
+        <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col lg:flex-row selection:bg-[#dc143c]/30 relative">
+            {/* Background Effects */}
+            <div className="fixed inset-0 pointer-events-none z-0">
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#dc143c]/5 rounded-full blur-[120px]"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-600/5 rounded-full blur-[120px]"></div>
+                <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="lg:hidden fixed bottom-10 right-10 z-50 w-20 h-20 bg-[#dc143c] text-white rounded-full flex items-center justify-center shadow-[0_20px_50px_rgba(220,20,60,0.4)]"
+            >
+                <div className="relative w-8 h-8">
+                    <motion.span 
+                        animate={{ rotate: isSidebarOpen ? 45 : 0, y: isSidebarOpen ? 0 : -8 }}
+                        className="absolute inset-0 m-auto w-full h-1 bg-white rounded-full"
+                    />
+                    <motion.span 
+                        animate={{ opacity: isSidebarOpen ? 0 : 1 }}
+                        className="absolute inset-0 m-auto w-full h-1 bg-white rounded-full"
+                    />
+                    <motion.span 
+                        animate={{ rotate: isSidebarOpen ? -45 : 0, y: isSidebarOpen ? 0 : 8 }}
+                        className="absolute inset-0 m-auto w-full h-1 bg-white rounded-full"
+                    />
+                </div>
+            </motion.button>
+
+            {/* Floating Navigation Rail - Nexus Command Pillar */}
+            <motion.div 
+                initial={{ x: -120, opacity: 0 }} 
+                animate={{ x: isSidebarOpen ? 0 : (window.innerWidth < 1024 ? -400 : 0), opacity: 1 }}
+                transition={{ type: "spring", damping: 32, stiffness: 120 }}
+                className={`fixed lg:sticky top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-40 h-screen shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-transform duration-500 shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+            >
+                <div className="p-8 flex flex-col h-full">
+                    <div className="flex items-center gap-4 mb-10 group cursor-pointer">
+                        <div className="relative">
+                            <div className="absolute inset-0 bg-[#dc143c] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                            <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#9b0023] rounded-xl flex items-center justify-center relative z-10 border border-white/20 shadow-2xl group-hover:rotate-6 transition-transform duration-500">
+                                <Droplet className="w-6 h-6 text-white" />
+                            </div>
+                        </div>
+                        <div>
+                            <h2 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none mb-1">LifeFlow</h2>
+                            <div className="flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#dc143c] animate-pulse"></div>
+                                <p className="text-[10px] text-[#dc143c] font-black uppercase tracking-[0.5em]">Donor Node Active</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="p-6 rounded-[1.5rem] bg-[var(--bg-primary)] border border-[var(--border)] mb-10 relative overflow-hidden group shadow-inner">
+                        <div className="absolute -top-4 -right-4 w-16 h-16 bg-[#dc143c]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
+                        <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-2">Donor Registry</p>
+                        <div className="flex items-center gap-3">
+                            <div className="w-1.5 h-8 bg-[#dc143c] rounded-full"></div>
+                            <div className="min-w-0">
+                                <p className="text-sm font-black text-[var(--text-primary)] tracking-tight leading-none mb-1 truncate">{user?.name}</p>
+                                <p className="text-[7px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol: Verified</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <nav className="space-y-4">
+                        <p className="text-[11px] text-[var(--text-muted)] font-black uppercase tracking-[0.5em] mb-6 px-6">Mission Operations</p>
                         {[
-                            { id: 'main', icon: Activity, label: 'Sanctuary Overview' },
-                            { id: 'request', icon: MapPin, label: 'Emergency Requests' },
-                            { id: 'donate', icon: HandHeart, label: 'Offer Donation' },
-                            { id: 'history', icon: Clock, label: 'My Journey' },
-                            { id: 'edit-profile', icon: UserCheck, label: 'Edit Profile' },
+                            { id: 'main', icon: Activity, label: 'Sanctuary Node' },
+                            { id: 'request', icon: MapPin, label: 'Emergency Uplink' },
+                            { id: 'donate', icon: HandHeart, label: 'Hero Protocol' },
+                            { id: 'history', icon: Clock, label: 'Bio-Timeline' },
+                            { id: 'edit-profile', icon: UserCheck, label: 'Nexus Identity' },
                         ].map(item => (
                             <button 
-                                key={item.id}
+                                key={item.id} 
                                 onClick={() => setActiveSection(item.id)}
-                                className={`w-full flex items-center gap-4 px-6 py-5 rounded-[1.5rem] transition-all duration-300 font-bold group relative
-                                    ${activeSection === item.id 
-                                        ? 'text-white shadow-lg shadow-red-500/20' 
-                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)]'}`
-                                }
+                                className={`w-full flex items-center gap-5 px-6 py-4 rounded-[1.5rem] transition-all duration-500 font-black text-[10px] uppercase tracking-[0.25em] relative group
+                                    ${activeSection === item.id
+                                        ? 'text-white shadow-[0_20px_50px_rgba(220,20,60,0.3)] scale-[1.03]' 
+                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] border border-transparent hover:border-[var(--border)]'}`}
                             >
                                 {activeSection === item.id && (
                                     <motion.div
                                         layoutId="userSidebarActive"
-                                        className="absolute inset-0 rounded-[1.5rem] bg-[var(--accent)]"
+                                        className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-r from-[#dc143c] to-[#9b0023]"
                                         style={{ zIndex: 0 }}
-                                        transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                                     />
                                 )}
-                                <item.icon className={`w-5 h-5 relative z-10 ${activeSection === item.id ? 'text-white' : 'group-hover:text-[var(--accent)] transition-colors'}`} /> 
-                                <span className="text-sm tracking-wide relative z-10">{item.label}</span>
+                                <div className={`p-2.5 rounded-xl transition-all duration-500 relative z-10 ${activeSection === item.id ? 'bg-white/10' : 'group-hover:bg-[#dc143c]/10'}`}>
+                                    <item.icon className={`w-4 h-4 transition-all duration-500 ${activeSection === item.id ? 'scale-110' : 'group-hover:text-[#dc143c] group-hover:scale-110'}`} /> 
+                                </div>
+                                <span className="relative z-10">{item.label}</span>
                             </button>
                         ))}
                         
-                        {/* Support Button */}
                         <button 
                             onClick={openSupport}
-                            className="w-full flex items-center gap-4 px-6 py-5 rounded-[1.5rem] transition-all duration-300 font-bold group text-[var(--text-secondary)] hover:bg-blue-500/10 hover:text-blue-500 relative"
+                            className="w-full flex items-center gap-5 px-6 py-5 rounded-[1.5rem] transition-all duration-500 font-black text-[10px] uppercase tracking-[0.25em] relative group text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] border border-transparent hover:border-[var(--border)]"
                         >
-                            <div className="relative">
-                                <LifeBuoy className="w-5 h-5 group-hover:text-blue-500 transition-colors" /> 
+                            <div className="p-2 rounded-xl transition-all duration-500 relative z-10 group-hover:bg-blue-500/10">
+                                <LifeBuoy className={`w-4 h-4 transition-all duration-500 group-hover:text-blue-500 group-hover:scale-110`} /> 
                                 {hasSupportReply && (
                                     <>
-                                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full animate-ping"></span>
-                                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full"></span>
                                     </>
                                 )}
                             </div>
-                            <span className="text-sm tracking-wide">Support Center</span>
+                            <span className="relative z-10">Support Center</span>
                         </button>
                     </nav>
-                </div>
-                
-                <div className="mt-auto bg-gradient-to-br from-[var(--accent)]/10 to-transparent p-6 rounded-[2rem] border border-[var(--accent)]/20">
-                    <div className="flex items-center gap-3 mb-4">
-                        <Droplet className="w-5 h-5 text-[var(--accent)]" />
-                        <span className="text-sm font-black text-[var(--text-primary)]">Ready to help?</span>
+
+                    <div className="mt-auto">
+                        <Link to="/camps" className="w-full p-6 rounded-[2rem] bg-[#dc143c]/5 border border-[#dc143c]/20 text-[#dc143c] hover:bg-[#dc143c] hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.4em] shadow-xl group flex items-center justify-center gap-3">
+                            Nearby Ops <Building2 className="w-4 h-4 group-hover:animate-bounce" />
+                        </Link>
                     </div>
-                    <p className="text-[10px] text-[var(--text-secondary)] font-medium leading-relaxed">Your blood can save up to 3 lives. Check your eligibility today.</p>
                 </div>
-            </div>
+            </motion.div>
 
             {/* Main Content Area */}
-            <div className="w-full lg:pl-80 min-h-screen pt-24 px-6 md:px-12 pb-24 max-w-[1600px]">
+            <div className="flex-1 min-h-screen pt-32 lg:pt-20 px-6 md:px-16 pb-32 z-10 w-full overflow-x-hidden">
                 <AnimatePresence mode="wait">
                     {/* SECTION: MAIN OVERVIEW */}
                     {activeSection === 'main' && (
-                        <motion.div key="main" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="space-y-12">
+                        <motion.div key="main" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                             {/* PREMIUM HERO */}
-                            <div className="relative rounded-[3rem] overflow-hidden bg-[var(--bg-card)] border border-[var(--border)] shadow-2xl group min-h-[400px]">
-                                <img src="/images/sanctuary_bg.png" className="absolute inset-0 w-full h-full object-cover opacity-50 scale-110 group-hover:scale-100 transition-transform duration-[2s] pointer-events-none" alt="" />
-                                <div className={`absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] via-[var(--bg-card)]/40 to-transparent ${isDark ? 'opacity-90' : 'opacity-70'}`}></div>
+                            <div className="relative rounded-[2.5rem] overflow-hidden glass-premium border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.4)] group min-h-[380px] flex items-center">
+                                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
+                                    <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-[#dc143c] blur-[150px] rounded-full" />
+                                    <div className="absolute bottom-[-10%] left-[-20%] w-[500px] h-[500px] bg-indigo-600 blur-[150px] rounded-full" />
+                                </div>
+                                <div className="absolute inset-0 z-0">
+                                    <img src="/images/hero_bg.png" className="w-full h-full object-cover opacity-20 scale-110 group-hover:scale-100 transition-transform duration-[6s]" alt="" />
+                                    <div className="absolute inset-0 bg-gradient-to-tr from-[var(--bg-primary)] via-[var(--bg-primary)]/60 to-transparent" />
+                                </div>
                                 
-                                <div className="relative z-10 p-12 h-full flex flex-col md:flex-row items-center gap-12">
-                                    <div className="flex-grow text-center md:text-left">
-                                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-6">
-                                            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                                            Donor Sanctuary Active
-                                        </div>
-                                        <div className="flex items-center gap-6 mb-4">
+                                <div className="relative z-10 p-10 w-full flex flex-col lg:flex-row items-center justify-between gap-12">
+                                    <div className="flex-grow text-center lg:text-left max-w-2xl">
+                                        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
+                                            className="inline-flex items-center gap-3 px-5 py-1.5 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.4em] mb-8 shadow-2xl">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-ping"></span>
+                                            Active Uplink: Sanctuary Node 01
+                                        </motion.div>
+                                        
+                                        <div className="flex items-center gap-6 mb-8 justify-center lg:justify-start">
                                             {user?.avatar ? (
-                                                <img src={user.avatar} alt="Profile" className="w-20 h-20 rounded-2xl object-cover shadow-lg border-2 border-[var(--accent)]/50 bg-[var(--bg-primary)]" />
+                                                <div className="relative group/avatar">
+                                                    <div className="absolute -inset-1.5 bg-gradient-to-tr from-[#dc143c] to-indigo-600 rounded-2xl blur-md opacity-0 group-hover/avatar:opacity-50 transition-opacity duration-500" />
+                                                    <img src={user.avatar} alt="Profile" className="relative w-20 h-20 rounded-[1.5rem] object-cover shadow-2xl border border-white/20 bg-[var(--bg-primary)] transform group-hover/avatar:scale-105 transition-transform duration-500" />
+                                                </div>
                                             ) : (
                                                 <AnimatedAvatar size="lg" user={user} />
                                             )}
-                                            <h1 className="text-4xl md:text-6xl font-black brand-font tracking-tight text-[var(--text-primary)]">
-                                                Hello, {user?.name?.split(' ')[0]} <span className="text-red-500">.</span>
-                                            </h1>
+                                            <div className="text-left">
+                                                <h1 className="text-4xl lg:text-5xl font-black brand-font tracking-tighter text-[var(--text-primary)] leading-[0.8]">
+                                                    Hello, {user?.name?.split(' ')[0]}<span className="text-[#dc143c]">.</span>
+                                                </h1>
+                                                <p className="text-[9px] font-black uppercase tracking-[0.5em] text-[var(--text-muted)] mt-4">Registry ID: {user?._id?.slice(-8).toUpperCase()}</p>
+                                            </div>
                                         </div>
-                                        <p className="text-[var(--text-secondary)] text-lg md:text-xl font-medium max-w-lg mb-8">
-                                            Your dedication is incredible. You've personally impacted {dashboardData.livesSaved} lives through your generosity.
+                                        
+                                        <p className="text-[var(--text-secondary)] text-xl lg:text-2xl font-bold leading-relaxed max-w-xl mb-12 tracking-tight">
+                                            Your bio-impact has resonated across <span className="text-[var(--text-primary)] font-black">{dashboardData.livesSaved} lives</span>. Your contribution remains mission-critical.
                                         </p>
                                         
-                                        <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                                            <div className="flex items-center gap-4 px-6 py-4 rounded-3xl bg-[var(--bg-primary)] border border-[var(--border)] backdrop-blur-sm hover:bg-[var(--bg-secondary)] transition-colors group">
+                                        <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
+                                            <motion.div whileHover={{ y: -4 }} className="flex items-center gap-5 px-8 py-5 rounded-[2rem] glass-premium border-white/10 hover:border-[#dc143c]/30 transition-all group shadow-2xl">
                                                 <PremiumMedal tier={dashboardData.badge} size="sm" />
-                                                <div>
-                                                    <div className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mb-1">Impact Level</div>
-                                                    <div className="text-xl font-black text-[var(--text-primary)] brand-font tracking-tight">{dashboardData.badge}</div>
+                                                <div className="text-left">
+                                                    <div className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-1">Nexus Rank</div>
+                                                    <div className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight group-hover:text-[#dc143c] transition-colors">{dashboardData.badge}</div>
                                                 </div>
-                                            </div>
-                                             <div className="px-6 py-3 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border)] backdrop-blur-sm relative group cursor-help">
-                                                <div className="text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mb-1 flex items-center gap-1">
-                                                    Total Points <AlertCircle className="w-3 h-3 text-red-500" />
+                                            </motion.div>
+                                            
+                                            <motion.div whileHover={{ y: -4 }} className="px-8 py-5 rounded-[2rem] glass-premium border-white/10 hover:border-red-500/30 relative group cursor-help transition-all shadow-2xl">
+                                                <div className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-1 flex items-center gap-2">
+                                                    Bio XP <AlertCircle className="w-3 h-3 text-[#dc143c]" />
                                                 </div>
-                                                <div className="text-xl font-black text-red-500 brand-font">{dashboardData.points} XP</div>
-                                                <div className="absolute top-full left-0 mt-2 w-64 bg-[var(--bg-secondary)] text-xs text-[var(--text-secondary)] p-4 rounded-xl border border-[var(--border)] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 shadow-2xl backdrop-blur-md">
-                                                    Points are generated upon Admin completion of your donation session.
+                                                <div className="text-2xl font-black text-[#dc143c] brand-font tracking-tight">{dashboardData.points} XP</div>
+                                                <div className="absolute top-full left-0 mt-6 w-80 glass-premium text-[12px] text-[var(--text-secondary)] p-8 rounded-[2rem] border-white/10 opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 shadow-[0_50px_100px_rgba(0,0,0,0.6)] translate-y-2 group-hover:translate-y-0">
+                                                    Points are calculated upon successful intake and admin verification. High XP unlocks higher Hero Tiers and exclusive rewards.
                                                 </div>
-                                            </div>
+                                            </motion.div>
                                         </div>
                                     </div>
                                     
-                                    <div className="shrink-0 p-8 rounded-[3rem] bg-[var(--bg-primary)] border border-[var(--border)] backdrop-blur-xl shadow-2xl">
+                                    <div className="shrink-0 p-12 rounded-[4rem] glass-premium border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.4)] transform hover:scale-105 transition-transform duration-1000">
                                         <EligibilityRing date={dashboardData.nextEligibilityDate} />
                                     </div>
                                 </div>
                             </div>
 
                             {/* CORE STATS */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                <StatCard title="Total Actions" value={dashboardData.total} colorClass="text-blue-500" Icon={Activity} delay={0.1} />
-                                <div className="group relative">
-                                    <StatCard title="Pending Review" value={dashboardData.pending} colorClass="text-yellow-500" Icon={Hourglass} delay={0.2} />
-                                    {dashboardData.pending > 0 && (
-                                        <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-56 bg-[var(--bg-secondary)] text-xs text-yellow-600 p-4 rounded-xl border border-yellow-500/20 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50 text-center shadow-2xl backdrop-blur-md">
-                                            Awaiting administrative verification. Points will be awarded upon approval!
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                                {[
+                                    { title: "Total Actions", value: dashboardData.total, icon: Activity, delay: 0.1, color: "blue" },
+                                    { title: "Pending Review", value: dashboardData.pending, icon: Hourglass, delay: 0.2, color: "yellow" },
+                                    { title: "Lives Impacted", value: dashboardData.livesSaved, icon: Droplet, delay: 0.3, color: "red" },
+                                    { title: "Health Points", value: dashboardData.points, icon: Activity, delay: 0.4, color: "emerald" }
+                                ].map((stat, idx) => (
+                                    <motion.div key={stat.title} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: stat.delay, type: 'spring', damping: 20 }}
+                                        className="glass-premium p-12 rounded-[3.5rem] border-white/5 hover:border-[#dc143c]/40 group transition-all cursor-pointer relative overflow-hidden shadow-2xl">
+                                        <div className="relative z-10">
+                                            <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center mb-10 bg-white/5 border border-white/10 group-hover:scale-110 group-hover:bg-[#dc143c] group-hover:text-white transition-all duration-700`}>
+                                                <stat.icon className="w-8 h-8" />
+                                            </div>
+                                            <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-3">{stat.title}</p>
+                                            <h2 className="text-6xl font-black brand-font tracking-tight text-[var(--text-primary)]">{stat.value}</h2>
                                         </div>
-                                    )}
+                                        <div className="absolute -right-8 -bottom-8 opacity-[0.03] group-hover:opacity-[0.1] group-hover:scale-125 transition-all duration-1000 transform rotate-12">
+                                            <stat.icon className="w-56 h-56" />
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            {/* DONATION JOURNEY & HEALTH INSIGHTS */}
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                                <div className="lg:col-span-2">
+                                    <HealthInsights bloodGroup={user?.bloodGroup} />
                                 </div>
-                                <StatCard title="Lives Impacted" value={dashboardData.livesSaved} colorClass="text-red-500" Icon={Droplet} delay={0.3} />
-                                <StatCard title="Health Points" value={dashboardData.points} colorClass="text-emerald-500" Icon={Activity} delay={0.4} />
+                                <div className="lg:col-span-1">
+                                    <DonationJourney points={dashboardData.points} />
+                                </div>
                             </div>
 
                             {/* COMPATIBILITY QUICK CHECK */}
-                            <motion.div 
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 }}
-                                className="bg-[var(--bg-secondary)] border border-[var(--border)] p-8 rounded-[3rem] shadow-xl relative overflow-hidden"
-                            >
-                                <div className="absolute top-0 right-0 w-64 h-full bg-red-600/5 -skew-x-12 translate-x-32"></div>
-                                <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-                                    <div className="flex items-center gap-6">
-                                        <div className="w-16 h-16 rounded-3xl bg-red-600 flex items-center justify-center text-white shadow-lg">
-                                            <Heart className="w-8 h-8" />
+                            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+                                className="glass-premium p-14 rounded-[4rem] border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.3)] relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 w-[500px] h-full bg-red-600/5 -skew-x-12 translate-x-64 group-hover:translate-x-48 transition-transform duration-[3s]"></div>
+                                <div className="flex flex-col md:flex-row items-center justify-between gap-16 relative z-10">
+                                    <div className="flex items-center gap-10">
+                                        <div className="w-24 h-24 rounded-[2rem] bg-[#dc143c] flex items-center justify-center text-white shadow-[0_30px_60px_rgba(220,20,60,0.4)] group-hover:rotate-12 transition-all duration-700">
+                                            <Heart className="w-12 h-12" />
                                         </div>
                                         <div>
-                                            <h3 className="text-2xl font-black brand-font text-[var(--text-primary)]">Your Compatibility</h3>
-                                            <p className="text-sm text-[var(--text-secondary)] font-medium">Quick reference for your blood type ({user?.bloodType || 'Not Set'})</p>
+                                            <h3 className="text-4xl font-black brand-font text-[var(--text-primary)] tracking-tight">Bio-Compatibility Matrix</h3>
+                                            <p className="text-xl text-[var(--text-secondary)] font-medium mt-2">Real-time analysis for blood type <span className="text-[#dc143c] font-black">{user?.bloodGroup || 'Not Registered'}</span></p>
                                         </div>
                                     </div>
-                                    
-                                    <Link to="/compatibility" className="px-8 py-4 bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl text-[var(--text-primary)] font-black brand-font text-xs uppercase tracking-widest hover:bg-[var(--bg-secondary)] transition-all flex items-center gap-2">
-                                        View Full Analyzer <ArrowRightLeft className="w-4 h-4" />
+                                    <Link to="/compatibility" className="px-12 py-6 bg-white/5 border border-white/10 rounded-[2rem] text-[var(--text-primary)] font-black brand-font text-xs uppercase tracking-[0.4em] hover:bg-[#dc143c] hover:text-white transition-all flex items-center gap-4 shadow-2xl">
+                                        Open Analyzer <ArrowRightLeft className="w-5 h-5" />
                                     </Link>
                                 </div>
                             </motion.div>
 
                             {/* QUICK ACTIONS HUB */}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                                <motion.button 
-                                    whileHover={{ y: -5 }}
-                                    onClick={() => setActiveSection('request')}
-                                    className="group relative h-64 rounded-[3rem] overflow-hidden bg-red-600 shadow-xl"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-red-700 opacity-90 group-hover:scale-110 transition-transform duration-700"></div>
-                                    <div className="relative h-full p-10 flex flex-col justify-between items-start text-white text-left">
-                                        <Activity className="w-12 h-12 mb-4" />
-                                        <div>
-                                            <h3 className="text-2xl font-black brand-font mb-2">Request Blood</h3>
-                                            <p className="text-red-100 font-medium opacity-80 text-xs">Instantly alert our community for patients in critical need.</p>
-                                        </div>
-                                    </div>
-                                </motion.button>
-
-                                 <motion.button 
-                                    whileHover={{ y: -5 }}
-                                    onClick={() => setActiveSection('donate')}
-                                    className="group relative h-64 rounded-[3rem] overflow-hidden bg-[var(--bg-secondary)] shadow-xl border border-[var(--border)]"
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-[var(--bg-primary)] to-[var(--bg-card)] group-hover:scale-110 transition-transform duration-700"></div>
-                                    <div className="relative h-full p-10 flex flex-col justify-between items-start text-[var(--text-primary)] text-left">
-                                        <HandHeart className="w-12 h-12 mb-4 text-[var(--accent)]" />
-                                        <div>
-                                            <h3 className="text-2xl font-black brand-font mb-2">Offer Donation</h3>
-                                            <p className="text-[var(--text-muted)] font-medium opacity-80 text-xs">Become a hero. Schedule your next donation session.</p>
-                                        </div>
-                                    </div>
-                                </motion.button>
-
-                                <Link 
-                                    to="/camps"
-                                    className="group relative h-64 rounded-[3rem] overflow-hidden bg-indigo-600 shadow-xl border border-white/5 no-underline block"
-                                >
-                                    <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=800" className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700" alt="Camps" />
-                                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/40 to-transparent group-hover:scale-110 transition-transform duration-700"></div>
-                                    <div className="relative h-full p-10 flex flex-col justify-between items-start text-white text-left">
-                                        <MapPin className="w-12 h-12 mb-4" />
-                                        <div>
-                                            <h3 className="text-2xl font-black brand-font mb-2">Active Camps</h3>
-                                            <p className="text-indigo-100 font-medium opacity-80 text-xs">Locate mission-critical donation nodes in real-time.</p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            </div>
-                        </motion.div>
-                    )}
-
-                    {/* SECTION: HISTORY / JOURNEY */}
-                    {activeSection === 'history' && (
-                        <motion.div key="history" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-4xl mx-auto py-12">
-                            <h2 className="text-4xl font-black text-[var(--text-primary)] brand-font mb-2">My Journey <span className="text-[var(--accent)]">.</span></h2>
-                            <p className="text-[var(--text-muted)] font-medium mb-16">A medical timeline of your life-saving contributions.</p>
-                            
-                            <div className="space-y-12 relative before:absolute before:inset-0 before:ml-5 before:w-0.5 before:-translate-x-px before:bg-[var(--border)] before:h-full">
-                                {history.map((record, index) => (
-                                    <motion.div 
-                                        key={record.id}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: index * 0.1 }}
-                                        className="relative flex items-center md:items-start md:space-x-12 group"
-                                    >
-                                        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bg-secondary)] border-4 border-[var(--border)] group-hover:border-[var(--accent)] transition-colors shrink-0 z-10">
-                                            {record.type === 'emergency' ? <Activity className="w-4 h-4 text-red-500" /> : <HandHeart className="w-4 h-4 text-slate-500" />}
-                                        </div>
-                                        
-                                        <div className="flex-grow bg-[var(--bg-secondary)] border border-[var(--border)] p-8 rounded-[2rem] shadow-[var(--shadow)] hover:shadow-lg transition-all">
-                                            <div className="flex flex-wrap justify-between items-start gap-4 mb-4">
-                                                <div>
-                                                    <div className="text-[10px] font-black uppercase tracking-widest text-[var(--accent)] mb-1">{record.type} Event</div>
-                                                    <h3 className="text-xl font-bold text-[var(--text-primary)]">{record.type === 'emergency' ? `Request for ${record.patient}` : "Donation Session"}</h3>
-                                                </div>
-                                                <div className="px-4 py-1.5 rounded-full bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--accent)] text-[10px] font-black tracking-widest uppercase shadow-sm">
-                                                    {(() => {
-                                                        const dateStr = record.effectiveDate || record.createdAt;
-                                                        const d = new Date(dateStr);
-                                                        return (dateStr && !isNaN(d.getTime())) ? d.toLocaleDateString() : 'Active';
-                                                    })()}
-                                                </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                                {[
+                                    { id: 'request', label: 'Request Blood', desc: 'Initiate emergency bio-uplink for immediate support.', icon: Activity, color: 'bg-[#dc143c]', hover: 'hover:bg-red-700' },
+                                    { id: 'donate', label: 'Offer Donation', desc: 'Schedule a hero session and contribute to the pool.', icon: HandHeart, color: 'glass-premium', hover: 'hover:border-[#dc143c]/40' },
+                                    { id: 'camps', label: 'Active Camps', desc: 'Locate regional donation nodes in real-time.', icon: MapPin, color: 'bg-indigo-600', hover: 'hover:bg-indigo-700', isLink: true, path: '/camps' }
+                                ].map((action) => (
+                                    <motion.button key={action.id} whileHover={{ y: -15 }} onClick={() => action.isLink ? null : setActiveSection(action.id)}
+                                        className={`group relative h-[360px] rounded-[4rem] overflow-hidden ${action.color === 'glass-premium' ? 'glass-premium border-white/5 shadow-2xl' : action.color + ' shadow-[0_30px_60px_rgba(0,0,0,0.4)]'} border border-white/5 transition-all duration-700 ${action.hover}`}>
+                                        {action.isLink && <Link to={action.path} className="absolute inset-0 z-20" />}
+                                        <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        <div className="relative h-full p-14 flex flex-col justify-between items-start text-left z-10">
+                                            <div className={`w-20 h-20 rounded-[2rem] ${action.color === 'glass-premium' ? 'bg-[#dc143c]/10 text-[#dc143c]' : 'bg-white/10 text-white'} flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-700`}>
+                                                <action.icon className="w-10 h-10" />
                                             </div>
-                                            
-                                            <div className="flex items-center gap-6">
-                                                <div className="flex items-center gap-2">
-                                                    <Droplet className="w-4 h-4 text-red-500" />
-                                                    <span className="text-sm font-black text-[var(--text-primary)]">{record.group}</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                 <div className={`w-2 h-2 rounded-full ${
-                                                     (record.status === 'APPROVED' || record.status === 'COMPLETED' || record.status === 'FULFILLED') 
-                                                        ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' 
-                                                        : record.status === 'REJECTED' 
-                                                            ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)]' 
-                                                            : 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.6)]'
-                                                 }`}></div>
-                                                 <span className={`text-[10px] font-black uppercase tracking-widest ${
-                                                     (record.status === 'APPROVED' || record.status === 'COMPLETED' || record.status === 'FULFILLED') 
-                                                        ? 'text-green-500' 
-                                                        : record.status === 'REJECTED' 
-                                                            ? 'text-red-500' 
-                                                            : 'text-[var(--text-muted)]'
-                                                 }`}>{record.status}</span>
-                                                </div>
+                                            <div>
+                                                <h3 className={`text-4xl font-black brand-font mb-4 tracking-tight ${action.color === 'glass-premium' ? 'text-[var(--text-primary)]' : 'text-white'}`}>{action.label}</h3>
+                                                <p className={`text-sm font-bold opacity-70 leading-relaxed ${action.color === 'glass-premium' ? 'text-[var(--text-secondary)]' : 'text-white'}`}>{action.desc}</p>
                                             </div>
-
-                                            {record.type === 'donation' && (record.status === 'APPROVED' || record.status === 'COMPLETED' || record.status === 'FULFILLED') && (
-                                                <div className="mt-6 pt-6 border-t border-[var(--border)] flex justify-end">
-                                                    <CertificateGenerator donorName={user?.name} bloodGroup={record.group} date={record.effectiveDate || record.createdAt} />
-                                                </div>
-                                            )}
                                         </div>
-                                    </motion.div>
+                                        {action.id === 'camps' && (
+                                            <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?auto=format&fit=crop&q=80&w=800" className="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2s]" alt="" />
+                                        )}
+                                    </motion.button>
                                 ))}
                             </div>
                         </motion.div>
                     )}
 
-                    {/* FORMS - POLISHED GLASSMOPRHISM */}
-                    {(activeSection === 'request' || activeSection === 'donate') && (
-                        <motion.div key="forms" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-2xl mx-auto py-12">
-                            <div className="bg-[var(--bg-secondary)] border border-[var(--border)] p-12 rounded-[3.5rem] shadow-2xl relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent)]/5 rounded-bl-[100%]"></div>
-                                
-                                <h2 className="text-4xl font-black text-[var(--text-primary)] brand-font mb-2">
-                                    {activeSection === 'request' ? 'Request Emergency Support' : 'Join a Donation Session'}
-                                </h2>
-                                <p className="text-[var(--text-muted)] font-medium mb-12">Provide the details below to initiate your mission. Your contribution is vital.</p>
-
-                                <form className="space-y-8 relative z-10" onSubmit={activeSection === 'request' ? submitRequest : submitDonation}>
-                                    {activeSection === 'request' && (
-                                        <div className="space-y-6">
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">Patient Name</label>
-                                                <input required type="text" value={reqForm.patientName} onChange={e => setReqForm({...reqForm, patientName: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" placeholder="Recipient's Full Name" />
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-6">
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">Blood Group Needed</label>
-                                                    <select required value={reqForm.bloodGroup} onChange={e => setReqForm({...reqForm, bloodGroup: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)] appearance-none">
-                                                        <option value="" disabled>Select Group</option>
-                                                        {['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'].map(bg => <option key={bg} value={bg}>{bg}</option>)}
-                                                    </select>
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">Units (Bags)</label>
-                                                    <input required type="number" min="1" max="10" value={reqForm.units} onChange={e => setReqForm({...reqForm, units: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" />
-                                                </div>
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-6">
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">Hospital Name</label>
-                                                    <input required type="text" value={reqForm.hospitalName} onChange={e => setReqForm({...reqForm, hospitalName: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" placeholder="e.g. City General" />
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">City Location</label>
-                                                    <input required type="text" value={reqForm.city} onChange={e => setReqForm({...reqForm, city: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" placeholder="Location" />
-                                                </div>
-                                            </div>
-                                            <div className="grid grid-cols-2 gap-6">
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2 flex items-center gap-2">Contact Number</label>
-                                                    <input type="tel" value={reqForm.contactPhone} onChange={e => setReqForm({...reqForm, contactPhone: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" placeholder="Your mobile number" />
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2 flex items-center gap-2">Email <span className="text-[8px] text-red-500 bg-red-500/10 px-2 py-0.5 rounded font-black tracking-widest uppercase">(Locked)</span></label>
-                                                    <input type="email" value={user?.email || ''} readOnly className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 outline-none transition-all font-bold text-[var(--text-muted)] opacity-50 cursor-not-allowed" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                    
-                                    {activeSection === 'donate' && (
-                                        <div className="space-y-6">
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">Select Donation Session / Camp</label>
-                                                <select required value={donForm.campId} onChange={e => setDonForm({...donForm, campId: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)] appearance-none">
-                                                    <option value="" disabled>Choose an active session</option>
-                                                    {availableCamps.map(camp => (
-                                                        <option key={camp.id} value={camp.id}>{camp.name} - {camp.city}</option>
-                                                    ))}
-                                                </select>
-                                                {availableCamps.length === 0 && <p className="text-[10px] text-red-500 font-bold ml-2">No active donation sessions currently available.</p>}
-                                            </div>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">Your Blood Group</label>
-                                                    <select required value={donForm.bloodGroup} onChange={e => setDonForm({...donForm, bloodGroup: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)] appearance-none">
-                                                        <option value="" disabled>Select Group</option>
-                                                        {['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'].map(bg => <option key={bg} value={bg}>{bg}</option>)}
-                                                    </select>
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2 flex items-center gap-2">Current Age <span className="text-[8px] text-red-500 bg-red-500/10 px-2 py-0.5 rounded font-black tracking-widest uppercase">(Locked)</span></label>
-                                                    <input type="text" value={user?.age || 'Not Set'} readOnly className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 outline-none transition-all font-bold text-[var(--text-muted)] opacity-50 cursor-not-allowed" />
-                                                </div>
-                                            </div>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2 flex items-center gap-2">Mobile Number <span className="text-[8px] text-red-500 bg-red-500/10 px-2 py-0.5 rounded font-black tracking-widest uppercase">(Locked)</span></label>
-                                                    <input type="text" value={user?.phone || 'Not Set'} readOnly className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 outline-none transition-all font-bold text-[var(--text-muted)] opacity-50 cursor-not-allowed" />
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2 flex items-center gap-2">Email <span className="text-[8px] text-red-500 bg-red-500/10 px-2 py-0.5 rounded font-black tracking-widest uppercase">(Locked)</span></label>
-                                                    <input type="email" value={user?.email || 'Not Set'} readOnly className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 outline-none transition-all font-bold text-[var(--text-muted)] opacity-50 cursor-not-allowed" />
-                                                </div>
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">Health Declaration</label>
-                                                <select required value={donForm.condition} onChange={e => setDonForm({...donForm, condition: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)] appearance-none">
-                                                    <option value="None">None (Perfectly Healthy)</option>
-                                                    <option value="Diabetes">Diabetes</option>
-                                                    <option value="Hypertension">Hypertension</option>
-                                                    <option value="Other">Other (Admin will review)</option>
-                                                </select>
-                                            </div>
-                                            {donForm.condition !== 'None' && (
-                                                <motion.div initial={{opacity: 0, y: -10}} animate={{opacity: 1, y: 0}} className="bg-yellow-500/10 border border-yellow-500/20 text-yellow-600 p-4 rounded-2xl flex items-start gap-3 mt-4 text-sm font-medium">
-                                                    <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
-                                                    <p>Warning: Selecting a health condition requires a medical review before your donation can be approved. Please make sure your condition is under medical supervision.</p>
-                                                </motion.div>
-                                            )}
-                                        </div>
-                                    )}
-
-                                    <button disabled={isLoading} className={`w-full py-6 rounded-2xl font-black brand-font tracking-[0.2em] uppercase transition-all shadow-xl hover:-translate-y-1 ${activeSection === 'request' ? 'bg-red-600 text-white shadow-red-500/30' : 'bg-[var(--text-primary)] text-[var(--bg-primary)] shadow-[var(--shadow)]'}`}>
-                                        {isLoading ? 'INITIATING...' : activeSection === 'request' ? 'SUBMIT EMERGENCY REQUEST' : 'CONFIRM DONATION OFFER'}
+                    {/* SECTION: REQUEST BLOOD */}
+                    {activeSection === 'request' && (
+                        <motion.div key="request" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-3xl mx-auto py-12">
+                            <div className="mb-12 text-center">
+                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Emergency Uplink<span className="text-[#dc143c]">.</span></h2>
+                                <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Broadcast a medical requirement to the global donor network</p>
+                            </div>
+                            
+                            <div className="glass-premium p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[100px]" />
+                                <form onSubmit={submitRequest} className="space-y-8 relative z-10">
+                                    <NexusInput label="Patient Designation" required value={reqForm.patientName} onChange={e => setReqForm({...reqForm, patientName: e.target.value})} placeholder="Full Medical Name" />
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <NexusSelect label="Target Bio-Marker" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={reqForm.bloodGroup} onChange={val => setReqForm({...reqForm, bloodGroup: val})} />
+                                        <NexusInput label="Clinical Units" type="number" value={reqForm.units} onChange={e => setReqForm({...reqForm, units: e.target.value})} />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <NexusInput label="Deployment Sector" required value={reqForm.hospitalName} onChange={e => setReqForm({...reqForm, hospitalName: e.target.value})} placeholder="Hospital Name" />
+                                        <NexusInput label="City Node" required value={reqForm.city} onChange={e => setReqForm({...reqForm, city: e.target.value})} placeholder="City" />
+                                    </div>
+                                    <NexusInput label="Mission Briefing" value={reqForm.patientName} onChange={e => setReqForm({...reqForm, patientName: e.target.value})} rows={3} placeholder="Describe the medical situation..." />
+                                    <button disabled={isLoading} className="w-full py-5 bg-[#dc143c] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(220,20,60,0.4)]">
+                                        {isLoading ? 'Transmitting...' : 'Initiate Broadcast'}
                                     </button>
                                 </form>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* SECTION: OFFER DONATION */}
+                    {activeSection === 'donate' && (
+                        <motion.div key="donate" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-3xl mx-auto py-12">
+                            <div className="mb-12 text-center">
+                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Hero Protocol<span className="text-[#dc143c]">.</span></h2>
+                                <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Pledge a bio-donation and secure regional life-lines</p>
+                            </div>
+                            
+                            <div className="glass-premium p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-600/5 rounded-bl-full z-0 blur-[100px]" />
+                                <form onSubmit={submitDonation} className="space-y-8 relative z-10">
+                                    <NexusSelect label="Target Deployment Node" options={availableCamps.map(c => ({ value: c.id, label: `${c.name} (${c.city})` }))} value={donForm.campId} onChange={val => setDonForm({...donForm, campId: val})} />
+                                    <div className="grid grid-cols-2 gap-6">
+                                        <NexusSelect label="Personal Bio-Marker" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={donForm.bloodGroup} onChange={val => setDonForm({...donForm, bloodGroup: val})} />
+                                        <NexusSelect label="Health Declaration" options={['None', 'Diabetes', 'Hypertension', 'Other']} value={donForm.condition} onChange={val => setDonForm({...donForm, condition: val})} />
+                                    </div>
+                                    <button disabled={isLoading} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(79,70,229,0.4)]">
+                                        {isLoading ? 'Processing...' : 'Register Deployment'}
+                                    </button>
+                                </form>
+                            </div>
+                        </motion.div>
+                    )}
+
+                    {/* SECTION: HISTORY */}
+                    {activeSection === 'history' && (
+                        <motion.div key="history" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-5xl mx-auto py-12">
+                            <div className="text-center mb-12">
+                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Bio-History Timeline<span className="text-[#dc143c]">.</span></h2>
+                                <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">A chronological ledger of your life-saving operations</p>
+                            </div>
+                            
+                            <div className="space-y-16 relative before:absolute before:inset-0 before:left-1/2 before:-translate-x-1/2 before:w-px before:bg-gradient-to-b before:from-[#dc143c] before:via-[var(--border)] before:to-transparent before:h-full hidden md:block">
+                                {history.map((record, index) => (
+                                    <motion.div key={record._id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1, type: 'spring' }}
+                                        className={`relative flex items-center gap-16 group ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                                        <div className={`flex-1 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
+                                            <div className="glass-premium p-12 rounded-[4rem] border-white/5 hover:border-[#dc143c]/40 transition-all group-hover:-translate-y-3 shadow-2xl relative overflow-hidden">
+                                                <div className="absolute top-0 right-0 w-40 h-40 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl" />
+                                                <div className="relative z-10">
+                                                    <div className={`flex items-center gap-6 mb-6 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
+                                                        <span className="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-[#dc143c] text-[10px] font-black tracking-[0.4em] uppercase">{record.type}</span>
+                                                        <span className="text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">{new Date(record.effectiveDate).toLocaleDateString()}</span>
+                                                    </div>
+                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-6">{record.type === 'emergency' ? `Uplink: ${record.patient}` : "Donation Session"}</h3>
+                                                    <div className={`flex items-center gap-8 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
+                                                        <div className="flex items-center gap-3"><Droplet className="w-5 h-5 text-[#dc143c]" /><span className="text-lg font-black text-[var(--text-primary)]">{record.group}</span></div>
+                                                        <div className="flex items-center gap-3">
+                                                            <div className={`w-3 h-3 rounded-full ${record.status === 'APPROVED' ? 'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.6)]' : record.status === 'REJECTED' ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]' : 'bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.6)] animate-pulse'}`} />
+                                                            <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">{record.status}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="w-16 h-16 rounded-[2rem] glass-premium border-white/20 flex items-center justify-center shrink-0 z-10 shadow-2xl group-hover:scale-125 group-hover:bg-[#dc143c] group-hover:text-white transition-all duration-700">
+                                            {record.type === 'emergency' ? <Activity size={24} /> : <HandHeart size={24} />}
+                                        </div>
+                                        <div className="flex-1" />
+                                    </motion.div>
+                                ))}
                             </div>
                         </motion.div>
                     )}
@@ -713,102 +804,47 @@ const UserDashboard = () => {
                     {/* SECTION: EDIT PROFILE */}
                     {activeSection === 'edit-profile' && (
                         <motion.div key="edit-profile" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-6xl mx-auto py-12">
+                            <div className="mb-12 text-center">
+                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Nexus Identity<span className="text-[#dc143c]">.</span></h2>
+                                <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Propose modifications to your global donor registry profile</p>
+                            </div>
                             
-                            <h2 className="text-4xl font-black text-[var(--text-primary)] brand-font mb-2">My Sanctuary Profile</h2>
-                            <p className="text-[var(--text-muted)] font-medium mb-12">Review your current registered details or propose an update to your public donor identity.</p>
-
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                                
-                                {/* Current Profile Summary */}
-                                <div className="bg-[var(--bg-secondary)] border border-[var(--border)] p-10 rounded-[3.5rem] shadow-xl relative overflow-hidden text-center group transition-all hover:border-[var(--accent)]/30">
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--accent)]/5 rounded-bl-[100%] transition-transform group-hover:scale-125 z-0"></div>
-                                    
-                                    <div className="relative z-10">
-                                        <div className="w-32 h-32 mx-auto rounded-[2.5rem] bg-[var(--bg-primary)] border border-white/10 shadow-2xl mb-6 overflow-hidden flex items-center justify-center">
-                                            {user?.avatar ? (
-                                                <img src={user.avatar} className="w-full h-full object-cover" alt="Profile Avatar" />
-                                            ) : (
-                                                <AnimatedAvatar size="lg" user={user} />
-                                            )}
-                                        </div>
-                                        <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-1">{user?.name}</h3>
-                                        <p className="text-[10px] text-green-400 font-black uppercase tracking-[0.2em] mb-10 flex items-center justify-center gap-2">
-                                            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
-                                            Verified Account
-                                        </p>
-                                        
-                                        <div className="space-y-6 text-left border-t border-[var(--border)] pt-8">
-                                            <div className="flex flex-col">
-                                                <span className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Email Address</span>
-                                                <span className="text-sm font-bold text-[var(--text-primary)] truncate">{user?.email}</span>
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Mobile Contact</span>
-                                                <span className="text-sm font-bold text-[var(--text-primary)]">{user?.phone || 'Not provided'}</span>
-                                            </div>
-                                            <div className="flex flex-col">
-                                                <span className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Location Coordinates</span>
-                                                <span className="text-sm font-bold text-[var(--text-primary)]">{user?.city || 'City'}, {user?.state || 'State'}</span>
-                                            </div>
-                                            
-                                            <div className="flex justify-between items-center bg-[var(--bg-primary)] p-6 rounded-3xl border border-[var(--border)] mt-8 group-hover:border-red-500/30 transition-colors">
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)]">Blood Group</span>
-                                                <span className="text-2xl font-black text-red-500 leading-none">{user?.bloodGroup || 'NA'}</span>
-                                            </div>
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                                <div className="glass-premium p-12 rounded-[4rem] border-white/5 shadow-2xl text-center group transition-all hover:border-[#dc143c]/30">
+                                    <div className="w-40 h-40 mx-auto rounded-[3rem] bg-[var(--bg-primary)] border border-white/10 shadow-2xl mb-10 overflow-hidden flex items-center justify-center relative">
+                                        {user?.avatar ? <img src={user.avatar} className="w-full h-full object-cover" alt="" /> : <AnimatedAvatar size="xl" user={user} />}
+                                    </div>
+                                    <h3 className="text-4xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-2">{user?.name}</h3>
+                                    <p className="text-[11px] text-green-400 font-black uppercase tracking-[0.3em] mb-12 flex items-center justify-center gap-2">
+                                        <span className="w-2 h-2 bg-green-400 rounded-full animate-ping"></span>Verified Bio-Signature
+                                    </p>
+                                    <div className="space-y-8 text-left border-t border-white/5 pt-10">
+                                        <div className="flex flex-col"><span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Comms Link</span><span className="text-sm font-bold text-[var(--text-primary)]">{user?.email}</span></div>
+                                        <div className="flex flex-col"><span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Sector Location</span><span className="text-sm font-bold text-[var(--text-primary)]">{user?.city || 'Not Set'}, {user?.state || 'Not Set'}</span></div>
+                                        <div className="flex justify-between items-center bg-white/5 p-8 rounded-[2rem] border border-white/5 group-hover:border-[#dc143c]/30 transition-all">
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)]">Bio-Marker</span>
+                                            <span className="text-3xl font-black text-[#dc143c] leading-none">{user?.bloodGroup || 'NA'}</span>
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Edit Form */}
-                                <div className="bg-[var(--bg-secondary)] border border-[var(--border)] p-12 rounded-[3.5rem] shadow-2xl relative overflow-hidden lg:col-span-2">
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent)]/5 rounded-bl-[100%] z-0"></div>
-                                    
-                                    <h2 className="text-3xl font-black text-[var(--text-primary)] brand-font mb-2 relative z-10">Propose Changes</h2>
-                                    <p className="text-[var(--text-muted)] font-medium mb-10 relative z-10">Changes are reviewed by administrators before being pushed to the public ledger.</p>
-
-                                    <form className="space-y-8 relative z-10" onSubmit={submitEditRequest}>
-                                        
-                                        <div className="flex flex-col md:flex-row items-center gap-8 mb-8 bg-[var(--bg-primary)] p-6 rounded-[2.5rem] border border-[var(--border)]">
+                                
+                                <div className="lg:col-span-2 glass-premium p-10 rounded-[2.5rem] border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.4)] relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[100px]" />
+                                    <form onSubmit={submitEditRequest} className="space-y-8 relative z-10">
+                                        <div className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-[1.5rem] bg-white/5 border border-white/5">
                                             <div className="relative group cursor-pointer shrink-0">
-                                                {editForm.avatar ? (
-                                                    <img src={editForm.avatar} alt="Avatar Preview" className="w-24 h-24 rounded-[1.5rem] object-cover border-2 border-[var(--border)] group-hover:border-[var(--accent)] transition-all shadow-xl bg-[var(--bg-primary)]" />
-                                                ) : (
-                                                    <div className="w-24 h-24 rounded-[1.5rem] border-2 border-dashed border-[var(--border)] group-hover:border-[var(--accent)] flex items-center justify-center bg-[var(--bg-primary)] transition-all shadow-xl">
-                                                        <AnimatedAvatar size="md" user={user} />
-                                                    </div>
-                                                )}
-                                                <div className="absolute inset-0 bg-black/60 rounded-[1.5rem] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
-                                                    <span className="text-white text-[9px] font-black uppercase tracking-widest text-center px-4">New<br/>Photo</span>
-                                                </div>
+                                                {editForm.avatar ? <img src={editForm.avatar} className="w-20 h-20 rounded-xl object-cover border-2 border-white/10 group-hover:border-[#dc143c] transition-all shadow-2xl" alt="" /> : <div className="w-20 h-20 rounded-xl border-2 border-dashed border-white/10 group-hover:border-[#dc143c] flex items-center justify-center bg-white/5 transition-all"><AnimatedAvatar size="md" user={user} /></div>}
                                                 <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleImageChange} />
                                             </div>
-                                            <div className="flex-1 space-y-2 w-full">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">New Name</label>
-                                                <input required type="text" value={editForm.name} onChange={e => setEditForm({...editForm, name: e.target.value})} className="w-full bg-[var(--bg-secondary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" placeholder="Your Name" />
-                                            </div>
+                                            <div className="flex-1 w-full"><NexusInput label="Designated Name" required value={editForm.name} onChange={e => setEditForm({...editForm, name: e.target.value})} /></div>
                                         </div>
-
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2 flex items-center gap-2">Email Address <span className="text-[8px] text-red-500 bg-red-500/10 px-2 py-0.5 rounded font-black tracking-widest uppercase">(Locked)</span></label>
-                                                <input type="email" value={user?.email || ''} readOnly className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 outline-none transition-all font-bold text-[var(--text-muted)] opacity-50 cursor-not-allowed" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">Mobile Number</label>
-                                                <input type="tel" value={editForm.phone} onChange={e => setEditForm({...editForm, phone: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" placeholder="+1 234 567 8900" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">City</label>
-                                                <input type="text" value={editForm.city} onChange={e => setEditForm({...editForm, city: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" placeholder="E.g. Nexus City" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] ml-2">State / Region</label>
-                                                <input type="text" value={editForm.state} onChange={e => setEditForm({...editForm, state: e.target.value})} className="w-full bg-[var(--bg-primary)] border border-[var(--border)] rounded-2xl px-6 py-4 focus:ring-4 focus:ring-[var(--accent)]/10 focus:border-[var(--accent)] outline-none transition-all font-bold text-[var(--text-primary)]" placeholder="E.g. Sector 7" />
-                                            </div>
+                                        <div className="grid grid-cols-2 gap-6">
+                                            <NexusInput label="Mobile Frequency" type="tel" value={editForm.phone} onChange={e => setEditForm({...editForm, phone: e.target.value})} />
+                                            <NexusInput label="Sector (City)" value={editForm.city} onChange={e => setEditForm({...editForm, city: e.target.value})} />
                                         </div>
-
-                                        <button disabled={isLoading} className="w-full py-6 rounded-2xl font-black brand-font tracking-[0.2em] uppercase transition-all shadow-xl hover:-translate-y-1 bg-[var(--accent)] text-white shadow-red-500/30 mt-4">
-                                            {isLoading ? 'SUBMITTING TO NEXUS...' : 'SUBMIT PROFILE FOR REVIEW'}
+                                        <NexusInput label="Regional Node (State)" value={editForm.state} onChange={e => setEditForm({...editForm, state: e.target.value})} />
+                                        <button disabled={isLoading} className="w-full py-5 bg-[#dc143c] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(220,20,60,0.4)]">
+                                            {isLoading ? 'Transmitting Data...' : 'Propose Identity Update'}
                                         </button>
                                     </form>
                                 </div>
