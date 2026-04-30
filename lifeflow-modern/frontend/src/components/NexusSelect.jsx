@@ -60,7 +60,7 @@ const NexusSelect = ({
                 >
                     <option value="" disabled hidden>{placeholder}</option>
                     {options.map((opt, idx) => (
-                        <option key={idx} value={opt.value || opt} className="bg-[var(--bg-card)] text-[var(--text-primary)]">
+                        <option key={idx} value={opt.value || opt} className="bg-[#1a1a2e] text-white">
                             {opt.label || opt}
                         </option>
                     ))}

@@ -33,8 +33,11 @@ const OrgDashboard = () => {
     const [activeSection, setActiveSection] = useState('overview');
     const [camps, setCamps] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [loadingCities, setLoadingCities] = useState(true);
     const [form, setForm] = useState(emptyForm);
-    const [supportedCities, setSupportedCities] = useState([]);
+    const [supportedCities, setSupportedCities] = useState([
+        "Ahmedabad", "Surat", "Vadodara", "Rajkot", "Gandhinagar", "Bhavnagar", "Jamnagar", "Junagadh", "Anand", "Bharuch", "Patan"
+    ]);
 
     const fetchMyCamps = async () => {
         try {
@@ -54,13 +57,18 @@ const OrgDashboard = () => {
     }, []);
 
     const fetchSupportedCities = async () => {
+        setLoadingCities(true);
         try {
             const res = await api.get('/org/cities');
             if (res.data.status === 'success') {
-                setSupportedCities(res.data.cities.sort());
+                // Merge with fallback and remove duplicates
+                const combined = [...new Set([...res.data.cities, ...supportedCities])];
+                setSupportedCities(combined.sort());
             }
         } catch (err) {
             console.error('Failed to fetch cities:', err);
+        } finally {
+            setLoadingCities(false);
         }
     };
 
@@ -313,7 +321,7 @@ const OrgDashboard = () => {
                                             onChange={e => setForm({ ...form, city: e.target.value })}
                                             icon={MapPin}
                                             options={supportedCities}
-                                            placeholder="Select verified city node..."
+                                            placeholder={loadingCities ? "Synchronizing City Nodes..." : "Select verified city node..."}
                                         />
 
                                         <NexusInput
