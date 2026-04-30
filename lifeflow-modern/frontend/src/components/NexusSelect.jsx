@@ -22,8 +22,8 @@ const NexusSelect = ({
             <motion.label
                 initial={false}
                 animate={{
-                    y: isFloating ? -26 : 0,
-                    x: isFloating ? -8 : (Icon ? 22 : 0),
+                    y: isFloating ? -32 : 0,
+                    x: isFloating ? (Icon ? 0 : -8) : (Icon ? 32 : 0),
                     scale: isFloating ? 0.8 : 1,
                     color: isFocused ? 'var(--accent)' : 'var(--text-muted)'
                 }}

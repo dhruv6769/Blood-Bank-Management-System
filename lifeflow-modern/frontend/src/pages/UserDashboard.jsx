@@ -403,7 +403,7 @@ const UserDashboard = () => {
         }
     };
 
-    const [reqForm, setReqForm] = useState({ patientName: '', bloodGroup: '', units: 1, hospitalName: '', city: '', contactPhone: user?.phone || '' });
+    const [reqForm, setReqForm] = useState({ patientName: '', bloodGroup: '', units: 1, hospitalName: '', city: '', contactPhone: user?.phone || '', briefing: '' });
     const [donForm, setDonForm] = useState({ bloodGroup: user?.bloodGroup || '', condition: 'None', campId: '' });
 
     const submitDonation = async (e) => {
@@ -727,7 +727,7 @@ const UserDashboard = () => {
                                         <NexusInput label="Deployment Sector" required value={reqForm.hospitalName} onChange={e => setReqForm({...reqForm, hospitalName: e.target.value})} placeholder="Hospital Name" />
                                         <NexusInput label="City Node" required value={reqForm.city} onChange={e => setReqForm({...reqForm, city: e.target.value})} placeholder="City" />
                                     </div>
-                                    <NexusInput label="Mission Briefing" value={reqForm.patientName} onChange={e => setReqForm({...reqForm, patientName: e.target.value})} rows={3} placeholder="Describe the medical situation..." />
+                                    <NexusInput label="Mission Briefing" value={reqForm.briefing} onChange={e => setReqForm({...reqForm, briefing: e.target.value})} rows={3} placeholder="Describe the medical situation..." />
                                     <button disabled={isLoading} className="w-full py-5 bg-[#dc143c] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(220,20,60,0.4)]">
                                         {isLoading ? 'Transmitting...' : 'Initiate Broadcast'}
                                     </button>

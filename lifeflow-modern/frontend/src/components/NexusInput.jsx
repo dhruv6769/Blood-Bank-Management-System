@@ -31,9 +31,9 @@ const NexusInput = ({
             <motion.label
                 initial={false}
                 animate={{
-                    y: isFloating ? -28 : 0,
-                    x: isFloating ? -8 : (Icon ? 22 : 0),
-                    scale: isFloating ? 0.75 : 1,
+                    y: isFloating ? -32 : 0,
+                    x: isFloating ? (Icon ? 0 : -8) : (Icon ? 32 : 0),
+                    scale: isFloating ? 0.8 : 1,
                     color: isFocused ? 'var(--accent)' : 'var(--text-muted)'
                 }}
                 className={`absolute left-6 top-4 pointer-events-none z-10 font-black uppercase tracking-widest text-[9px] origin-left transition-all duration-300`}
@@ -70,7 +70,7 @@ const NexusInput = ({
                         disabled:opacity-50 disabled:cursor-not-allowed
                         placeholder:text-[var(--text-muted)] placeholder:opacity-50 text-sm
                     `}
-                    placeholder={placeholder}
+                    placeholder={isFloating ? placeholder : ""}
                 />
 
                 {isPasswordField && showPasswordToggle && (
