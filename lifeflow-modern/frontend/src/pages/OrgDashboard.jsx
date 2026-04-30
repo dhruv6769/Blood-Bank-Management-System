@@ -104,7 +104,7 @@ const OrgDashboard = () => {
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className="w-[320px] shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-30 h-screen sticky top-0 shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
+                className="fixed top-0 left-0 w-[320px] shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-30 h-full pt-[122px] shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
             >
                 <div className="p-10 flex flex-col h-full">
                     <div className="flex items-center gap-5 mb-14 group cursor-pointer">
@@ -177,7 +177,7 @@ const OrgDashboard = () => {
             </motion.div>
 
             {/* Main Command Deck */}
-            <div className="flex-grow p-6 lg:p-10 z-10 relative overflow-x-hidden">
+            <div className="flex-grow ml-[320px] p-6 lg:p-10 z-10 relative overflow-x-hidden">
                 <AnimatePresence mode="wait">
                     {/* OVERVIEW */}
                     {activeSection === 'overview' && (

@@ -463,7 +463,7 @@ const UserDashboard = () => {
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: isSidebarOpen ? 0 : (window.innerWidth < 1024 ? -400 : 0), opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className={`fixed lg:sticky top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-40 h-screen shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-transform duration-500 shrink-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+                className={`fixed top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-40 h-full shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-transform duration-500 shrink-0 pt-32 lg:pt-[122px] ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
             >
                 <div className="p-8 flex flex-col h-full">
                     <div className="flex items-center gap-4 mb-10 group cursor-pointer">
@@ -552,7 +552,7 @@ const UserDashboard = () => {
             </motion.div>
 
             {/* Main Content Area */}
-            <div className="flex-1 min-h-screen pt-32 lg:pt-20 px-6 md:px-16 pb-32 z-10 w-full overflow-x-hidden">
+            <div className="flex-1 lg:ml-[320px] px-6 md:px-16 pb-32 z-10 w-full overflow-x-hidden">
                 <AnimatePresence mode="wait">
                     {/* SECTION: MAIN OVERVIEW */}
                     {activeSection === 'main' && (

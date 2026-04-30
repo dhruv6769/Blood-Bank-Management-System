@@ -298,7 +298,7 @@ const AdminDashboard = () => {
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className="w-[320px] shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 flex flex-col z-30 relative overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
+                className="fixed top-0 left-0 w-[320px] h-full shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 pt-[122px] flex flex-col z-30 overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
             >
                 {/* Global Brand Header */}
                 <div className="mb-14 px-2">
@@ -380,7 +380,7 @@ const AdminDashboard = () => {
             </motion.div>
 
             {/* Main Content Deck */}
-            <div className="flex-grow p-8 lg:p-14 z-10 relative overflow-x-hidden">
+            <div className="flex-grow ml-[320px] p-8 lg:p-14 z-10 relative overflow-x-hidden">
                 <AnimatePresence mode="wait">
 
                     {/* MONITOR */}
