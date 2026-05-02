@@ -98,7 +98,7 @@ const EmergencyTicker = () => {
             >
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
                     <div key={i} className="flex items-center gap-8 text-white font-black uppercase tracking-[0.3em] text-[10px]">
-                        <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-white animate-pulse" /> EMERGENCY UPLINK ACTIVE</span>
+                        <span className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-white animate-pulse" /> Blood Request ACTIVE</span>
                         <span className="opacity-50">O- NEGATIVE REQUIRED IN SECTOR 7</span>
                         <span className="flex items-center gap-2"><Activity size={14} /> LIVE BLOOD MATRIX SYNCING...</span>
                         <span className="opacity-50">NEW DONOR VERIFIED IN REGIONAL NODE 4</span>
@@ -570,7 +570,7 @@ const Home = () => {
                  <p className="text-2xl font-bold mb-16 max-w-xl leading-relaxed opacity-80 tracking-tight" style={{ color: 'var(--text-secondary)' }}>
                    Instantly map the clinical compatibility between nodes. Launch our high-fidelity interactive blood matrix system.
                  </p>
-                 <Link to="/compatibility" className="btn-nexus inline-flex items-center justify-center gap-4 px-12 py-6 rounded-[2.5rem] text-sm uppercase tracking-[0.3em] font-black transition-all bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white shadow-[0_25px_50px_rgba(220,20,60,0.4)]">
+                 <Link to="/compatibility" className="btn-modern inline-flex items-center justify-center gap-4 px-12 py-6 rounded-[2.5rem] text-sm uppercase tracking-[0.3em] font-black transition-all bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white shadow-[0_25px_50px_rgba(220,20,60,0.4)]">
                    Launch Matrix System <ArrowRight size={24} />
                  </Link>
                </div>

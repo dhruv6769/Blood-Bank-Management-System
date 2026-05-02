@@ -45,7 +45,7 @@ const PROTOCOL_DATA = {
         content: [
             { h: "Authentication", p: "Access to the network is strictly governed by JSON Web Tokens (JWT) requiring periodic re-validation. High-level dashboard actions require elevated clearances." },
             { h: "Threat Mitigation", p: "Our perimeter nodes utilize advanced rate-limiting and heuristic analysis to block DDoS attempts and unauthorized scraping of donor registries." },
-            { h: "Vulnerability Disclosure", p: "If you detect a vulnerability within the Sanctuary network, please report it via the Emergency Uplink. Bounties may be awarded for critical discoveries." }
+            { h: "Vulnerability Disclosure", p: "If you detect a vulnerability within the Sanctuary network, please report it via the Blood Request. Bounties may be awarded for critical discoveries." }
         ]
     },
     terms: {

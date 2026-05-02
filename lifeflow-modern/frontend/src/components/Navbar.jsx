@@ -105,11 +105,11 @@ const NotificationBell = () => {
           >
             <div className="nb-panel-header">
               <div>
-                <h3 className="nb-panel-title">Neural Stream</h3>
+                <h3 className="nb-panel-title">Notifications</h3>
                 {unread > 0 && (
                   <div className="flex items-center gap-1.5 mt-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#dc143c] animate-pulse"></div>
-                    <p className="nb-panel-sub">{unread} Priority Signal{unread > 1 ? 's' : ''}</p>
+                    <p className="nb-panel-sub">{unread} New Notification{unread > 1 ? 's' : ''}</p>
                   </div>
                 )}
               </div>
@@ -120,7 +120,7 @@ const NotificationBell = () => {
                   onClick={markAll} 
                   className="nb-mark-all"
                 >
-                  <CheckCheck size={12} className="text-[#dc143c]" /> Clear Registry
+                  <CheckCheck size={12} className="text-[#dc143c]" /> Mark all as read
                 </motion.button>
               )}
             </div>
@@ -131,7 +131,7 @@ const NotificationBell = () => {
                     <div className="absolute inset-0 bg-[#dc143c]/20 blur-xl rounded-full animate-pulse"></div>
                     <Bell size={20} className="relative z-10 text-[var(--text-muted)]" />
                   </div>
-                  <p className="text-[10px] font-black uppercase tracking-widest">Silence on all nodes</p>
+                  <p className="text-[10px] font-black uppercase tracking-widest">No new notifications</p>
                 </div>
               ) : (
                 <motion.div
@@ -257,8 +257,10 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', path: '/' },
-    { name: 'Camps', path: '/camps' },
-    { name: 'Heroes', path: '/heroes' },
+    ...(isAuthenticated ? [
+      { name: 'Donation Matrix', path: '/camps' },
+      { name: 'Hall of Heroes', path: '/heroes' },
+    ] : []),
     { name: 'Community', path: '/community' },
     { name: 'Compatibility', path: '/compatibility' },
   ];

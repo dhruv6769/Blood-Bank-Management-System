@@ -13,7 +13,7 @@ const stories = [
         tagline: "The 4 AM Miracle",
         story: "Following a severe road accident in Delhi, Aarav needed a rare O-negative transfusion in the middle of the night. A LifeFlow donor responded within 8 minutes.",
         image: "/assets/survivors/aarav.png",
-        stats: "3 Lives Impacted",
+        stats: "3 Lives Saved",
         hospital: "AIIMS, New Delhi",
         date: "Oct 24, 2025",
         gratitude: "I'm alive today because a stranger chose to be a hero at 4 AM. Now, I donate every 3 months to pay it forward."
@@ -37,7 +37,7 @@ const stories = [
         tagline: "A New Life Protected",
         story: "Complications during an emergency surgery in Jaipur required an immediate transfusion. Vikram credits the 'silent heroes' of LifeFlow for his recovery.",
         image: "/assets/survivors/vikram.png",
-        stats: "15 Lives Impacted",
+        stats: "15 Lives Saved",
         hospital: "Fortis Hospital, Jaipur",
         date: "Dec 05, 2025",
         gratitude: "It was a race against time. Knowing there were people ready to help even in a different city was truly humbling."
@@ -49,7 +49,7 @@ const stories = [
         tagline: "Back on the Field",
         story: "A surprise sports injury in Bengaluru meant Ananya needed rare B-negative blood fast. The coordination between LifeFlow donors got her back to training.",
         image: "/assets/survivors/ananya.png",
-        stats: "3 Lives Impacted",
+        stats: "3 Lives Saved",
         hospital: "Manipal Hospital, Bengaluru",
         date: "Feb 18, 2026",
         gratitude: "As an athlete, my body is my life. LifeFlow donors ensured that a setback didn't become an end. I'm forever grateful."
@@ -204,7 +204,7 @@ const DetailsModal = ({ story, onClose }) => {
                                 <p className="text-xs font-bold leading-relaxed opacity-60 max-w-sm">{story.story}</p>
                             </div>
                             
-                            <button className="btn-nexus w-full py-4 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] shadow-lg hover:shadow-red-500/20">
+                            <button className="btn-modern w-full py-4 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] shadow-lg hover:shadow-red-500/20">
                                 Initiate Connection
                             </button>
                         </div>
@@ -266,7 +266,7 @@ const SurvivorGallery = () => {
                         </h2>
                     </div>
                     <p className="text-2xl text-[var(--text-secondary)] font-bold max-w-md leading-relaxed tracking-tight mb-4 opacity-80">
-                        Behind every synchronization is a heartbeat preserved. Explore the elite legacies of LifeFlow.
+                        Behind every synchronization is a heartbeat preserved. explore the elite legacies of LifeFlow.
                     </p>
                 </div>
 
@@ -303,8 +303,8 @@ const SurvivorGallery = () => {
                             <p className="text-xl font-bold opacity-60 tracking-tight leading-relaxed">Join the global neural grid of life-savers. <br/>It takes 15 minutes to change history.</p>
                         </div>
                     </div>
-                    <button className="btn-nexus relative z-10 px-16 py-8 bg-white text-black rounded-[2.5rem] font-black uppercase tracking-[0.3em] text-sm shadow-2xl hover:scale-105 active:scale-95 transition-all">
-                        Initiate Hero Protocol
+                    <button className="btn-modern relative z-10 px-16 py-8 bg-white text-black rounded-[2.5rem] font-black uppercase tracking-[0.3em] text-sm shadow-2xl hover:scale-105 active:scale-95 transition-all">
+                        Initiate Donation Request
                     </button>
                 </Motion.div>
             </div>

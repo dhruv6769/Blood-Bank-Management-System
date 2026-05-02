@@ -170,12 +170,12 @@ h1, h2, h3, h4 {
 }
 
 /* ===== ADVANCED BUTTONS ===== */
-.btn-nexus {
+.btn-modern {
   position: relative;
   overflow: hidden;
   transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.btn-nexus::before {
+.btn-modern::before {
   content: "";
   position: absolute;
   top: -50%; left: -50%;
@@ -185,10 +185,10 @@ h1, h2, h3, h4 {
   transition: opacity 0.5s;
   pointer-events: none;
 }
-.btn-nexus:hover::before {
+.btn-modern:hover::before {
   opacity: 1;
 }
-.btn-nexus:hover {
+.btn-modern:hover {
   transform: translateY(-4px) scale(1.02);
   box-shadow: 0 20px 40px rgba(220, 20, 60, 0.3);
 }
@@ -207,4 +207,72 @@ h1, h2, h3, h4 {
   filter: blur(80px);
   opacity: 0.4;
   mix-blend-mode: soft-light;
+}
+
+/* ===== ADVANCED UI UTILITIES ===== */
+.border-beam {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from 230deg at 50% 50%,
+    #dc143c 0deg,
+    #ff3355 60deg,
+    transparent 120deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: destination-out;
+  animation: border-beam 4s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes border-beam {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.tunnel-vision {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.tunnel-vision:focus-within {
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  position: relative;
+  transform: scale(1.02);
+}
+
+.holographic-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.1s ease-out;
+}
+.holographic-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(255, 255, 255, 0.15) 0%,
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 5;
+}
+.holographic-card:hover::before {
+  opacity: 1;
+}
+
+.neural-wipe {
+  clip-path: inset(0 0 0 0);
+  animation: neural-wipe 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+}
+@keyframes neural-wipe {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
 }

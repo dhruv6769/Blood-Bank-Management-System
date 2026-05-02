@@ -10,8 +10,8 @@ import {
 import { useAuthStore } from '../context/authStore';
 import AvatarFeedback from '../components/AvatarFeedback';
 import ProtocolsModal from '../components/ProtocolsModal';
-import NexusInput from '../components/NexusInput';
-import NexusSelect from '../components/NexusSelect';
+import ModernInput from '../components/ModernInput';
+import ModernSelect from '../components/ModernSelect';
 
 /* ─── Step config ─────────────────────────────────────────────── */
 const TOTAL_STEPS = 3;
@@ -173,7 +173,7 @@ const Register = () => {
             transition={{ delay: 0.3 }}
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc143c]/10 border border-[#dc143c]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-[#dc143c] mb-8">
-              <Sparkles className="w-3 h-3" /> Step into the Nexus
+              <Sparkles className="w-3 h-3" /> Get Started
             </span>
             <h1 className="text-6xl xl:text-7xl font-black leading-[1.05] tracking-tighter mb-8" style={{ color: 'var(--text-primary)' }}>
               Be the reason <br />
@@ -206,6 +206,9 @@ const Register = () => {
       >
         <div className="w-full max-w-[540px]">
           <div className="glass-premium p-8 lg:p-12 rounded-[3.5rem] relative overflow-hidden group hover:shadow-[0_40px_80px_rgba(220,20,60,0.12)] transition-all duration-700">
+            {/* Border Beam Technology */}
+            <div className="border-beam opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+            
             {/* Glossy Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
             
@@ -221,7 +224,7 @@ const Register = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--text-muted)' }}>Protocol {step}/3</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em]" style={{ color: 'var(--text-muted)' }}>Step {step}/3</span>
                 </div>
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -231,8 +234,8 @@ const Register = () => {
                     exit={{ opacity: 0, y: -10 }}
                   >
                     <h2 className="text-4xl font-black tracking-tight mb-3" style={{ color: 'var(--text-primary)' }}>
-                      {step === 1 && 'Define Identity'}
-                      {step === 2 && (role === 'ORGANIZATION' ? 'Nexus Entity' : 'Vital Statistics')}
+                      {step === 1 && 'Role Selection'}
+                      {step === 2 && (role === 'ORGANIZATION' ? 'Organization Details' : 'Vital Statistics')}
                       {step === 3 && 'Secure Access'}
                     </h2>
                     <p className="text-sm font-bold opacity-60" style={{ color: 'var(--text-secondary)' }}>
@@ -265,7 +268,7 @@ const Register = () => {
                             key={r.id}
                             whileHover={{ scale: 1.02, x: 5 }}
                             whileTap={{ scale: 0.98 }}
-                            className={`w-full flex items-center gap-6 p-7 rounded-[2rem] border-2 transition-all duration-500 text-left ${isSelected ? 'border-[#dc143c] bg-[#dc143c]/5 shadow-[0_20px_40px_rgba(220,20,60,0.1)]' : 'border-transparent bg-white/5'}`}
+                            className={`w-full flex items-center gap-6 p-7 rounded-[2rem] border-2 transition-all duration-500 text-left holographic-card ${isSelected ? 'border-[#dc143c] bg-[#dc143c]/5 shadow-[0_20px_40px_rgba(220,20,60,0.1)]' : 'border-transparent bg-white/5'}`}
                             onClick={() => { setProtocolRole(r.id); setIsProtocolsOpen(true); }}
                           >
                             <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-all duration-700 ${isSelected ? 'bg-[#dc143c] text-white shadow-[0_0_30px_rgba(220,20,60,0.4)]' : 'bg-gray-100 dark:bg-gray-800 text-gray-400'}`}>
@@ -293,11 +296,11 @@ const Register = () => {
                           whileHover={{ y: -8, scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           type="button" 
-                          className="btn-nexus w-full h-24 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[0.6em] shadow-[0_30px_60px_rgba(220,20,60,0.3)] hover:shadow-[0_45px_90px_rgba(220,20,60,0.45)] flex items-center justify-center gap-6 group transition-all relative overflow-hidden" 
+                          className="btn-modern w-full h-24 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[0.6em] shadow-[0_30px_60px_rgba(220,20,60,0.3)] hover:shadow-[0_45px_90px_rgba(220,20,60,0.45)] flex items-center justify-center gap-6 group transition-all relative overflow-hidden" 
                           onClick={goNext}
                         >
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                          Synchronize Identity <ArrowRight size={22} className="group-hover:translate-x-4 transition-transform duration-500" />
+                          Continue to Details <ArrowRight size={22} className="group-hover:translate-x-4 transition-transform duration-500" />
                         </motion.button>
                       </div>
                     </motion.div>
@@ -312,24 +315,24 @@ const Register = () => {
                       exit="exit"
                       custom={slideDir}
                     >
-                      <form onSubmit={goNext} className="space-y-6">
+                      <form onSubmit={goNext} className="space-y-6 tunnel-vision">
                         {role === 'DONOR' ? (
                           <>
-                            <NexusInput icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="First, Last Name" label="Full Identity" required />
-                            <NexusInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="mission@lifeflow.com" label="Nexus Email" required />
+                            <ModernInput icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="First, Last Name" label="Full Identity" required />
+                            <ModernInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="mission@lifeflow.com" label="Email Address" required />
                             <div className="grid grid-cols-2 gap-6">
-                              <NexusSelect icon={Droplet} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} label="Blood Type" required options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} />
-                              <NexusInput icon={CalendarDays} type="number" name="age" value={formData.age} onChange={handleChange} placeholder="18-65" label="Age Profile" required />
+                              <ModernSelect icon={Droplet} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} label="Blood Type" required options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} />
+                              <ModernInput icon={CalendarDays} type="number" name="age" value={formData.age} onChange={handleChange} placeholder="18-65" label="Age Profile" required />
                             </div>
                           </>
                         ) : (
                           <>
-                            <NexusInput icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Authorized Personnel" label="Contact Protocol" required />
-                            <NexusInput icon={Building2} type="text" name="orgName" value={formData.orgName} onChange={handleChange} placeholder="Clinical / Civic Institution" label="Organization Code" required />
-                            <NexusInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="ops@institution.org" label="Operational Email" required />
+                            <ModernInput icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Authorized Personnel" label="Contact Name" required />
+                            <ModernInput icon={Building2} type="text" name="orgName" value={formData.orgName} onChange={handleChange} placeholder="Clinical / Civic Institution" label="Organization Name" required />
+                            <ModernInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="ops@institution.org" label="Operational Email" required />
                             <div className="grid grid-cols-2 gap-6">
-                              <NexusInput icon={Phone} type="tel" name="orgPhone" value={formData.orgPhone} onChange={handleChange} placeholder="+91..." label="Comm Link" />
-                              <NexusInput icon={MapPin} type="text" name="orgAddress" value={formData.orgAddress} onChange={handleChange} placeholder="City, State" label="Neutral Zone" />
+                              <ModernInput icon={Phone} type="tel" name="orgPhone" value={formData.orgPhone} onChange={handleChange} placeholder="+91..." label="Comm Link" />
+                              <ModernInput icon={MapPin} type="text" name="orgAddress" value={formData.orgAddress} onChange={handleChange} placeholder="City, State" label="Location" />
                             </div>
                           </>
                         )}
@@ -338,7 +341,7 @@ const Register = () => {
                             <ArrowLeft size={18} /> Back
                           </button>
                           <button type="submit" className="flex-1 h-16 bg-gradient-to-r from-[#dc143c] to-[#8b0000] text-white rounded-2xl font-black text-sm uppercase tracking-[0.2em] shadow-[0_12px_24px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all">
-                             Maintain Sync <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
+                             Continue to Security <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
                           </button>
                         </div>
                       </form>
@@ -354,15 +357,15 @@ const Register = () => {
                       exit="exit"
                       custom={slideDir}
                     >
-                      <form onSubmit={handleRegister} className="space-y-8">
-                        <NexusInput 
+                      <form onSubmit={handleRegister} className="space-y-8 tunnel-vision">
+                        <ModernInput 
                           icon={Lock} 
                           type="password" 
                           name="password" 
                           value={formData.password} 
                           onChange={handleChange} 
                           placeholder="Min. 8 Chars" 
-                          label="Encryption Key" 
+                          label="Password" 
                           required 
                           showPasswordToggle
                         />
@@ -373,10 +376,10 @@ const Register = () => {
                             <ShieldCheck size={28} />
                           </div>
                           <div className="flex-1">
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc143c] mb-2">Final Node Validation</p>
-                            <h4 className="text-xl font-black tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>{formData.name || 'Nexus Participant'}</h4>
+                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#dc143c] mb-2">Final Review</p>
+                            <h4 className="text-xl font-black tracking-tight mb-2" style={{ color: 'var(--text-primary)' }}>{formData.name || 'Participant'}</h4>
                             <p className="text-sm font-bold opacity-60 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                              Deploying node as <span className="text-[#dc143c] font-black">{role}</span> on the clinical grid.
+                              Registering as <span className="text-[#dc143c] font-black">{role}</span> on the LifeFlow network.
                             </p>
                           </div>
                         </div>
@@ -397,9 +400,9 @@ const Register = () => {
                             whileTap={{ scale: 0.98 }}
                             type="submit" 
                             disabled={isLoading} 
-                            className="btn-nexus flex-1 h-20 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all"
+                            className="btn-modern flex-1 h-20 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all"
                           >
-                             {isLoading ? <div className="w-8 h-8 border-[4px] border-white/30 border-t-white rounded-full animate-spin" /> : <>Complete Deployment <Plus size={20} /></>}
+                             {isLoading ? <div className="w-8 h-8 border-[4px] border-white/30 border-t-white rounded-full animate-spin" /> : <>Complete Registration <Plus size={20} /></>}
                           </motion.button>
                         </div>
                       </form>
@@ -411,7 +414,7 @@ const Register = () => {
               {/* Footer */}
               <div className="mt-10 pt-10 text-center" style={{ borderTop: '1px solid var(--border)' }}>
                 <p className="text-sm font-bold opacity-60" style={{ color: 'var(--text-secondary)' }}>
-                  Already registered? <Link to="/login" className="text-[#dc143c] hover:text-[#ff3355] ml-2 transition-colors no-underline">Sign Protocol →</Link>
+                  Already registered? <Link to="/login" className="text-[#dc143c] hover:text-[#ff3355] ml-2 transition-colors no-underline">Sign In →</Link>
                 </p>
               </div>
             </div>

@@ -177,30 +177,43 @@ const AdminDashboard = () => {
 
     const handleRequestAction = async (id, status) => {
         try {
+            // Optimistic update
+            setRequests(prev => prev.filter(req => req.id !== id));
             await api.put(`/admin/requests/${id}`, { status });
             toast.success(`Request ${status.toLowerCase()}.`);
-            fetchRequests();
-            fetchDashboardData(); // Update badges instantly
-        } catch { toast.error('Action failed'); }
+            // Delay refresh slightly to allow animation to complete
+            setTimeout(() => fetchDashboardData(), 800); 
+        } catch { 
+            toast.error('Action failed'); 
+            fetchRequests(); // Rollback if failed
+        }
     };
 
     const handleDonationAction = async (id, status) => {
         try {
+            // Optimistic update
+            setPendingDonations(prev => prev.filter(don => don.id !== id));
             await api.put(`/admin/donations/${id}`, { status });
             toast.success(`Donation offer ${status.toLowerCase()}.`);
-            fetchPendingDonations();
-            fetchDashboardData(); // Update badges instantly
-        } catch { toast.error('Action failed'); }
+            setTimeout(() => fetchDashboardData(), 800);
+        } catch { 
+            toast.error('Action failed'); 
+            fetchPendingDonations(); // Rollback if failed
+        }
     };
 
     const handleCampAction = async (id, status) => {
         try {
             const note = status === 'REJECTED' ? prompt('Rejection reason (optional):') : null;
+            // Optimistic update
+            setPendingCamps(prev => prev.filter(camp => camp.id !== id));
             await api.put(`/admin/camps/${id}`, { status, adminNote: note });
             toast.success(`Camp ${status.toLowerCase()}.`);
-            fetchPendingCamps();
-            fetchDashboardData(); // Update badges instantly
-        } catch { toast.error('Action failed'); }
+            setTimeout(() => fetchDashboardData(), 800);
+        } catch { 
+            toast.error('Action failed'); 
+            fetchPendingCamps(); // Rollback if failed
+        }
     };
 
     const handleRemoveUser = async (id, name) => {
@@ -218,10 +231,15 @@ const AdminDashboard = () => {
 
     const handleProfileEditAction = async (id, status) => {
         try {
+            // Optimistic update
+            setProfileEdits(prev => prev.filter(req => req.id !== id));
             await api.put(`/admin/profile-edits/${id}`, { status });
             toast.success(`Profile edit ${status.toLowerCase()}.`);
-            fetchProfileEdits();
-        } catch { toast.error('Action failed'); }
+            setTimeout(() => fetchDashboardData(), 800);
+        } catch { 
+            toast.error('Action failed'); 
+            fetchProfileEdits(); // Rollback if failed
+        }
     };
 
     const handleSupportReply = async (id) => {
@@ -293,7 +311,7 @@ const AdminDashboard = () => {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,_#dc143c15,_transparent)]"></div>
             </div>
 
-            {/* Sidebar - Nexus Command Pillar */}
+            {/* Sidebar - Sidebar Navigation */}
             <motion.div 
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }}
@@ -310,25 +328,14 @@ const AdminDashboard = () => {
                             </div>
                         </div>
                         <div>
-                            <h2 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none mb-1">Nexus</h2>
+                            <h2 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none mb-1">Admin</h2>
                             <div className="flex items-center gap-2">
                                 <div className="w-2 h-2 rounded-full bg-[#dc143c] animate-pulse"></div>
-                                <p className="text-[9px] text-[#dc143c] font-black uppercase tracking-[0.5em]">Central Command</p>
+                                <p className="text-[9px] text-[#dc143c] font-black uppercase tracking-[0.5em]">Admin Panel</p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="p-8 rounded-[2.5rem] bg-[var(--bg-primary)] border border-[var(--border)] relative overflow-hidden group shadow-inner">
-                        <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#dc143c]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
-                        <p className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-3">System Identity</p>
-                        <div className="flex items-center gap-4">
-                            <div className="w-2 h-10 bg-[#dc143c] rounded-full"></div>
-                            <div>
-                                <p className="text-base font-black text-[var(--text-primary)] tracking-tight leading-none mb-1">Admin Alpha-01</p>
-                                <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol: Established</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 {/* Primary Navigation Deck */}
@@ -387,7 +394,7 @@ const AdminDashboard = () => {
                     {activeSection === 'monitor' && (
                         <motion.div key="monitor" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-7xl mx-auto py-2">
                             <div className="mb-8">
-                                <h1 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-2 tracking-tighter">Nexus Monitor<span className="text-[#dc143c]">.</span></h1>
+                                <h1 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-2 tracking-tighter">Admin Dashboard<span className="text-[#dc143c]">.</span></h1>
                                 <p className="text-[var(--text-muted)] font-bold uppercase tracking-[0.3em] text-[9px]">Real-time infrastructure overview & global supply nodes</p>
                             </div>
 
@@ -401,7 +408,7 @@ const AdminDashboard = () => {
                              
                              <div className="flex items-center gap-6 mb-8">
                                  <div className="w-12 h-px bg-gradient-to-r from-[#dc143c] to-transparent"></div>
-                                 <h3 className="font-black text-[var(--text-primary)] uppercase tracking-[0.4em] text-[9px] whitespace-nowrap">Vital Reserve Telemetry</h3>
+                                 <h3 className="font-black text-[var(--text-primary)] uppercase tracking-[0.4em] text-[9px] whitespace-nowrap">Blood Inventory</h3>
                                  <div className="flex-grow h-px bg-[var(--border)]"></div>
                              </div>
                             
@@ -438,7 +445,7 @@ const AdminDashboard = () => {
                             
                             <div className="grid gap-6">
                                 {isLoading ? (
-                                    <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Synchronizing Nexus Pulse...</div>
+                                    <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Updating Dashboard...</div>
                                 ) : requests.length === 0 ? (
                                     <div className="bg-[var(--bg-secondary)]/50 backdrop-blur-3xl p-20 rounded-[3rem] border border-[var(--border)] text-center shadow-2xl relative overflow-hidden">
                                         <div className="absolute inset-0 bg-gradient-to-b from-[#dc143c]/5 to-transparent"></div>
@@ -448,12 +455,17 @@ const AdminDashboard = () => {
                                         <p className="text-[var(--text-muted)] font-black uppercase tracking-[0.4em] text-xs">Zero Pending Uplinks</p>
                                     </div>
                                 ) : (
-                                    requests.map(req => (
-                                        <motion.div 
-                                            key={req.id} 
-                                            whileHover={{ scale: 1.01, y: -4 }}
-                                            className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
-                                        >
+                                    <AnimatePresence mode="popLayout">
+                                        {requests.map(req => (
+                                            <motion.div 
+                                                key={req.id} 
+                                                layout
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                                                whileHover={{ scale: 1.01, y: -4 }}
+                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
+                                            >
                                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <div className="flex items-center gap-10 relative z-10 w-full md:w-auto">
                                                 <div className="w-24 h-24 bg-[var(--bg-primary)] rounded-[2.5rem] flex flex-col items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_30px_rgba(220,20,60,0.2)] shadow-2xl transition-all shrink-0">
@@ -485,7 +497,8 @@ const AdminDashboard = () => {
                                                 </button>
                                             </div>
                                         </motion.div>
-                                    ))
+                                    ))}
+                                    </AnimatePresence>
                                 )}
                             </div>
                         </motion.div>
@@ -499,7 +512,7 @@ const AdminDashboard = () => {
                             
                             <div className="grid gap-6">
                                 {isLoading ? (
-                                    <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Decoding Bio-Signals...</div>
+                                    <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Loading Data...</div>
                                 ) : pendingDonations.length === 0 ? (
                                     <div className="bg-[var(--bg-secondary)]/50 backdrop-blur-3xl p-20 rounded-[3rem] border border-[var(--border)] text-center shadow-2xl">
                                         <div className="w-24 h-24 bg-[var(--bg-primary)]/20 rounded-full flex items-center justify-center mx-auto mb-8 border border-[var(--border)] shadow-2xl">
@@ -508,12 +521,17 @@ const AdminDashboard = () => {
                                         <p className="text-[var(--text-muted)] font-black uppercase tracking-[0.4em] text-xs">No active intake streams</p>
                                     </div>
                                 ) : (
-                                    pendingDonations.map(don => (
-                                        <motion.div 
-                                            key={don.id} 
-                                            whileHover={{ scale: 1.01, y: -4 }}
-                                            className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
-                                        >
+                                    <AnimatePresence mode="popLayout">
+                                        {pendingDonations.map(don => (
+                                            <motion.div 
+                                                key={don.id}
+                                                layout
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                                                whileHover={{ scale: 1.01, y: -4 }}
+                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
+                                            >
                                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             <div className="flex items-center gap-10 relative z-10 w-full md:w-auto">
                                                 <div className="w-24 h-24 bg-[var(--bg-primary)] rounded-[2.5rem] flex flex-col items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_30px_rgba(220,20,60,0.2)] shadow-2xl transition-all shrink-0">
@@ -545,7 +563,8 @@ const AdminDashboard = () => {
                                                 </button>
                                             </div>
                                         </motion.div>
-                                    ))
+                                    ))}
+                                    </AnimatePresence>
                                 )}
                             </div>
                         </motion.div>
@@ -558,7 +577,7 @@ const AdminDashboard = () => {
                             
                             <div className="grid gap-10">
                                 {isLoading ? (
-                                    <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Triangulating Global Nodes...</div>
+                                    <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Locating Camps...</div>
                                 ) : pendingCamps.length === 0 ? (
                                     <div className="bg-[var(--bg-secondary)]/50 backdrop-blur-3xl p-20 rounded-[3rem] border border-[var(--border)] text-center shadow-2xl relative overflow-hidden">
                                         <div className="absolute inset-0 bg-gradient-to-b from-[#dc143c]/5 to-transparent"></div>
@@ -568,12 +587,17 @@ const AdminDashboard = () => {
                                         <p className="text-[var(--text-muted)] font-black uppercase tracking-[0.4em] text-xs">Zero Pending Deployments</p>
                                     </div>
                                 ) : (
-                                    pendingCamps.map(camp => (
-                                        <motion.div 
-                                            key={camp.id} 
-                                            whileHover={{ scale: 1.01, y: -8 }}
-                                            className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-12 rounded-[4rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500"
-                                        >
+                                    <AnimatePresence mode="popLayout">
+                                        {pendingCamps.map(camp => (
+                                            <motion.div 
+                                                key={camp.id}
+                                                layout
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                                                whileHover={{ scale: 1.01, y: -8 }}
+                                                className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-12 rounded-[4rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500"
+                                            >
                                             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                                             <div className="relative z-10">
                                                 <div className="flex justify-between items-start flex-wrap gap-8 mb-14">
@@ -649,7 +673,8 @@ const AdminDashboard = () => {
                                                 </div>
                                             </div>
                                         </motion.div>
-                                    ))
+                                    ))}
+                                    </AnimatePresence>
                                 )}
                             </div>
                         </motion.div>
@@ -663,24 +688,29 @@ const AdminDashboard = () => {
                             
                             <div className="grid gap-8">
                                 {isLoading ? (
-                                    <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Scanning Bio-Profiles...</div>
+                                    <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Checking Profiles...</div>
                                 ) : profileEdits.length === 0 ? (
                                     <div className="bg-[var(--bg-secondary)]/50 p-24 rounded-[4rem] border border-[var(--border)] text-center shadow-2xl">
                                         <UserCheck className="w-20 h-20 mx-auto mb-8 text-[var(--text-muted)]" />
                                         <p className="text-[var(--text-muted)] font-black uppercase tracking-[0.4em] text-xs">Identity Buffer Clear</p>
                                     </div>
                                 ) : (
-                                    profileEdits.map(req => {
-                                        let proposed = {};
-                                        try {
-                                            proposed = typeof req.proposedData === 'string' ? JSON.parse(req.proposedData) : req.proposedData || {};
-                                        } catch(e) { console.error('Error parsing JSON for proposedData', e); }
-                                        return (
-                                        <motion.div 
-                                            key={req.id} 
-                                            whileHover={{ scale: 1.01 }}
-                                            className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] hover:border-[#dc143c]/30 transition-all group shadow-2xl relative overflow-hidden flex flex-col lg:flex-row gap-10 items-center justify-between"
-                                        >
+                                    <AnimatePresence mode="popLayout">
+                                        {profileEdits.map(req => {
+                                            let proposed = {};
+                                            try {
+                                                proposed = typeof req.proposedData === 'string' ? JSON.parse(req.proposedData) : req.proposedData || {};
+                                            } catch(e) { console.error('Error parsing JSON for proposedData', e); }
+                                            return (
+                                            <motion.div 
+                                                key={req.id} 
+                                                layout
+                                                initial={{ opacity: 0, x: -20 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                                                whileHover={{ scale: 1.01 }}
+                                                className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] hover:border-[#dc143c]/30 transition-all group shadow-2xl relative overflow-hidden flex flex-col lg:flex-row gap-10 items-center justify-between"
+                                            >
                                             <div className="flex flex-col md:flex-row gap-10 items-center w-full lg:w-auto">
                                                 <div className="flex gap-6 items-center shrink-0">
                                                     <div className="text-center group-hover:scale-105 transition-transform duration-500">
@@ -699,7 +729,7 @@ const AdminDashboard = () => {
                                                 </div>
 
                                                 <div className="space-y-4 flex-grow min-w-0">
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                                         <div className="bg-[var(--bg-secondary)]/50 p-4 rounded-2xl border border-[var(--border)]">
                                                             <p className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Subject Name</p>
                                                             <div className="flex flex-col gap-1">
@@ -718,6 +748,15 @@ const AdminDashboard = () => {
                                                                 )}
                                                             </div>
                                                         </div>
+                                                        <div className="bg-[var(--bg-secondary)]/50 p-4 rounded-2xl border border-[var(--border)]">
+                                                            <p className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Localization</p>
+                                                            <div className="flex flex-col gap-1">
+                                                                <p className="text-[10px] font-bold text-[var(--text-muted)] opacity-50 truncate">{req.user?.city || 'UNK'}, {req.user?.state || 'UNK'}</p>
+                                                                {(proposed.city || proposed.state) && (
+                                                                    <p className="text-[10px] font-black text-emerald-400 tracking-tight"> {proposed.city || req.user?.city}, {proposed.state || req.user?.state}</p>
+                                                                )}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -733,8 +772,9 @@ const AdminDashboard = () => {
                                                 </button>
                                             </div>
                                         </motion.div>
-                                        );
-                                    })
+                                            );
+                                        })}
+                                    </AnimatePresence>
                                 )}
                             </div>
                         </motion.div>
@@ -745,7 +785,7 @@ const AdminDashboard = () => {
                         <motion.div key="users" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-7xl mx-auto py-4">
                             <div className="flex justify-between items-end mb-16">
                                 <div>
-                                    <h1 className="text-5xl font-black text-[var(--text-primary)] brand-font mb-3">Subject Registry<span className="text-[#dc143c]">.</span></h1>
+                                    <h1 className="text-5xl font-black text-[var(--text-primary)] brand-font mb-3">User List<span className="text-[#dc143c]">.</span></h1>
                                     <p className="text-[var(--text-muted)] font-bold uppercase tracking-[0.4em] text-[10px]">Directory of all authenticated life-donors</p>
                                 </div>
                                 <button onClick={fetchUsers} className="w-16 h-16 rounded-3xl bg-[var(--bg-card)] border border-[var(--border)] text-[var(--text-primary)] flex items-center justify-center hover:bg-[#dc143c] hover:text-white transition-all group shadow-2xl">
@@ -762,48 +802,69 @@ const AdminDashboard = () => {
                                 </div>
                             ) : (
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    {users.map(u => (
-                                        <motion.div 
-                                            key={u.id} 
-                                            whileHover={{ y: -10, backgroundColor: 'var(--bg-secondary)' }}
-                                            className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] transition-all group relative overflow-hidden shadow-2xl"
-                                        >
-                                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#dc143c]/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                            <div className="flex justify-between items-start mb-10">
-                                                <div className="w-16 h-16 bg-[var(--bg-primary)] rounded-2xl flex items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_20px_rgba(220,20,60,0.2)] transition-all duration-500 shadow-2xl">
-                                                    <User className="w-7 h-7 text-[var(--text-muted)] group-hover:text-[#dc143c]" />
+                                    <AnimatePresence mode="popLayout">
+                                        {users.map(u => (
+                                            <motion.div 
+                                                key={u.id} 
+                                                initial={{ opacity: 0, scale: 0.9 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                                                whileHover={{ y: -10, backgroundColor: 'var(--bg-secondary)' }}
+                                                className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] transition-all group relative overflow-hidden shadow-2xl"
+                                            >
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-[#dc143c]/5 rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                                <div className="flex justify-between items-start mb-10">
+                                                    <div className="w-16 h-16 bg-[var(--bg-primary)] rounded-2xl flex items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_20px_rgba(220,20,60,0.2)] transition-all duration-500 shadow-2xl">
+                                                        <User className="w-7 h-7 text-[var(--text-muted)] group-hover:text-[#dc143c]" />
+                                                    </div>
+                                                    <button onClick={() => handleRemoveUser(u.id, u.name)}
+                                                        className="w-12 h-12 bg-white/5 border border-white/10 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center shadow-2xl">
+                                                        <Trash2 className="w-5 h-5" />
+                                                    </button>
                                                 </div>
-                                                <button onClick={() => handleRemoveUser(u.id, u.name)}
-                                                    className="w-12 h-12 bg-white/5 border border-white/10 rounded-xl text-red-500 hover:bg-red-500 hover:text-white transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center shadow-2xl">
-                                                    <Trash2 className="w-5 h-5" />
-                                                </button>
-                                            </div>
-                                            <h3 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-2 truncate group-hover:text-[#dc143c] transition-colors">{u.name}</h3>
-                                            <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em] mb-8">Authenticated Subject</p>
-                                            
-                                            <div className="space-y-5">
-                                                <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em] truncate">
-                                                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+                                                <h3 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-2 truncate group-hover:text-[#dc143c] transition-colors">{u.name}</h3>
+                                                <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em] mb-8">Subject Profile</p>
+                                                
+                                                <div className="space-y-4">
+                                                    <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em] truncate">
                                                         <Mail className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                        <span className="opacity-50">Email:</span> {u.email}
                                                     </div>
-                                                    {u.email}
-                                                </div>
-                                                <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
-                                                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
-                                                        <Droplet className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                    <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
+                                                        <Phone className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                        <span className="opacity-50">Mobile:</span> {u.phone || 'NO_COMMS'}
                                                     </div>
-                                                    Factor: <span className="text-[var(--text-primary)] ml-1">{u.bloodGroup || 'UNK'}</span>
+                                                    <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
+                                                        <MapPin className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                        <span className="opacity-50">Node:</span> {u.city || 'UNK'}, {u.state || 'UNK'}
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-4 mt-6">
+                                                        <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                                            <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-widest mb-1">Blood Factor</p>
+                                                            <p className="text-xl font-black text-[#dc143c] brand-font">{u.bloodGroup || 'NA'}</p>
+                                                        </div>
+                                                        <div className="bg-white/5 p-4 rounded-2xl border border-white/5">
+                                                            <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-widest mb-1">Subject Age</p>
+                                                            <p className="text-xl font-black text-[var(--text-primary)] brand-font">{u.age || 'NA'}</p>
+                                                        </div>
+                                                        {u.gender && (
+                                                            <div className="col-span-2 bg-white/5 p-4 rounded-2xl border border-white/5 flex justify-between items-center">
+                                                                <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-widest">Biological Type</p>
+                                                                <p className="text-xs font-black text-[var(--text-primary)] uppercase tracking-widest">{u.gender}</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="mt-10 pt-8 border-t border-[var(--border)] flex justify-between items-center">
-                                                <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol</span>
-                                                <div className="flex items-center gap-2 px-4 py-2 bg-[#dc143c]/10 text-[#dc143c] rounded-xl text-[9px] font-black uppercase tracking-[0.2em] border border-[#dc143c]/20 shadow-[0_0_15px_rgba(220,20,60,0.1)]">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#dc143c] animate-pulse"></div>
-                                                    Active Node
+                                                <div className="mt-8 pt-6 border-t border-[var(--border)] flex justify-between items-center">
+                                                    <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol Status</span>
+                                                    <div className="flex items-center gap-2 px-3 py-1.5 bg-[#dc143c]/10 text-[#dc143c] rounded-lg text-[9px] font-black uppercase tracking-[0.2em]">
+                                                        <div className="w-1 h-1 rounded-full bg-[#dc143c] animate-pulse"></div>
+                                                        Active Node
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                            </motion.div>
+                                        ))}
+                                    </AnimatePresence>
                                 </div>
                             )}
                         </motion.div>

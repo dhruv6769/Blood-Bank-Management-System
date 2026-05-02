@@ -5,8 +5,8 @@ import { Building2, Plus, Clock, CheckCircle, XCircle, Calendar, MapPin, Users, 
 import { useAuthStore } from '../context/authStore';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
-import NexusInput from '../components/NexusInput';
-import NexusSelect from '../components/NexusSelect';
+import ModernInput from '../components/ModernInput';
+import ModernSelect from '../components/ModernSelect';
 
 const STATUS_STYLES = {
     PENDING: 'bg-orange-500/10 text-orange-600 border-orange-500/20 shadow-[0_0_15px_rgba(249,115,22,0.1)]',
@@ -120,7 +120,7 @@ const OrgDashboard = () => {
                 <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
             </div>
 
-            {/* Floating Navigation Rail - Nexus Node Pillar */}
+            {/* Floating Navigation Rail - Sidebar */}
             <motion.div 
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }}
@@ -151,7 +151,7 @@ const OrgDashboard = () => {
                             <div className="w-2 h-10 bg-[#dc143c] rounded-full"></div>
                             <div className="min-w-0">
                                 <p className="text-base font-black text-[var(--text-primary)] tracking-tight leading-none mb-1 truncate">{user?.orgName || user?.name}</p>
-                                <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol: Verified</p>
+                                <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-widest">Status: Verified</p>
                             </div>
                         </div>
                     </div>
@@ -293,7 +293,7 @@ const OrgDashboard = () => {
                                 <form className="space-y-10 relative z-10" onSubmit={submitCamp}>
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                                         <div className="md:col-span-2">
-                                            <NexusInput
+                                            <ModernInput
                                                 label="Mission Designation"
                                                 required
                                                 value={form.name}
@@ -304,7 +304,7 @@ const OrgDashboard = () => {
                                         </div>
 
                                         <div className="md:col-span-2">
-                                            <NexusInput
+                                            <ModernInput
                                                 label="Geo-Coordinates (Deployment Address)"
                                                 required
                                                 value={form.address}
@@ -314,17 +314,17 @@ const OrgDashboard = () => {
                                             />
                                         </div>
 
-                                        <NexusSelect
+                                        <ModernSelect
                                             label="Clinical Strategic Node (City)"
                                             required
                                             value={form.city}
                                             onChange={e => setForm({ ...form, city: e.target.value })}
                                             icon={MapPin}
                                             options={supportedCities}
-                                            placeholder={loadingCities ? "Synchronizing City Nodes..." : "Select verified city node..."}
+                                            placeholder={loadingCities ? "Synchronizing Citys..." : "Select verified City..."}
                                         />
 
-                                        <NexusInput
+                                        <ModernInput
                                             label="Bio-Throughput Capacity"
                                             type="number"
                                             value={form.totalSlots}
@@ -332,7 +332,7 @@ const OrgDashboard = () => {
                                             icon={Users}
                                         />
 
-                                        <NexusInput
+                                        <ModernInput
                                             label="Temporal Window (Date)"
                                             type="date"
                                             required
@@ -342,7 +342,7 @@ const OrgDashboard = () => {
                                         />
 
                                         <div className="grid grid-cols-2 gap-8">
-                                            <NexusInput
+                                            <ModernInput
                                                 label="Active Start"
                                                 type="time"
                                                 required
@@ -350,7 +350,7 @@ const OrgDashboard = () => {
                                                 onChange={e => setForm({ ...form, startTime: e.target.value })}
                                                 icon={Clock}
                                             />
-                                            <NexusInput
+                                            <ModernInput
                                                 label="Active End"
                                                 type="time"
                                                 required

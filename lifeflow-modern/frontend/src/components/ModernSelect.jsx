@@ -1,29 +1,21 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Eye, EyeOff } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
-const NexusInput = ({ 
+const ModernSelect = ({ 
     label, 
-    type = 'text', 
     value, 
     onChange, 
+    options = [], 
     required = false, 
-    placeholder = '', 
     icon: Icon,
     disabled = false,
-    readOnly = false,
     className = "",
-    rows = null,
-    showPasswordToggle = false
+    placeholder = ""
 }) => {
     const [isFocused, setIsFocused] = useState(false);
-    const [showPassword, setShowPassword] = useState(false);
     const hasValue = value && value.toString().length > 0;
     const isFloating = isFocused || hasValue;
-
-    const InputTag = rows ? 'textarea' : 'input';
-    const isPasswordField = type === 'password';
-    const currentType = isPasswordField ? (showPassword ? 'text' : 'password') : type;
 
     return (
         <div className={`relative group ${className}`}>
@@ -36,52 +28,47 @@ const NexusInput = ({
                     scale: isFloating ? 0.8 : 1,
                     color: isFocused ? 'var(--accent)' : 'var(--text-muted)'
                 }}
-                className={`absolute left-6 top-4 pointer-events-none z-10 font-black uppercase tracking-widest text-[9px] origin-left transition-all duration-300`}
+                className={`absolute left-6 top-4 pointer-events-none z-10 font-black uppercase tracking-widest text-[9px] origin-left transition-colors duration-300`}
             >
                 {label} {required && <span className="text-red-500">*</span>}
             </motion.label>
 
-            {/* Input Wrapper */}
-            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl">
+            {/* Select Wrapper */}
+            <div className="relative overflow-hidden rounded-xl">
                 {Icon && (
                     <div className={`absolute left-6 top-1/2 -translate-y-1/2 z-20 transition-colors duration-300 ${isFocused ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}>
                         <Icon size={18} />
                     </div>
                 )}
                 
-                <InputTag
-                    type={currentType}
+                <select
                     value={value}
                     onChange={onChange}
                     onFocus={() => setIsFocused(true)}
                     onBlur={() => setIsFocused(false)}
                     required={required}
                     disabled={disabled}
-                    readOnly={readOnly}
-                    rows={rows}
                     className={`
                         w-full bg-[var(--bg-primary)] border-2 border-[var(--border)] 
-                        ${Icon ? 'pl-16' : 'px-6'} py-4 
-                        ${showPasswordToggle && isPasswordField ? 'pr-16' : ''}
-                        ${rows ? 'resize-none min-h-[100px]' : ''}
-                        text-[var(--text-primary)] font-bold outline-none transition-all duration-500 rounded-xl
+                        ${Icon ? 'pl-16' : 'px-6'} py-4 pr-12
+                        text-[var(--text-primary)] font-bold outline-none transition-all duration-500
                         hover:border-[var(--border-hover)]
                         focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10
                         disabled:opacity-50 disabled:cursor-not-allowed
-                        placeholder:text-[var(--text-muted)] placeholder:opacity-50 text-sm
+                        appearance-none cursor-pointer text-sm
                     `}
-                    placeholder={isFloating ? placeholder : ""}
-                />
+                >
+                    <option value="" disabled hidden>{placeholder}</option>
+                    {options.map((opt, idx) => (
+                        <option key={idx} value={opt.value || opt} className="bg-[#1a1a2e] text-white">
+                            {opt.label || opt}
+                        </option>
+                    ))}
+                </select>
 
-                {isPasswordField && showPasswordToggle && (
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
-                    >
-                        {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                    </button>
-                )}
+                <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">
+                    <ChevronDown size={18} />
+                </div>
 
                 {/* Removed Background Glow for Visibility */}
             </div>
@@ -89,4 +76,4 @@ const NexusInput = ({
     );
 };
 
-export default NexusInput;
+export default ModernSelect;

@@ -6,7 +6,7 @@ const steps = [
     {
         id: 1,
         title: "The Donation",
-        desc: "Your journey begins at a certified LifeFlow center. A single pint is collected in about 10 minutes by our expert clinical team.",
+        desc: "Your journey begins at a certified LifeFlow center. A single pint is collected in about 10 minutes by our eExpert clinical team.",
         icon: Droplets,
         color: "bg-red-500",
         detail: "Did you know? One donation can save up to three lives."

@@ -74,7 +74,7 @@ const Heroes = () => {
     };
 
     const exportReport = (format) => {
-        console.log(`Exporting report in ${format} format...`);
+        console.log(`exporting report in ${format} format...`);
         alert(`Report export in ${format} format started. Check your downloads folder.`);
     };
 
@@ -383,14 +383,14 @@ const Heroes = () => {
                                         className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-colors"
                                     >
                                         <Download className="w-4 h-4" />
-                                        Export PDF
+                                        export PDF
                                     </button>
                                     <button
                                         onClick={() => exportReport('excel')}
                                         className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition-colors"
                                     >
                                         <Download className="w-4 h-4" />
-                                        Export Excel
+                                        export Excel
                                     </button>
                                 </div>
                             </div>

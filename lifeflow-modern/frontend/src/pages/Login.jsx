@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Droplets, Heart, ShieldCheck, Users, Zap, CheckCircle2 } from 'lucide-react';
 import { useAuthStore } from '../context/authStore';
 import AvatarFeedback from '../components/AvatarFeedback';
-import NexusInput from '../components/NexusInput';
+import ModernInput from '../components/ModernInput';
 
 const BLOOD_DROPS = [
   { x: '10%', y: '15%', size: 40, delay: 0, duration: 15 },
@@ -144,6 +144,9 @@ const Login = () => {
       >
         <div className="w-full max-w-[480px]">
           <div className="glass-premium p-8 lg:p-12 rounded-[3rem] relative overflow-hidden group hover:shadow-[0_40px_80px_rgba(220,20,60,0.12)] transition-all duration-700">
+            {/* Border Beam Technology */}
+            <div className="border-beam opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+            
             {/* Glossy Overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
             
@@ -161,8 +164,8 @@ const Login = () => {
                 <p className="text-base font-bold opacity-60" style={{ color: 'var(--text-secondary)' }}>Continue your life-saving mission today.</p>
               </div>
  
-              <form onSubmit={handleLogin} className="space-y-10">
-                <NexusInput
+              <form onSubmit={handleLogin} className="space-y-10 tunnel-vision">
+                <ModernInput
                   icon={Mail}
                   type="email"
                   required
@@ -176,7 +179,7 @@ const Login = () => {
                   <div className="absolute right-2 -top-7 z-10">
                     <Link to="/forgot-password" size={14} className="text-[10px] font-black uppercase tracking-[0.2em] text-[#dc143c] hover:text-[#ff3355] transition-all">Forgot Key?</Link>
                   </div>
-                  <NexusInput
+                  <ModernInput
                     icon={Lock}
                     type="password"
                     required
@@ -194,7 +197,7 @@ const Login = () => {
                     whileTap={{ scale: 0.98 }}
                     disabled={isLoading}
                     type="submit"
-                    className="btn-nexus w-full h-24 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[0.6em] shadow-[0_30px_60px_rgba(220,20,60,0.3)] hover:shadow-[0_45px_90px_rgba(220,20,60,0.45)] flex items-center justify-center gap-6 group transition-all relative overflow-hidden"
+                    className="btn-modern w-full h-24 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2.5rem] font-black text-xs uppercase tracking-[0.6em] shadow-[0_30px_60px_rgba(220,20,60,0.3)] hover:shadow-[0_45px_90px_rgba(220,20,60,0.45)] flex items-center justify-center gap-6 group transition-all relative overflow-hidden"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                     {isLoading ? (

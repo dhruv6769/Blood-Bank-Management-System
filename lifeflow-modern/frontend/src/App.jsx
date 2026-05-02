@@ -25,6 +25,9 @@ import { useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import AnimatedPage from './components/AnimatedPage';
 
+import NeuralBackground from './components/NeuralBackground';
+import ScrollToTop from './components/ScrollToTop';
+
 function App() {
   const { isDark, initTheme } = useThemeStore();
   const { initAuth } = useAuthStore();
@@ -40,7 +43,9 @@ function App() {
   }, [initTheme, initAuth]);
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-all duration-500 bg-[var(--bg-primary)] text-[var(--text-primary)]`}>
+    <div className={`min-h-screen flex flex-col font-sans transition-all duration-500 bg-[var(--bg-primary)] text-[var(--text-primary)] relative`}>
+      <ScrollToTop />
+      {isDark && <NeuralBackground />}
       <LiveTicker />
       <Navbar />
       
@@ -50,8 +55,8 @@ function App() {
             <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />
             <Route path="/login" element={<AnimatedPage><Login /></AnimatedPage>} />
             <Route path="/register" element={<AnimatedPage><Register /></AnimatedPage>} />
-            <Route path="/camps" element={<AnimatedPage><DonationCamps /></AnimatedPage>} />
-            <Route path="/heroes" element={<AnimatedPage><Heroes /></AnimatedPage>} />
+            <Route path="/camps" element={<AnimatedPage><ProtectedRoute><DonationCamps /></ProtectedRoute></AnimatedPage>} />
+            <Route path="/heroes" element={<AnimatedPage><ProtectedRoute><Heroes /></ProtectedRoute></AnimatedPage>} />
             <Route path="/community" element={<AnimatedPage><Community /></AnimatedPage>} />
             <Route path="/compatibility" element={<AnimatedPage><Compatibility /></AnimatedPage>} />
             <Route path="/protocols/:id" element={<AnimatedPage><ProtocolPage /></AnimatedPage>} />

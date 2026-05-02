@@ -12,8 +12,8 @@ import { useThemeStore } from '../context/themeStore';
 import api from '../lib/api';
 import toast from 'react-hot-toast';
 import PremiumMedal from '../components/PremiumMedal';
-import NexusInput from '../components/NexusInput';
-import NexusSelect from '../components/NexusSelect';
+import ModernInput from '../components/ModernInput';
+import ModernSelect from '../components/ModernSelect';
 
 
 const StatCard = ({ title, value, colorClass, Icon, delay }) => (
@@ -121,7 +121,7 @@ const DonationJourney = ({ points }) => {
                     </div>
                     <div className="text-right">
                         <span className="text-2xl font-black text-[#dc143c] brand-font">{points}</span>
-                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase ml-2">Total XP</span>
+                        <span className="text-[9px] text-[var(--text-muted)] font-black uppercase ml-2">Total Points</span>
                     </div>
                 </div>
 
@@ -148,7 +148,7 @@ const DonationJourney = ({ points }) => {
                     </div>
                     {nextTier && (
                         <div className="flex items-center gap-2">
-                            {points < nextTier.min ? `${nextTier.min - points} XP needed` : 'Threshold reached'}
+                            {points < nextTier.min ? `${nextTier.min - points} Points needed` : 'Threshold reached'}
                             <span className="text-xl opacity-40">{nextTier.icon}</span>
                         </div>
                     )}
@@ -172,7 +172,7 @@ const HealthInsights = ({ bloodGroup }) => {
             { title: 'Iron Focus', text: 'Incorporate leafy greens into your diet to maintain healthy hemoglobin levels.', icon: Droplet }
         ],
         'default': [
-            { title: 'Heroic Impact', text: 'Every donation can save up to three lives. Your contribution is mission-critical.', icon: Heart },
+            { title: 'Heroic Impact', text: 'Every donation can save up to three lives. Your contribution is essential.', icon: Heart },
             { title: 'Recovery Phase', text: 'Avoid heavy exercise for 12 hours post-donation to allow bio-equilibration.', icon: Activity }
         ]
     };
@@ -458,50 +458,46 @@ const UserDashboard = () => {
                 </div>
             </motion.button>
 
-            {/* Floating Navigation Rail - Nexus Command Pillar */}
+            {/* Floating Navigation Rail - Sidebar Navigation */}
             <motion.div 
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: isSidebarOpen ? 0 : (window.innerWidth < 1024 ? -400 : 0), opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
                 className={`fixed top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-40 h-full shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-transform duration-500 shrink-0 pt-20 lg:pt-24 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
             >
-                <div className="p-8 pt-4 flex flex-col h-full">
-                    <div className="flex items-center gap-4 mb-6 group cursor-pointer">
-                        <div className="relative">
-                            <div className="absolute inset-0 bg-[#dc143c] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
-                            <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#9b0023] rounded-xl flex items-center justify-center relative z-10 border border-white/20 shadow-2xl group-hover:rotate-6 transition-transform duration-500">
-                                <Droplet className="w-6 h-6 text-white" />
+                    {/* Subject Identity Card (High-End) */}
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-10 p-6 rounded-[2rem] bg-gradient-to-br from-[#dc143c]/10 to-indigo-600/10 border border-white/10 relative overflow-hidden group shadow-xl"
+                    >
+                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dc143c]/20 blur-[40px] rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div className="relative z-10 flex items-center gap-4">
+                            <div className="relative">
+                                {user?.avatar ? (
+                                    <img src={user.avatar} className="w-12 h-12 rounded-xl object-cover border border-white/20" alt="" />
+                                ) : (
+                                    <div className="w-12 h-12 rounded-xl bg-[var(--bg-primary)] border border-white/20 flex items-center justify-center font-black text-xs text-[#dc143c]">
+                                        {user?.name?.charAt(0)}
+                                    </div>
+                                )}
+                                <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-[var(--bg-card)] shadow-lg"></div>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-[11px] font-black text-[var(--text-primary)] truncate uppercase tracking-tighter leading-none mb-1">{user?.name}</p>
+                                <p className="text-[8px] font-black text-[#dc143c] uppercase tracking-[0.2em] opacity-80">Protocol: Active</p>
                             </div>
                         </div>
-                        <div>
-                            <h2 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none mb-1">LifeFlow</h2>
-                            <div className="flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#dc143c] animate-pulse"></div>
-                                <p className="text-[10px] text-[#dc143c] font-black uppercase tracking-[0.5em]">Donor Node Active</p>
-                            </div>
-                        </div>
-                    </div>
+                    </motion.div>
 
-                    <div className="p-6 rounded-[1.5rem] bg-[var(--bg-primary)] border border-[var(--border)] mb-10 relative overflow-hidden group shadow-inner">
-                        <div className="absolute -top-4 -right-4 w-16 h-16 bg-[#dc143c]/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
-                        <p className="text-[8px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-2">Donor Registry</p>
-                        <div className="flex items-center gap-3">
-                            <div className="w-1.5 h-8 bg-[#dc143c] rounded-full"></div>
-                            <div className="min-w-0">
-                                <p className="text-sm font-black text-[var(--text-primary)] tracking-tight leading-none mb-1 truncate">{user?.name}</p>
-                                <p className="text-[7px] text-[var(--text-muted)] font-black uppercase tracking-widest">Protocol: Verified</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <nav className="space-y-4">
-                        <p className="text-[11px] text-[var(--text-muted)] font-black uppercase tracking-[0.5em] mb-6 px-6">Mission Operations</p>
+                    <nav className="space-y-4 flex-grow overflow-y-auto custom-scrollbar">
+                        <p className="text-[11px] text-[var(--text-muted)] font-black uppercase tracking-[0.5em] mb-6 px-6">Navigation</p>
                         {[
-                            { id: 'main', icon: Activity, label: 'Sanctuary Node' },
-                            { id: 'request', icon: MapPin, label: 'Emergency Uplink' },
-                            { id: 'donate', icon: HandHeart, label: 'Hero Protocol' },
-                            { id: 'history', icon: Clock, label: 'Bio-Timeline' },
-                            { id: 'edit-profile', icon: UserCheck, label: 'Nexus Identity' },
+                            { id: 'main', icon: Activity, label: 'Main Dashboard' },
+                            { id: 'blood-request', icon: Droplet, label: 'Blood Request' },
+                            { id: 'donation-request', icon: HandHeart, label: 'Donation Request' },
+                            { id: 'history', icon: Clock, label: 'Bio-History' },
+                            { id: 'edit-profile', icon: UserCheck, label: 'User Profile' },
                         ].map(item => (
                             <button 
                                 key={item.id} 
@@ -543,12 +539,11 @@ const UserDashboard = () => {
                         </button>
                     </nav>
 
-                    <div className="mt-auto">
+                    <div className="mt-8 border-t border-[var(--border)] pt-8">
                         <Link to="/camps" className="w-full p-6 rounded-[2rem] bg-[#dc143c]/5 border border-[#dc143c]/20 text-[#dc143c] hover:bg-[#dc143c] hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.4em] shadow-xl group flex items-center justify-center gap-3">
                             Nearby Ops <Building2 className="w-4 h-4 group-hover:animate-bounce" />
                         </Link>
                     </div>
-                </div>
             </motion.div>
 
             {/* Main Content Area */}
@@ -558,22 +553,22 @@ const UserDashboard = () => {
                     {activeSection === 'main' && (
                         <motion.div key="main" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="space-y-10">
                             {/* PREMIUM HERO */}
-                            <div className="relative rounded-[2.5rem] overflow-hidden glass-premium border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.4)] group min-h-[380px] flex items-center">
+                            <div className="relative rounded-[4rem] overflow-hidden glass-premium border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.4)] group min-h-[420px] flex items-center">
                                 <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
                                     <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-[#dc143c] blur-[150px] rounded-full" />
                                     <div className="absolute bottom-[-10%] left-[-20%] w-[500px] h-[500px] bg-indigo-600 blur-[150px] rounded-full" />
                                 </div>
                                 <div className="absolute inset-0 z-0">
-                                    <img src="/images/hero_bg.png" className="w-full h-full object-cover opacity-20 scale-110 group-hover:scale-100 transition-transform duration-[6s]" alt="" />
+                                    <img src="https://images.unsplash.com/photo-1579154341098-e4e158cc7f55?auto=format&fit=crop&q=80&w=2000" className="w-full h-full object-cover opacity-20 scale-110 group-hover:scale-100 transition-transform duration-[6s]" alt="" />
                                     <div className="absolute inset-0 bg-gradient-to-tr from-[var(--bg-primary)] via-[var(--bg-primary)]/60 to-transparent" />
                                 </div>
                                 
-                                <div className="relative z-10 p-10 w-full flex flex-col lg:flex-row items-center justify-between gap-12">
+                                <div className="relative z-10 p-16 w-full flex flex-col lg:flex-row items-center justify-between gap-12">
                                     <div className="flex-grow text-center lg:text-left max-w-2xl">
                                         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
-                                            className="inline-flex items-center gap-3 px-5 py-1.5 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 text-white text-[9px] font-black uppercase tracking-[0.4em] mb-8 shadow-2xl">
+                                            className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] mb-8 shadow-2xl">
                                             <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-ping"></span>
-                                            Active Uplink: Sanctuary Node 01
+                                            Main Dashboard
                                         </motion.div>
                                         
                                         <div className="flex items-center gap-6 mb-8 justify-center lg:justify-start">
@@ -589,30 +584,30 @@ const UserDashboard = () => {
                                                 <h1 className="text-4xl lg:text-5xl font-black brand-font tracking-tighter text-[var(--text-primary)] leading-[0.8]">
                                                     Hello, {user?.name?.split(' ')[0]}<span className="text-[#dc143c]">.</span>
                                                 </h1>
-                                                <p className="text-[9px] font-black uppercase tracking-[0.5em] text-[var(--text-muted)] mt-4">Registry ID: {user?._id?.slice(-8).toUpperCase()}</p>
+                                                <p className="text-[9px] font-black uppercase tracking-[0.5em] text-[var(--text-muted)] mt-4">User ID: {user?._id?.slice(-8).toUpperCase()}</p>
                                             </div>
                                         </div>
                                         
                                         <p className="text-[var(--text-secondary)] text-xl lg:text-2xl font-bold leading-relaxed max-w-xl mb-12 tracking-tight">
-                                            Your bio-impact has resonated across <span className="text-[var(--text-primary)] font-black">{dashboardData.livesSaved} lives</span>. Your contribution remains mission-critical.
+                                            Your impact has resonated across <span className="text-[var(--text-primary)] font-black">{dashboardData.livesSaved} lives</span>. Your contribution remains essential.
                                         </p>
                                         
                                         <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
                                             <motion.div whileHover={{ y: -4 }} className="flex items-center gap-5 px-8 py-5 rounded-[2rem] glass-premium border-white/10 hover:border-[#dc143c]/30 transition-all group shadow-2xl">
                                                 <PremiumMedal tier={dashboardData.badge} size="sm" />
                                                 <div className="text-left">
-                                                    <div className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-1">Nexus Rank</div>
+                                                    <div className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-1">Donor Rank</div>
                                                     <div className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight group-hover:text-[#dc143c] transition-colors">{dashboardData.badge}</div>
                                                 </div>
                                             </motion.div>
                                             
                                             <motion.div whileHover={{ y: -4 }} className="px-8 py-5 rounded-[2rem] glass-premium border-white/10 hover:border-red-500/30 relative group cursor-help transition-all shadow-2xl">
                                                 <div className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-1 flex items-center gap-2">
-                                                    Bio XP <AlertCircle className="w-3 h-3 text-[#dc143c]" />
+                                                    Donor Points <AlertCircle className="w-3 h-3 text-[#dc143c]" />
                                                 </div>
-                                                <div className="text-2xl font-black text-[#dc143c] brand-font tracking-tight">{dashboardData.points} XP</div>
+                                                <div className="text-2xl font-black text-[#dc143c] brand-font tracking-tight">{dashboardData.points} Points</div>
                                                 <div className="absolute top-full left-0 mt-6 w-80 glass-premium text-[12px] text-[var(--text-secondary)] p-8 rounded-[2rem] border-white/10 opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 shadow-[0_50px_100px_rgba(0,0,0,0.6)] translate-y-2 group-hover:translate-y-0">
-                                                    Points are calculated upon successful intake and admin verification. High XP unlocks higher Hero Tiers and exclusive rewards.
+                                                    Points are calculated upon successful intake and admin verification. High Points unlocks higher Hero Tiers and exclusive rewards.
                                                 </div>
                                             </motion.div>
                                         </div>
@@ -627,10 +622,10 @@ const UserDashboard = () => {
                             {/* CORE STATS */}
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                                 {[
-                                    { title: "Total Actions", value: dashboardData.total, icon: Activity, delay: 0.1, color: "blue" },
-                                    { title: "Pending Review", value: dashboardData.pending, icon: Hourglass, delay: 0.2, color: "yellow" },
-                                    { title: "Lives Impacted", value: dashboardData.livesSaved, icon: Droplet, delay: 0.3, color: "red" },
-                                    { title: "Health Points", value: dashboardData.points, icon: Activity, delay: 0.4, color: "emerald" }
+                                    { title: "Total Requests", value: dashboardData.total, icon: Activity, delay: 0.1, color: "blue" },
+                                    { title: "Pending", value: dashboardData.pending, icon: Hourglass, delay: 0.2, color: "yellow" },
+                                    { title: "Lives Saved", value: dashboardData.livesSaved, icon: Droplet, delay: 0.3, color: "red" },
+                                    { title: "Points", value: dashboardData.points, icon: Activity, delay: 0.4, color: "emerald" }
                                 ].map((stat, idx) => (
                                     <motion.div key={stat.title} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: stat.delay, type: 'spring', damping: 20 }}
                                         className="glass-premium p-12 rounded-[3.5rem] border-white/5 hover:border-[#dc143c]/40 group transition-all cursor-pointer relative overflow-hidden shadow-2xl">
@@ -681,9 +676,9 @@ const UserDashboard = () => {
                             {/* QUICK ACTIONS HUB */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                                 {[
-                                    { id: 'request', label: 'Request Blood', desc: 'Initiate emergency bio-uplink for immediate support.', icon: Activity, color: 'bg-[#dc143c]', hover: 'hover:bg-red-700' },
-                                    { id: 'donate', label: 'Offer Donation', desc: 'Schedule a hero session and contribute to the pool.', icon: HandHeart, color: 'glass-premium', hover: 'hover:border-[#dc143c]/40' },
-                                    { id: 'camps', label: 'Active Camps', desc: 'Locate regional donation nodes in real-time.', icon: MapPin, color: 'bg-indigo-600', hover: 'hover:bg-indigo-700', isLink: true, path: '/camps' }
+                                    { id: 'blood-request', label: 'Blood Request', desc: 'Initiate a medical requirement for immediate support.', icon: Activity, color: 'bg-[#dc143c]', hover: 'hover:bg-red-700' },
+                                    { id: 'donation-request', label: 'Donation Request', desc: 'Schedule a session and contribute to the pool.', icon: HandHeart, color: 'glass-premium', hover: 'hover:border-[#dc143c]/40' },
+                                    { id: 'camps', label: 'Nearby Camps', desc: 'Locate regional donation nodes in real-time.', icon: MapPin, color: 'bg-indigo-600', hover: 'hover:bg-indigo-700', isLink: true, path: '/camps' }
                                 ].map((action) => (
                                     <motion.button key={action.id} whileHover={{ y: -15 }} onClick={() => action.isLink ? null : setActiveSection(action.id)}
                                         className={`group relative h-[360px] rounded-[4rem] overflow-hidden ${action.color === 'glass-premium' ? 'glass-premium border-white/5 shadow-2xl' : action.color + ' shadow-[0_30px_60px_rgba(0,0,0,0.4)]'} border border-white/5 transition-all duration-700 ${action.hover}`}>
@@ -707,27 +702,37 @@ const UserDashboard = () => {
                         </motion.div>
                     )}
 
-                    {/* SECTION: REQUEST BLOOD */}
-                    {activeSection === 'request' && (
-                        <motion.div key="request" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-3xl mx-auto py-12">
+                    {/* SECTION: BLOOD REQUEST */}
+                    {activeSection === 'blood-request' && (
+                        <motion.div key="blood-request" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-3xl mx-auto py-12">
                             <div className="mb-12 text-center">
-                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Emergency Uplink<span className="text-[#dc143c]">.</span></h2>
+                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Blood Request<span className="text-[#dc143c]">.</span></h2>
                                 <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Broadcast a medical requirement to the global donor network</p>
                             </div>
                             
                             <div className="glass-premium p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[100px]" />
                                 <form onSubmit={submitRequest} className="space-y-8 relative z-10">
-                                    <NexusInput label="Patient Designation" required value={reqForm.patientName} onChange={e => setReqForm({...reqForm, patientName: e.target.value})} placeholder="Full Medical Name" />
+                                    <ModernInput label="Patient Name" required value={reqForm.patientName} onChange={e => setReqForm({...reqForm, patientName: e.target.value})} placeholder="Full Medical Name" />
                                     <div className="grid grid-cols-2 gap-6">
-                                        <NexusSelect label="Target Bio-Marker" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={reqForm.bloodGroup} onChange={val => setReqForm({...reqForm, bloodGroup: val})} />
-                                        <NexusInput label="Clinical Units" type="number" value={reqForm.units} onChange={e => setReqForm({...reqForm, units: e.target.value})} />
+                                        <ModernSelect label="Blood Group" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={reqForm.bloodGroup} onChange={val => setReqForm({...reqForm, bloodGroup: val})} />
+                                        <ModernInput label="Units Needed" type="number" value={reqForm.units} onChange={e => setReqForm({...reqForm, units: e.target.value})} />
                                     </div>
                                     <div className="grid grid-cols-2 gap-6">
-                                        <NexusInput label="Deployment Sector" required value={reqForm.hospitalName} onChange={e => setReqForm({...reqForm, hospitalName: e.target.value})} placeholder="Hospital Name" />
-                                        <NexusInput label="City Node" required value={reqForm.city} onChange={e => setReqForm({...reqForm, city: e.target.value})} placeholder="City" />
+                                        <ModernSelect 
+                                            label="Deployment Sector" 
+                                            options={[...new Set(availableCamps.map(c => c.name))]} 
+                                            value={reqForm.hospitalName} 
+                                            onChange={val => setReqForm({...reqForm, hospitalName: val})} 
+                                        />
+                                        <ModernSelect 
+                                            label="City Node" 
+                                            options={[...new Set(availableCamps.map(c => c.city))]} 
+                                            value={reqForm.city} 
+                                            onChange={val => setReqForm({...reqForm, city: val})} 
+                                        />
                                     </div>
-                                    <NexusInput label="Mission Briefing" value={reqForm.briefing} onChange={e => setReqForm({...reqForm, briefing: e.target.value})} rows={3} placeholder="Describe the medical situation..." />
+                                    <ModernInput label="Message" value={reqForm.briefing} onChange={e => setReqForm({...reqForm, briefing: e.target.value})} rows={3} placeholder="Describe the medical situation..." />
                                     <button disabled={isLoading} className="w-full py-5 bg-[#dc143c] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(220,20,60,0.4)]">
                                         {isLoading ? 'Transmitting...' : 'Initiate Broadcast'}
                                     </button>
@@ -736,21 +741,21 @@ const UserDashboard = () => {
                         </motion.div>
                     )}
 
-                    {/* SECTION: OFFER DONATION */}
-                    {activeSection === 'donate' && (
-                        <motion.div key="donate" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-3xl mx-auto py-12">
+                    {/* SECTION: DONATION REQUEST */}
+                    {activeSection === 'donation-request' && (
+                        <motion.div key="donation-request" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-3xl mx-auto py-12">
                             <div className="mb-12 text-center">
-                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Hero Protocol<span className="text-[#dc143c]">.</span></h2>
+                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Donation Request<span className="text-[#dc143c]">.</span></h2>
                                 <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Pledge a bio-donation and secure regional life-lines</p>
                             </div>
                             
                             <div className="glass-premium p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-600/5 rounded-bl-full z-0 blur-[100px]" />
                                 <form onSubmit={submitDonation} className="space-y-8 relative z-10">
-                                    <NexusSelect label="Target Deployment Node" options={availableCamps.map(c => ({ value: c.id, label: `${c.name} (${c.city})` }))} value={donForm.campId} onChange={val => setDonForm({...donForm, campId: val})} />
+                                    <ModernSelect label="Select Camp" options={availableCamps.map(c => ({ value: c.id, label: `${c.name} (${c.city})` }))} value={donForm.campId} onChange={val => setDonForm({...donForm, campId: val})} />
                                     <div className="grid grid-cols-2 gap-6">
-                                        <NexusSelect label="Personal Bio-Marker" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={donForm.bloodGroup} onChange={val => setDonForm({...donForm, bloodGroup: val})} />
-                                        <NexusSelect label="Health Declaration" options={['None', 'Diabetes', 'Hypertension', 'Other']} value={donForm.condition} onChange={val => setDonForm({...donForm, condition: val})} />
+                                        <ModernSelect label="Your Blood Group" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={donForm.bloodGroup} onChange={val => setDonForm({...donForm, bloodGroup: val})} />
+                                        <ModernSelect label="Health Condition" options={['None', 'Diabetes', 'Hypertension', 'Other']} value={donForm.condition} onChange={val => setDonForm({...donForm, condition: val})} />
                                     </div>
                                     <button disabled={isLoading} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(79,70,229,0.4)]">
                                         {isLoading ? 'Processing...' : 'Register Deployment'}
@@ -780,7 +785,7 @@ const UserDashboard = () => {
                                                         <span className="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-[#dc143c] text-[10px] font-black tracking-[0.4em] uppercase">{record.type}</span>
                                                         <span className="text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">{new Date(record.effectiveDate).toLocaleDateString()}</span>
                                                     </div>
-                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-6">{record.type === 'emergency' ? `Uplink: ${record.patient}` : "Donation Session"}</h3>
+                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-6">{record.type === 'emergency' ? `Blood Request: ${record.patient}` : "Donation Session"}</h3>
                                                     <div className={`flex items-center gap-8 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
                                                         <div className="flex items-center gap-3"><Droplet className="w-5 h-5 text-[#dc143c]" /><span className="text-lg font-black text-[var(--text-primary)]">{record.group}</span></div>
                                                         <div className="flex items-center gap-3">
@@ -805,8 +810,8 @@ const UserDashboard = () => {
                     {activeSection === 'edit-profile' && (
                         <motion.div key="edit-profile" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-6xl mx-auto py-12">
                             <div className="mb-12 text-center">
-                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Nexus Identity<span className="text-[#dc143c]">.</span></h2>
-                                <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Propose modifications to your global donor registry profile</p>
+                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Edit Profile<span className="text-[#dc143c]">.</span></h2>
+                                <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Propose modifications to your global User Profile profile</p>
                             </div>
                             
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -836,13 +841,13 @@ const UserDashboard = () => {
                                                 {editForm.avatar ? <img src={editForm.avatar} className="w-20 h-20 rounded-xl object-cover border-2 border-white/10 group-hover:border-[#dc143c] transition-all shadow-2xl" alt="" /> : <div className="w-20 h-20 rounded-xl border-2 border-dashed border-white/10 group-hover:border-[#dc143c] flex items-center justify-center bg-white/5 transition-all"><AnimatedAvatar size="md" user={user} /></div>}
                                                 <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleImageChange} />
                                             </div>
-                                            <div className="flex-1 w-full"><NexusInput label="Designated Name" required value={editForm.name} onChange={e => setEditForm({...editForm, name: e.target.value})} /></div>
+                                            <div className="flex-1 w-full"><ModernInput label="Full Name" required value={editForm.name} onChange={e => setEditForm({...editForm, name: e.target.value})} /></div>
                                         </div>
                                         <div className="grid grid-cols-2 gap-6">
-                                            <NexusInput label="Mobile Frequency" type="tel" value={editForm.phone} onChange={e => setEditForm({...editForm, phone: e.target.value})} />
-                                            <NexusInput label="Sector (City)" value={editForm.city} onChange={e => setEditForm({...editForm, city: e.target.value})} />
+                                            <ModernInput label="Mobile Number" type="tel" value={editForm.phone} onChange={e => setEditForm({...editForm, phone: e.target.value})} />
+                                            <ModernInput label="City" value={editForm.city} onChange={e => setEditForm({...editForm, city: e.target.value})} />
                                         </div>
-                                        <NexusInput label="Regional Node (State)" value={editForm.state} onChange={e => setEditForm({...editForm, state: e.target.value})} />
+                                        <ModernInput label="State" value={editForm.state} onChange={e => setEditForm({...editForm, state: e.target.value})} />
                                         <button disabled={isLoading} className="w-full py-5 bg-[#dc143c] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(220,20,60,0.4)]">
                                             {isLoading ? 'Transmitting Data...' : 'Propose Identity Update'}
                                         </button>
