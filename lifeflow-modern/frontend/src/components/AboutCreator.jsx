@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion as Motion, useSpring } from 'framer-motion';
+import { motion as Motion, useSpring, useMotionValue } from 'framer-motion';
 import { 
   Github, Linkedin, Instagram, 
   Code2, Medal, Zap, Terminal
@@ -8,17 +8,19 @@ import {
 const AboutCreator = () => {
     const containerRef = useRef(null);
 
-    // 3D Physics for Image Core
-    const x = useSpring(0, { stiffness: 100, damping: 30 });
-    const y = useSpring(0, { stiffness: 100, damping: 30 });
+    // 3D Physics for Image Core - Fixed for production stability
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    const x = useSpring(mouseX, { stiffness: 100, damping: 30 });
+    const y = useSpring(mouseY, { stiffness: 100, damping: 30 });
 
     const handleMouseMove = (e) => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
-        x.set((e.clientX - centerX) / 20);
-        y.set((e.clientY - centerY) / 20);
+        mouseX.set((e.clientX - centerX) / 20);
+        mouseY.set((e.clientY - centerY) / 20);
     };
 
     const techLogos = [
