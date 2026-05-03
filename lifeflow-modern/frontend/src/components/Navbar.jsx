@@ -325,6 +325,7 @@ const Navbar = () => {
           display: flex; align-items: center; justify-content: center;
           box-shadow: 0 10px 25px rgba(220,20,60,0.4);
           flex-shrink: 0;
+          overflow: hidden;
           transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .lf-nav-logo:hover .lf-nav-logo-icon {
@@ -634,7 +635,7 @@ const Navbar = () => {
               animate={{ boxShadow: ['0 0 16px rgba(220,20,60,0.4)', '0 0 28px rgba(220,20,60,0.7)', '0 0 16px rgba(220,20,60,0.4)'] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             >
-              <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover" />
+              <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
             </motion.div>
             <span className="lf-nav-logo-text relative z-10">Life<span>Flow</span></span>
           </Link>

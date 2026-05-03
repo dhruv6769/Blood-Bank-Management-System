@@ -43,7 +43,7 @@ const Footer = () => {
                     >
                         <div className="flex items-center gap-5 group cursor-pointer">
                             <div className="w-14 h-14 rounded-2.5xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center shadow-[0_0_30px_rgba(220,20,60,0.1)] group-hover:scale-110 transition-all duration-500 overflow-hidden p-0">
-                                <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover" />
+                                <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
                             </div>
                             <div>
                                 <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none">LifeFlow</h3>

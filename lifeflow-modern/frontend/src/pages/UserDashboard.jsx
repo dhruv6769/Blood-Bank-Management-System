@@ -475,8 +475,27 @@ const UserDashboard = () => {
                     transition={{ type: "spring", damping: 32, stiffness: 120 }}
                     className={`fixed lg:sticky top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[60px] border-r border-[var(--border)] flex flex-col z-[60] h-full shadow-[30px_0_100px_rgba(0,0,0,0.5)] transition-transform duration-500 shrink-0 pt-32 lg:pt-10 p-8 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
                 >
-                    <div className="flex flex-col h-full justify-between">
-                        <div>
+                        <div className="flex flex-col h-full justify-between">
+                        <div className="flex flex-col">
+                            {/* Global Brand Header */}
+                            <div className="mb-10 px-2">
+                                <div className="flex items-center gap-5 group cursor-pointer">
+                                    <div className="relative">
+                                        <div className="absolute inset-0 bg-[#dc143c] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
+                                        <div className="w-14 h-14 bg-gradient-to-br from-[#dc143c] to-[#9b0023] rounded-[1.5rem] flex items-center justify-center relative z-10 border border-white/20 shadow-2xl group-hover:rotate-6 transition-transform duration-500 overflow-hidden">
+                                            <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <h2 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none mb-1">LifeFlow</h2>
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-2 h-2 rounded-full bg-[#dc143c] animate-pulse"></div>
+                                            <p className="text-[9px] text-[#dc143c] font-black uppercase tracking-[0.5em]">Hero Nexus</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {/* Subject Identity Card (High-End) */}
                             <motion.div 
                                 initial={{ opacity: 0, y: 20 }}

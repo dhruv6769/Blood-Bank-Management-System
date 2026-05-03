@@ -140,7 +140,7 @@ const OrgDashboard = () => {
                         <div className="relative">
                             <div className="absolute inset-0 bg-[#dc143c] blur-2xl opacity-40 group-hover:opacity-60 transition-opacity"></div>
                             <div className="w-14 h-14 bg-gradient-to-br from-[#dc143c] to-[#9b0023] rounded-[1.5rem] flex items-center justify-center relative z-10 border border-white/20 shadow-2xl group-hover:rotate-6 transition-transform duration-500 overflow-hidden">
-                                <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover" />
+                                <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
                             </div>
                         </div>
                         <div>

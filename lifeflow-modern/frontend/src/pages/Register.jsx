@@ -160,7 +160,7 @@ const Register = () => {
       >
         <Link to="/" className="absolute top-12 left-16 flex items-center gap-4 no-underline group">
           <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 group-hover:scale-110 transition-transform duration-500 overflow-hidden">
-            <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover" />
+            <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
           </div>
           <span className="text-2xl font-black tracking-tighter" style={{ color: 'var(--text-primary)' }}>
             Life<span className="text-[#dc143c]">Flow.</span>
