@@ -323,7 +323,7 @@ const Register = () => {
                             <ModernInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="mission@lifeflow.com" label="Email Address" required />
                             <div className="grid grid-cols-2 gap-6">
                               <ModernSelect icon={Droplet} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} label="Blood Type" required options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} />
-                              <ModernInput icon={CalendarDays} type="number" name="age" value={formData.age} onChange={handleChange} placeholder="18-65" label="Age Profile" required />
+                              <ModernInput icon={CalendarDays} type="date" name="age" value={formData.age} onChange={handleChange} placeholder="Birth Date" label="Birth Date" required />
                             </div>
                           </>
                         ) : (
