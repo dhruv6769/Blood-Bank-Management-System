@@ -49,7 +49,7 @@ function App() {
       <LiveTicker />
       <Navbar />
       
-      <main className="flex-grow flex flex-col pt-32 lg:pt-[122px] overflow-hidden">
+      <main className="flex-grow flex flex-col pt-32 lg:pt-[122px]">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />
@@ -60,9 +60,9 @@ function App() {
             <Route path="/community" element={<AnimatedPage><Community /></AnimatedPage>} />
             <Route path="/compatibility" element={<AnimatedPage><Compatibility /></AnimatedPage>} />
             <Route path="/protocols/:id" element={<AnimatedPage><ProtocolPage /></AnimatedPage>} />
-            <Route path="/dashboard" element={<AnimatedPage><ProtectedRoute><UserDashboard /></ProtectedRoute></AnimatedPage>} />
-            <Route path="/admin-dashboard" element={<AnimatedPage><ProtectedRoute requireAdmin={true}><AdminDashboard /></ProtectedRoute></AnimatedPage>} />
-            <Route path="/org-dashboard" element={<AnimatedPage><ProtectedRoute requireOrg={true}><OrgDashboard /></ProtectedRoute></AnimatedPage>} />
+            <Route path="/dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
+            <Route path="/admin-dashboard" element={<ProtectedRoute requireAdmin={true}><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/org-dashboard" element={<ProtectedRoute requireOrg={true}><OrgDashboard /></ProtectedRoute>} />
           </Routes>
         </AnimatePresence>
       </main>

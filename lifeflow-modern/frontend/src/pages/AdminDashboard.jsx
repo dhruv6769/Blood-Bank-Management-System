@@ -317,7 +317,7 @@ const AdminDashboard = () => {
     ];
 
     return (
-        <div className="flex-1 h-full bg-[var(--bg-primary)] flex flex-row relative overflow-hidden selection:bg-[#dc143c]/30 selection:text-white">
+        <div className="h-[calc(100vh-122px)] bg-[var(--bg-primary)] flex flex-row relative overflow-hidden selection:bg-[#dc143c]/30 selection:text-white">
             {/* Cinematic Background */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,_#dc143c15,_transparent)]"></div>

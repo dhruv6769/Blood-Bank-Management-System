@@ -119,7 +119,7 @@ const OrgDashboard = () => {
     const pendingCount = camps.filter(c => c.status === 'PENDING').length;
 
     return (
-        <div className="flex-1 h-full bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-row relative selection:bg-[#dc143c]/30 overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
+        <div className="h-[calc(100vh-122px)] bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-row relative selection:bg-[#dc143c]/30 overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
             {/* Background Effects */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#dc143c]/5 rounded-full blur-[120px] animate-pulse"></div>
