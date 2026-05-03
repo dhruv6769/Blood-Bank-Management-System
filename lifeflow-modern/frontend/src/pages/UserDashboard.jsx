@@ -5,6 +5,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import AnimatedAvatar from '../components/AnimatedAvatar';
 import CertificateGenerator from '../components/CertificateGenerator';
 import SupportPanel from '../components/SupportPanel';
+import Footer from '../components/Footer';
 import { FileText, Hourglass, CheckCircle2, Activity, HandHeart, Clock, UserCheck, Droplet, CalendarDays, AlertCircle, ChevronDown, CheckCircle, Clock3, MapPin, ArrowRightLeft, Heart, LifeBuoy, Building2, Sparkles, LogOut } from 'lucide-react';
 
 import { useAuthStore } from '../context/authStore';
@@ -875,6 +876,11 @@ const UserDashboard = () => {
                         </motion.div>
                     )}
                 </AnimatePresence>
+                
+                {/* Localized Footer */}
+                <div className="-mx-6 md:-mx-16 mt-20">
+                    <Footer />
+                </div>
             </div>
 
             {/* Support Modal */}

@@ -67,7 +67,7 @@ function App() {
         </AnimatePresence>
       </main>
 
-      <Footer />
+      {!location.pathname.includes('dashboard') && <Footer />}
       <EmergencyFAB />
       <EnhancedChatBot />
 

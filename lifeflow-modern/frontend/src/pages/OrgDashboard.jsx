@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Building2, Plus, Clock, CheckCircle, XCircle, Calendar, MapPin, Users, Phone, FileText, Droplet, ChevronDown, Activity } from 'lucide-react';
 import { useAuthStore } from '../context/authStore';
 import api from '../lib/api';
+import Footer from '../components/Footer';
 import toast from 'react-hot-toast';
 import ModernInput from '../components/ModernInput';
 import ModernSelect from '../components/ModernSelect';
@@ -516,6 +517,11 @@ const OrgDashboard = () => {
                         </motion.div>
                     )}
                 </AnimatePresence>
+                
+                {/* Localized Footer */}
+                <div className="-mx-6 lg:-mx-10 mt-20">
+                    <Footer />
+                </div>
             </div>
             
             {/* Action Fab */}

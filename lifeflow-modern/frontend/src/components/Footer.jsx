@@ -19,7 +19,7 @@ const Footer = () => {
     const { isAuthenticated, user } = useAuthStore();
 
     return (
-        <footer className={`bg-[var(--bg-primary)] border-t border-[var(--border)] relative overflow-hidden pt-24 pb-12 ${isDashboard ? 'lg:pl-[320px]' : ''}`}>
+        <footer className="bg-[var(--bg-primary)] border-t border-[var(--border)] relative overflow-hidden pt-24 pb-12">
             {/* Nexus Backdrop Pulse */}
             <div className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#dc143c]/5 rounded-full blur-[150px] animate-pulse" />
@@ -29,7 +29,7 @@ const Footer = () => {
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.05)_50%),linear-gradient(90deg,rgba(255,0,0,0.01),rgba(0,255,0,0.005),rgba(0,0,255,0.01))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20" />
             </div>
 
-            <div className={`${isDashboard ? 'px-10 lg:px-20' : 'container mx-auto px-8'} relative z-20`}>
+            <div className="container mx-auto px-8 relative z-20">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-20">
                     
                     {/* Brand Section */}

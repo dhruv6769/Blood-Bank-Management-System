@@ -9,6 +9,7 @@ import {
 
 import api from '../lib/api';
 import toast from 'react-hot-toast';
+import Footer from '../components/Footer';
 
 const StatCard = ({ label, value, icon: Icon, color, glowColor, trend }) => (
     <motion.div 
@@ -1043,6 +1044,11 @@ const AdminDashboard = () => {
                     )}
 
                 </AnimatePresence>
+                
+                {/* Localized Footer */}
+                <div className="-mx-8 lg:-mx-14 mt-20">
+                    <Footer />
+                </div>
             </div>
         </div>
     );
