@@ -429,7 +429,7 @@ const UserDashboard = () => {
     };
 
     return (
-        <div className="h-[calc(100vh-122px)] bg-[var(--bg-primary)] flex flex-col lg:flex-row selection:bg-[#dc143c]/30 relative overflow-hidden">
+        <div className="flex-1 h-full bg-[var(--bg-primary)] flex flex-col lg:flex-row selection:bg-[#dc143c]/30 relative overflow-hidden">
             {/* Background Effects */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#dc143c]/5 rounded-full blur-[120px]"></div>

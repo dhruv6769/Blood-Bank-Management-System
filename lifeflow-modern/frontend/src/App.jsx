@@ -49,7 +49,7 @@ function App() {
       <LiveTicker />
       <Navbar />
       
-      <main className="flex-grow pt-32 lg:pt-[122px]">
+      <main className="flex-grow flex flex-col pt-32 lg:pt-[122px] overflow-hidden">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />
