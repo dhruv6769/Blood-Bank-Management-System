@@ -1,12 +1,12 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import {
   Menu, X, LogOut, Bell, CheckCheck, Droplets,
   ShieldCheck, Info, Sun, Moon, User, ChevronRight
 } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion as Motion } from 'framer-motion';
 import { useAuthStore } from '../context/authStore';
 import { useThemeStore } from '../context/themeStore';
 import AnimatedAvatar from './AnimatedAvatar';
@@ -78,26 +78,26 @@ const NotificationBell = () => {
 
   return (
     <div className="relative" ref={ref}>
-      <motion.button
+      <Motion.button
         whileTap={{ scale: 0.9 }}
         onClick={() => setOpen(v => !v)}
         className="nb-bell-btn"
       >
-        <motion.div animate={unread > 0 ? { rotate: [0, -15, 15, -10, 10, 0] } : {}} transition={{ duration: 0.6, delay: 0.3 }}>
+        <Motion.div animate={unread > 0 ? { rotate: [0, -15, 15, -10, 10, 0] } : {}} transition={{ duration: 0.6, delay: 0.3 }}>
           <Bell size={18} />
-        </motion.div>
+        </Motion.div>
         <AnimatePresence>
           {unread > 0 && (
-            <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="nb-badge">
+            <Motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="nb-badge">
               {unread > 9 ? '9+' : unread}
-            </motion.span>
+            </Motion.span>
           )}
         </AnimatePresence>
-      </motion.button>
+      </Motion.button>
 
       <AnimatePresence>
         {open && (
-          <motion.div
+          <Motion.div
             initial={{ opacity: 0, y: 15, scale: 0.95, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: 15, scale: 0.95, filter: 'blur(10px)' }}
@@ -115,14 +115,14 @@ const NotificationBell = () => {
                 )}
               </div>
               {unread > 0 && (
-                <motion.button 
+                <Motion.button 
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={markAll} 
                   className="nb-mark-all"
                 >
                   <CheckCheck size={12} className="text-[#dc143c]" /> Mark all as read
-                </motion.button>
+                </Motion.button>
               )}
             </div>
             <div className="nb-list custom-scrollbar">
@@ -135,7 +135,7 @@ const NotificationBell = () => {
                   <p className="text-[10px] font-black uppercase tracking-widest">No new notifications</p>
                 </div>
               ) : (
-                <motion.div
+                <Motion.div
                   initial="hidden"
                   animate="visible"
                   variants={{
@@ -143,7 +143,7 @@ const NotificationBell = () => {
                   }}
                 >
                   {notifications.map((n, i) => (
-                    <motion.div
+                    <Motion.div
                       key={n.id || i}
                       variants={{
                         hidden: { opacity: 0, x: -10 },
@@ -170,9 +170,9 @@ const NotificationBell = () => {
                            <span className="nb-dot" />
                         </div>
                       )}
-                    </motion.div>
+                    </Motion.div>
                   ))}
-                </motion.div>
+                </Motion.div>
               )}
             </div>
             {notifications.length > 0 && (
@@ -183,16 +183,16 @@ const NotificationBell = () => {
                 </Link>
               </div>
             )}
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
 
       {/* Detail modal */}
       {selected && createPortal(
         <AnimatePresence>
-          <motion.div key="bd" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+          <Motion.div key="bd" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="nb-modal-bg" onClick={() => setSelected(null)}>
-            <motion.div key="bc" initial={{ opacity: 0, scale: 0.9, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }}
+            <Motion.div key="bc" initial={{ opacity: 0, scale: 0.9, y: 30 }} animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }} transition={{ type: 'spring', damping: 28, stiffness: 350 }}
               className="nb-modal relative overflow-hidden" onClick={e => e.stopPropagation()}>
               
@@ -211,7 +211,7 @@ const NotificationBell = () => {
                   <h4 className="brand-font">{selected.title}</h4>
                   <span className="text-[10px] uppercase font-bold tracking-widest opacity-60">{timeAgo(selected.createdAt)}</span>
                 </div>
-                <motion.button whileHover={{ rotate: 90 }} onClick={() => setSelected(null)} className="nb-modal-close"><X size={18} /></motion.button>
+                <Motion.button whileHover={{ rotate: 90 }} onClick={() => setSelected(null)} className="nb-modal-close"><X size={18} /></Motion.button>
               </div>
               <div className="nb-modal-body relative z-10">
                 <div className="p-6 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border)] shadow-inner">
@@ -219,17 +219,17 @@ const NotificationBell = () => {
                 </div>
               </div>
               <div className="nb-modal-footer relative z-10">
-                <motion.button 
+                <Motion.button 
                   whileHover={{ scale: 1.02, y: -2 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setSelected(null)} 
                   className="nb-modal-btn"
                 >
                   Acknowledge Protocol
-                </motion.button>
+                </Motion.button>
               </div>
-            </motion.div>
-          </motion.div>
+            </Motion.div>
+          </Motion.div>
         </AnimatePresence>,
         document.body
       )}
@@ -630,18 +630,18 @@ const Navbar = () => {
             {/* Logo Aura */}
             <div className="absolute inset-0 bg-[#dc143c] blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-700 rounded-full scale-150" />
             
-            <motion.div
+            <Motion.div
               className="lf-nav-logo-icon relative z-10 overflow-hidden"
               animate={{ boxShadow: ['0 0 16px rgba(220,20,60,0.4)', '0 0 28px rgba(220,20,60,0.7)', '0 0 16px rgba(220,20,60,0.4)'] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             >
               <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
-            </motion.div>
+            </Motion.div>
             <span className="lf-nav-logo-text relative z-10">Life<span>Flow</span></span>
           </Link>
 
           {/* Desktop links */}
-          <motion.div 
+          <Motion.div 
             className="lf-nav-links"
             initial="hidden"
             animate="visible"
@@ -652,7 +652,7 @@ const Navbar = () => {
             {navLinks.map(link => {
               const isActive = location.pathname === link.path;
               return (
-                <motion.div 
+                <Motion.div 
                   key={link.path}
                   variants={{
                     hidden: { opacity: 0, y: -10 },
@@ -666,17 +666,17 @@ const Navbar = () => {
                   >
                     {link.name}
                     {isActive && (
-                      <motion.div
+                      <Motion.div
                         layoutId="activeNavTab"
                         className="absolute bottom-1 left-1/2 -translate-x-1/2 w-5 h-[2px] bg-[#dc143c] rounded-full shadow-[0_0_8px_rgba(220,20,60,0.4)]"
                         transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                       />
                     )}
                   </Link>
-                </motion.div>
+                </Motion.div>
               );
             })}
-          </motion.div>
+          </Motion.div>
 
           {/* Desktop actions */}
           <div className="lf-nav-actions desktop">
@@ -731,7 +731,7 @@ const Navbar = () => {
         {/* Mobile menu */}
         <AnimatePresence>
           {mobileOpen && (
-            <motion.div
+            <Motion.div
               initial={{ opacity: 0, y: -10, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.98 }}
@@ -780,7 +780,7 @@ const Navbar = () => {
                   <Link to="/register" className="lf-mobile-btn register" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>Get Started</Link>
                 </>
               )}
-            </motion.div>
+            </Motion.div>
           )}
         </AnimatePresence>
       </nav>

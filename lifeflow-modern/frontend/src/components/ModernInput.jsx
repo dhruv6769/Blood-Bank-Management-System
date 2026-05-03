@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion as Motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
 
 const ModernInput = ({ 
@@ -28,7 +28,7 @@ const ModernInput = ({
     return (
         <div className={`relative group ${className}`}>
             {/* Label */}
-            <motion.label
+            <Motion.label
                 initial={false}
                 animate={{
                     y: isFloating ? -32 : 0,
@@ -39,7 +39,7 @@ const ModernInput = ({
                 className={`absolute left-6 top-4 pointer-events-none z-10 font-black uppercase tracking-widest text-[9px] origin-left transition-all duration-300`}
             >
                 {label} {required && <span className="text-red-500">*</span>}
-            </motion.label>
+            </Motion.label>
 
             {/* Input Wrapper */}
             <div className="relative overflow-hidden rounded-2xl md:rounded-3xl">
