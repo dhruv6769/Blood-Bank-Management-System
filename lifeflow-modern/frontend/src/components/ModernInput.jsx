@@ -45,7 +45,7 @@ const ModernInput = ({
             {/* Input Wrapper */}
             <div className="relative overflow-hidden rounded-2xl md:rounded-3xl">
                 {Icon && (
-                    <div className={`absolute left-6 top-1/2 -translate-y-1/2 z-20 transition-colors duration-300 ${isFocused ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}>
+                    <div className={`absolute left-6 top-1/2 -translate-y-1/2 z-20 transition-colors duration-300 pointer-events-none ${isFocused ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}>
                         <Icon size={18} />
                     </div>
                 )}

@@ -44,7 +44,7 @@ const Register = () => {
   const [role, setRole] = useState('DONOR');
   const [formData, setFormData] = useState({
     name: '', email: '', password: '',
-    bloodGroup: '', age: '',
+    bloodGroup: '', age: '', dob: '',
     orgName: '', orgPhone: '', orgAddress: '',
   });
   const [feedbackStatus, setFeedbackStatus] = useState('idle');
@@ -52,7 +52,25 @@ const Register = () => {
   const [protocolRole, setProtocolRole] = useState(null);
   const [slideDir, setSlideDir] = useState(1);
 
-  const handleChange = e => setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = e => {
+    const { name, value } = e.target;
+    if (name === 'age') { // This is actually our DOB field now
+      const birthDate = new Date(value);
+      const today = new Date();
+      let calculatedAge = today.getFullYear() - birthDate.getFullYear();
+      const m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        calculatedAge--;
+      }
+      setFormData(prev => ({ 
+        ...prev, 
+        age: value, // Store the date string for the input
+        calculatedAge: calculatedAge > 0 ? calculatedAge : '' // Store the number for reference if needed
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
 
   const goNext = e => {
     e?.preventDefault();
@@ -66,7 +84,13 @@ const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    const success = await register({ ...formData, role });
+    // Prepare data: use calculatedAge for the 'age' field expected by backend
+    const submissionData = { 
+      ...formData, 
+      role,
+      age: formData.calculatedAge || formData.age 
+    };
+    const success = await register(submissionData);
     if (success) {
       setFeedbackStatus('success');
       setTimeout(() => {
@@ -323,7 +347,14 @@ const Register = () => {
                             <ModernInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="mission@lifeflow.com" label="Email Address" required />
                             <div className="grid grid-cols-2 gap-6">
                               <ModernSelect icon={Droplet} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} label="Blood Type" required options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} />
-                              <ModernInput icon={CalendarDays} type="date" name="age" value={formData.age} onChange={handleChange} placeholder="Birth Date" label="Birth Date" required />
+                                <div className="relative">
+                                  <ModernInput icon={CalendarDays} type="date" name="age" value={formData.age} onChange={handleChange} placeholder="Birth Date" label="Birth Date" required />
+                                  {formData.calculatedAge && (
+                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 z-30 px-3 py-1 bg-[var(--accent)]/10 border border-[var(--accent)]/20 rounded-full text-[10px] font-bold text-[var(--accent)] pointer-events-none">
+                                      {formData.calculatedAge} Years
+                                    </div>
+                                  )}
+                                </div>
                             </div>
                           </>
                         ) : (
