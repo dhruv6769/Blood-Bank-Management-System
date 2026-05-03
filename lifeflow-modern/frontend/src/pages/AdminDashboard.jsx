@@ -305,7 +305,7 @@ const AdminDashboard = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[var(--bg-primary)] flex flex-row relative overflow-hidden selection:bg-[#dc143c]/30 selection:text-white">
+        <div className="h-[calc(100vh-122px)] bg-[var(--bg-primary)] flex flex-row relative overflow-hidden selection:bg-[#dc143c]/30 selection:text-white">
             {/* Cinematic Background */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,_#dc143c15,_transparent)]"></div>
@@ -316,7 +316,7 @@ const AdminDashboard = () => {
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className="fixed top-0 left-0 w-[320px] h-full shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 pt-24 flex flex-col z-30 overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
+                className="fixed lg:sticky top-0 left-0 w-[320px] h-full shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 pt-24 lg:pt-10 flex flex-col z-30 overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
             >
                 {/* Global Brand Header */}
                 <div className="mb-8 px-2">
@@ -386,8 +386,8 @@ const AdminDashboard = () => {
                 </div>
             </motion.div>
 
-            {/* Main Content Deck */}
-            <div className="flex-grow ml-[320px] p-8 lg:p-14 z-10 relative overflow-x-hidden">
+            {/* Main Content Deck - Independent Scroll */}
+            <div className="flex-1 p-8 lg:p-14 z-10 relative h-full overflow-y-auto custom-scrollbar">
                 <AnimatePresence mode="wait">
 
                     {/* MONITOR */}

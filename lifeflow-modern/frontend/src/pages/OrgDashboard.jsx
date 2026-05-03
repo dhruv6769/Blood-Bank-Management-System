@@ -112,7 +112,7 @@ const OrgDashboard = () => {
     const pendingCount = camps.filter(c => c.status === 'PENDING').length;
 
     return (
-        <div className="min-h-screen bg-var(--bg-primary) text-var(--text-primary) flex flex-row relative selection:bg-[#dc143c]/30" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
+        <div className="h-[calc(100vh-122px)] bg-[var(--bg-primary)] text-[var(--text-primary)] flex flex-row relative selection:bg-[#dc143c]/30 overflow-hidden" style={{ backgroundColor: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
             {/* Background Effects */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#dc143c]/5 rounded-full blur-[120px] animate-pulse"></div>
@@ -125,7 +125,7 @@ const OrgDashboard = () => {
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className="fixed top-0 left-0 w-[320px] shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-30 h-full pt-24 shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
+                className="fixed lg:sticky top-0 left-0 w-[320px] shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-30 h-full pt-24 lg:pt-10 shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
             >
                 <div className="p-10 pt-4 flex flex-col h-full">
                     <div className="flex items-center gap-5 mb-10 group cursor-pointer">
@@ -197,8 +197,8 @@ const OrgDashboard = () => {
                 </div>
             </motion.div>
 
-            {/* Main Command Deck */}
-            <div className="flex-grow ml-[320px] p-6 lg:p-10 z-10 relative overflow-x-hidden">
+            {/* Main Command Deck - Independent Scroll */}
+            <div className="flex-1 p-6 lg:p-10 z-10 relative h-full overflow-y-auto custom-scrollbar">
                 <AnimatePresence mode="wait">
                     {/* OVERVIEW */}
                     {activeSection === 'overview' && (
