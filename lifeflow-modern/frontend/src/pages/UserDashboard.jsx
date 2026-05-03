@@ -214,6 +214,14 @@ const UserDashboard = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [activeSection, setActiveSection] = useState('main');
     const [isSupportOpen, setIsSupportOpen] = useState(false);
+    useEffect(() => {
+        // Lock body scroll to ensure internal dashboard scrolling only
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     // Handle section parameter from URL

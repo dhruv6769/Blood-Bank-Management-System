@@ -55,6 +55,12 @@ const OrgDashboard = () => {
     useEffect(() => {
         fetchMyCamps();
         fetchSupportedCities();
+        
+        // Lock body scroll to ensure internal dashboard scrolling only
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
     }, []);
 
     const fetchSupportedCities = async () => {

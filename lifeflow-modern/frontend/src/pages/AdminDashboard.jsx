@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useSearchParams } from 'react-router-dom';
 import {
     Activity, Users, FileText, CheckCircle,
     Clock3, MapPin, Building2, Calendar, Trash2, Mail,
@@ -49,6 +50,16 @@ const StatCard = ({ label, value, icon: Icon, color, glowColor, trend }) => (
 );
 
 const AdminDashboard = () => {
+    const [searchParams] = useSearchParams();
+    
+    useEffect(() => {
+        // Lock body scroll to ensure internal dashboard scrolling only
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
+
     // const { user } = useAuthStore();
     const [activeSection, setActiveSection] = useState('monitor');
     const [stats, setStats] = useState({});
