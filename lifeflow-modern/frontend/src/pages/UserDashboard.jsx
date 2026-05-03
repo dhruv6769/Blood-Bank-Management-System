@@ -11,6 +11,7 @@ import { FileText, Hourglass, CheckCircle2, Activity, HandHeart, Clock, UserChec
 import { useAuthStore } from '../context/authStore';
 import { useThemeStore } from '../context/themeStore';
 import api from '../lib/api';
+import logoImg from '../assets/logo.png';
 import toast from 'react-hot-toast';
 import PremiumMedal from '../components/PremiumMedal';
 import ModernInput from '../components/ModernInput';

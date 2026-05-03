@@ -11,6 +11,7 @@ import { useAuthStore } from '../context/authStore';
 import { useThemeStore } from '../context/themeStore';
 import AnimatedAvatar from './AnimatedAvatar';
 import api from '../lib/api';
+import logoImg from '../assets/logo.png';
 
 const getNotifIcon = (type) => {
   if (type === 'DONATION_APPROVED') return <Droplets className="w-4 h-4 text-red-400" />;
@@ -629,11 +630,11 @@ const Navbar = () => {
             <div className="absolute inset-0 bg-[#dc143c] blur-xl opacity-0 group-hover:opacity-40 transition-opacity duration-700 rounded-full scale-150" />
             
             <motion.div
-              className="lf-nav-logo-icon relative z-10"
+              className="lf-nav-logo-icon relative z-10 overflow-hidden"
               animate={{ boxShadow: ['0 0 16px rgba(220,20,60,0.4)', '0 0 28px rgba(220,20,60,0.7)', '0 0 16px rgba(220,20,60,0.4)'] }}
               transition={{ duration: 2.5, repeat: Infinity }}
             >
-              <Droplets size={18} color="#fff" />
+              <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover" />
             </motion.div>
             <span className="lf-nav-logo-text relative z-10">Life<span>Flow</span></span>
           </Link>

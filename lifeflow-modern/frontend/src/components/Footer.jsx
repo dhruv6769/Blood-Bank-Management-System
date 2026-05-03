@@ -6,6 +6,7 @@ import { Droplet, MapPin, Phone, ShieldCheck, Instagram, Facebook, Twitter } fro
 import { useThemeStore } from '../context/themeStore';
 import { useAuthStore } from '../context/authStore';
 import AnimatedAvatar from './AnimatedAvatar';
+import logoImg from '../assets/logo.png';
 
 const SOCIAL = [
     { label: 'Instagram', href: 'https://www.instagram.com/lifeflowdonation', icon: Instagram, brandColor: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)' },
@@ -41,8 +42,8 @@ const Footer = () => {
                         className="lg:col-span-4 space-y-10"
                     >
                         <div className="flex items-center gap-5 group cursor-pointer">
-                            <div className="w-14 h-14 rounded-2.5xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center shadow-[0_0_30px_rgba(220,20,60,0.1)] group-hover:scale-110 transition-all duration-500">
-                                <Droplet className="text-[#dc143c] w-7 h-7 fill-[#dc143c]/20" />
+                            <div className="w-14 h-14 rounded-2.5xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center shadow-[0_0_30px_rgba(220,20,60,0.1)] group-hover:scale-110 transition-all duration-500 overflow-hidden p-0">
+                                <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover" />
                             </div>
                             <div>
                                 <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none">LifeFlow</h3>

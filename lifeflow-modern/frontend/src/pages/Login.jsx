@@ -6,6 +6,7 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight, Droplets, Heart, ShieldCheck, User
 import { useAuthStore } from '../context/authStore';
 import AvatarFeedback from '../components/AvatarFeedback';
 import ModernInput from '../components/ModernInput';
+import logoImg from '../assets/logo.png';
 
 const BLOOD_DROPS = [
   { x: '10%', y: '15%', size: 40, delay: 0, duration: 15 },
@@ -89,8 +90,8 @@ const Login = () => {
         className="hidden lg:flex flex-[1.2] relative flex-col justify-center px-16 xl:px-24 z-10"
       >
         <Link to="/" className="absolute top-12 left-16 flex items-center gap-4 no-underline group z-30">
-          <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 group-hover:scale-110 transition-transform duration-500">
-            <Droplets size={24} color="#fff" />
+          <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 group-hover:scale-110 transition-transform duration-500 overflow-hidden">
+            <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-2xl font-black tracking-tighter" style={{ color: 'var(--text-primary)' }}>
             Life<span className="text-[#dc143c]">Flow.</span>
@@ -153,8 +154,8 @@ const Login = () => {
             <div className="relative z-10">
               <div className="mb-10">
                 <div className="lg:hidden flex items-center gap-3 mb-8">
-                   <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30">
-                    <Droplets size={24} color="#fff" />
+                   <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 overflow-hidden">
+                    <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover" />
                   </div>
                   <span className="text-2xl font-black tracking-tighter" style={{ color: 'var(--text-primary)' }}>
                     LifeFlow<span className="text-[#dc143c]">.</span>
