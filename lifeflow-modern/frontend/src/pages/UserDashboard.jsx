@@ -804,7 +804,9 @@ const UserDashboard = () => {
                                 ))}
                             </div>
                         </motion.div>
-                               {/* SECTION: EDIT PROFILE */}
+                    )}
+
+                    {/* SECTION: EDIT PROFILE */}
                     {activeSection === 'edit-profile' && (
                         <motion.div key="edit-profile" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-5xl mx-auto py-10">
                             <div className="mb-10 text-center">
