@@ -82,10 +82,10 @@ const LifePath = () => {
                                 key={step.id}
                                 onClick={() => setActiveStep(idx)}
                                 whileHover={{ x: 10 }}
-                                className={`w-full p-6 rounded-3xl text-left transition-all relative overflow-hidden group ${
+                                className={`w-full p-6 rounded-3xl text-left transition-[background-color,border-color,box-shadow,transform] duration-300 relative overflow-hidden group border border-transparent ${
                                     activeStep === idx 
-                                    ? 'bg-[var(--bg-card)] shadow-[var(--shadow)] border border-[var(--border)] z-10' 
-                                    : 'bg-transparent hover:bg-[var(--bg-secondary)]'
+                                    ? 'bg-[var(--bg-card)] shadow-[var(--shadow)] border-[var(--border)] z-10' 
+                                    : 'bg-transparent hover:bg-[var(--bg-secondary)] hover:border-[var(--border)]/50'
                                 }`}
                             >
                                 {activeStep === idx && (
