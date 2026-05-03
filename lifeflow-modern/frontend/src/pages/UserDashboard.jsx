@@ -767,7 +767,7 @@ const UserDashboard = () => {
 
                     {/* SECTION: HISTORY */}
                     {activeSection === 'history' && (
-                        <motion.div key="history" variants={tabVars" initial="hidden" animate="visible" exit="exit" className="max-w-5xl mx-auto py-12">
+                        <motion.div key="history" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-5xl mx-auto py-12">
                             <div className="text-center mb-10">
                                 <h2 className="text-3xl lg:text-4xl font-black text-[var(--text-primary)] brand-font mb-3 tracking-tighter">Bio-History Timeline<span className="text-[#dc143c]">.</span></h2>
                                 <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">A chronological ledger of your life-saving operations</p>
