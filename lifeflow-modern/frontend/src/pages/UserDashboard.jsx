@@ -463,91 +463,109 @@ const UserDashboard = () => {
                 initial={{ x: -120, opacity: 0 }} 
                 animate={{ x: isSidebarOpen ? 0 : (window.innerWidth < 1024 ? -400 : 0), opacity: 1 }}
                 transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className={`fixed top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-40 h-full shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-transform duration-500 shrink-0 pt-20 lg:pt-24 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
+                className={`fixed top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[60px] border-r border-[var(--border)] flex flex-col z-40 h-full shadow-[30px_0_100px_rgba(0,0,0,0.5)] transition-transform duration-500 shrink-0 pt-32 p-8 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
             >
-                    {/* Subject Identity Card (High-End) */}
-                    <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="mb-10 p-6 rounded-[2rem] bg-gradient-to-br from-[#dc143c]/10 to-indigo-600/10 border border-white/10 relative overflow-hidden group shadow-xl"
-                    >
-                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dc143c]/20 blur-[40px] rounded-full -mr-10 -mt-10 group-hover:scale-150 transition-transform duration-1000"></div>
-                        <div className="relative z-10 flex items-center gap-4">
-                            <div className="relative">
-                                {user?.avatar ? (
-                                    <img src={user.avatar} className="w-12 h-12 rounded-xl object-cover border border-white/20" alt="" />
-                                ) : (
-                                    <div className="w-12 h-12 rounded-xl bg-[var(--bg-primary)] border border-white/20 flex items-center justify-center font-black text-xs text-[#dc143c]">
-                                        {user?.name?.charAt(0)}
-                                    </div>
-                                )}
-                                <div className="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-[var(--bg-card)] shadow-lg"></div>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-[11px] font-black text-[var(--text-primary)] truncate uppercase tracking-tighter leading-none mb-1">{user?.name}</p>
-                                <p className="text-[8px] font-black text-[#dc143c] uppercase tracking-[0.2em] opacity-80">Protocol: Active</p>
-                            </div>
-                        </div>
-                    </motion.div>
-
-                    <nav className="space-y-4 flex-grow overflow-y-auto custom-scrollbar">
-                        <p className="text-[11px] text-[var(--text-muted)] font-black uppercase tracking-[0.5em] mb-6 px-6">Navigation</p>
-                        {[
-                            { id: 'main', icon: Activity, label: 'Main Dashboard' },
-                            { id: 'blood-request', icon: Droplet, label: 'Blood Request' },
-                            { id: 'donation-request', icon: HandHeart, label: 'Donation Request' },
-                            { id: 'history', icon: Clock, label: 'Bio-History' },
-                            { id: 'edit-profile', icon: UserCheck, label: 'User Profile' },
-                        ].map(item => (
-                            <button 
-                                key={item.id} 
-                                onClick={() => setActiveSection(item.id)}
-                                className={`w-full flex items-center gap-5 px-6 py-4 rounded-[1.5rem] transition-all duration-500 font-black text-[10px] uppercase tracking-[0.25em] relative group
-                                    ${activeSection === item.id
-                                        ? 'text-white shadow-[0_20px_50px_rgba(220,20,60,0.3)] scale-[1.03]' 
-                                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] border border-transparent hover:border-[var(--border)]'}`}
-                            >
-                                {activeSection === item.id && (
-                                    <motion.div
-                                        layoutId="userSidebarActive"
-                                        className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-r from-[#dc143c] to-[#9b0023]"
-                                        style={{ zIndex: 0 }}
-                                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                                    />
-                                )}
-                                <div className={`p-2.5 rounded-xl transition-all duration-500 relative z-10 ${activeSection === item.id ? 'bg-white/10' : 'group-hover:bg-[#dc143c]/10'}`}>
-                                    <item.icon className={`w-4 h-4 transition-all duration-500 ${activeSection === item.id ? 'scale-110' : 'group-hover:text-[#dc143c] group-hover:scale-110'}`} /> 
-                                </div>
-                                <span className="relative z-10">{item.label}</span>
-                            </button>
-                        ))}
-                        
-                        <button 
-                            onClick={openSupport}
-                            className="w-full flex items-center gap-5 px-6 py-5 rounded-[1.5rem] transition-all duration-500 font-black text-[10px] uppercase tracking-[0.25em] relative group text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] border border-transparent hover:border-[var(--border)]"
+                <div className="flex flex-col h-full justify-between">
+                    <div>
+                        {/* Subject Identity Card (High-End) */}
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="mb-10 p-6 rounded-[2.5rem] bg-gradient-to-br from-[#dc143c]/10 to-indigo-600/10 border border-white/10 relative overflow-hidden group shadow-2xl"
                         >
-                            <div className="p-2 rounded-xl transition-all duration-500 relative z-10 group-hover:bg-blue-500/10">
-                                <LifeBuoy className={`w-4 h-4 transition-all duration-500 group-hover:text-blue-500 group-hover:scale-110`} /> 
-                                {hasSupportReply && (
-                                    <>
-                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
-                                        <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full"></span>
-                                    </>
-                                )}
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#dc143c]/20 blur-[50px] rounded-full -mr-12 -mt-12 group-hover:scale-150 transition-transform duration-1000"></div>
+                            <div className="relative z-10 flex items-center gap-5">
+                                <div className="relative">
+                                    {user?.avatar ? (
+                                        <img src={user.avatar} className="w-14 h-14 rounded-2xl object-cover border border-white/20 shadow-xl" alt="" />
+                                    ) : (
+                                        <div className="w-14 h-14 rounded-2xl bg-[var(--bg-primary)] border border-white/20 flex items-center justify-center font-black text-sm text-[#dc143c]">
+                                            {user?.name?.charAt(0)}
+                                        </div>
+                                    )}
+                                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[var(--bg-card)] shadow-lg"></div>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-[12px] font-black text-[var(--text-primary)] truncate uppercase tracking-tighter leading-none mb-1.5">{user?.name}</p>
+                                    <p className="text-[9px] font-black text-[#dc143c] uppercase tracking-[0.2em] opacity-80">Protocol: Active</p>
+                                </div>
                             </div>
-                            <span className="relative z-10">Support Center</span>
-                        </button>
-                    </nav>
+                        </motion.div>
 
-                    <div className="mt-8 border-t border-[var(--border)] pt-8">
+                        <nav className="space-y-3 overflow-y-auto custom-scrollbar pr-2">
+                            <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.5em] mb-6 px-2">Navigation Matrix</p>
+                            {[
+                                { id: 'main', icon: Activity, label: 'Main Dashboard' },
+                                { id: 'blood-request', icon: Droplet, label: 'Blood Request' },
+                                { id: 'donation-request', icon: HandHeart, label: 'Donation Request' },
+                                { id: 'history', icon: Clock, label: 'Bio-History' },
+                                { id: 'edit-profile', icon: UserCheck, label: 'User Profile' },
+                            ].map(item => (
+                                <button 
+                                    key={item.id} 
+                                    onClick={() => {
+                                        setActiveSection(item.id);
+                                        if(window.innerWidth < 1024) setIsSidebarOpen(false);
+                                    }}
+                                    className={`w-full flex items-center gap-5 px-6 py-4 rounded-[1.5rem] transition-all duration-500 font-black text-[10px] uppercase tracking-[0.25em] relative group
+                                        ${activeSection === item.id
+                                            ? 'text-white shadow-[0_20px_50px_rgba(220,20,60,0.3)] scale-[1.03]' 
+                                            : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] border border-transparent hover:border-[var(--border)]'}`}
+                                >
+                                    {activeSection === item.id && (
+                                        <motion.div layoutId="userSidebarActive" className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-r from-[#dc143c] to-[#9b0023]" style={{ zIndex: 0 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }} />
+                                    )}
+                                    <div className={`p-2.5 rounded-xl transition-all duration-500 relative z-10 ${activeSection === item.id ? 'bg-white/10' : 'group-hover:bg-[#dc143c]/10'}`}>
+                                        <item.icon className={`w-4 h-4 transition-all duration-500 ${activeSection === item.id ? 'scale-110' : 'group-hover:text-[#dc143c] group-hover:scale-110'}`} /> 
+                                    </div>
+                                    <span className="relative z-10">{item.label}</span>
+                                </button>
+                            ))}
+                            
+                            <button 
+                                onClick={openSupport}
+                                className="w-full flex items-center gap-5 px-6 py-5 rounded-[1.5rem] transition-all duration-500 font-black text-[10px] uppercase tracking-[0.25em] relative group text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] border border-transparent hover:border-[var(--border)]"
+                            >
+                                <div className="p-2 rounded-xl transition-all duration-500 relative z-10 group-hover:bg-blue-500/10">
+                                    <LifeBuoy className={`w-4 h-4 transition-all duration-500 group-hover:text-blue-500 group-hover:scale-110`} /> 
+                                    {hasSupportReply && (
+                                        <>
+                                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full animate-ping"></span>
+                                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-green-500 rounded-full"></span>
+                                        </>
+                                    )}
+                                </div>
+                                <span className="relative z-10">Support Center</span>
+                            </button>
+                        </nav>
+                    </div>
+
+                    <div className="space-y-6 pt-6 mt-6 border-t border-[var(--border)]">
                         <Link to="/camps" className="w-full p-6 rounded-[2rem] bg-[#dc143c]/5 border border-[#dc143c]/20 text-[#dc143c] hover:bg-[#dc143c] hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.4em] shadow-xl group flex items-center justify-center gap-3">
                             Nearby Ops <Building2 className="w-4 h-4 group-hover:animate-bounce" />
                         </Link>
+                        
+                        <div className="bg-white/5 rounded-[2rem] p-6 border border-white/5">
+                            <div className="flex items-center justify-between mb-4">
+                                <span className="text-[8px] font-black uppercase tracking-widest text-[var(--text-muted)]">Nexus Status</span>
+                                <span className="flex items-center gap-1.5 text-[8px] font-black text-green-400 uppercase tracking-widest">
+                                    <span className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></span> Optimal
+                                </span>
+                            </div>
+                            <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                <motion.div initial={{ width: 0 }} animate={{ width: '94%' }} className="h-full bg-green-500/50" />
+                            </div>
+                        </div>
+
+                        <button onClick={() => useAuthStore.getState().logout()} className="w-full flex items-center justify-center gap-3 px-6 py-5 rounded-[1.5rem] text-[var(--text-muted)] hover:text-[#dc143c] hover:bg-[#dc143c]/5 transition-all duration-300 font-black text-[10px] uppercase tracking-[0.4em] border border-transparent hover:border-[#dc143c]/20">
+                            <LogOut className="w-4 h-4" /> Terminate Session
+                        </button>
                     </div>
+                </div>
             </motion.div>
 
             {/* Main Content Area */}
-            <div className="flex-1 lg:ml-[320px] px-6 md:px-16 pb-32 z-10 w-full overflow-x-hidden">
+            <div className="flex-1 lg:ml-[320px] px-6 md:px-16 pt-32 pb-32 z-10 w-full overflow-x-hidden relative">
                 <AnimatePresence mode="wait">
                     {/* SECTION: MAIN OVERVIEW */}
                     {activeSection === 'main' && (
