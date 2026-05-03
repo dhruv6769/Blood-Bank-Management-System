@@ -516,10 +516,10 @@ const UserDashboard = () => {
                                             setActiveSection(item.id);
                                             if(window.innerWidth < 1024) setIsSidebarOpen(false);
                                         }}
-                                        className={`w-full flex items-center gap-5 px-6 py-4 rounded-[1.5rem] transition-[background-color,color,transform,box-shadow,border-color] duration-300 font-black text-[10px] uppercase tracking-[0.25em] relative group border border-transparent
+                                        className={`w-full flex items-center gap-5 px-6 py-4 rounded-[1.5rem] transition-[background-color,color,transform,box-shadow] duration-300 font-black text-[10px] uppercase tracking-[0.25em] relative group
                                             ${activeSection === item.id
-                                                ? 'text-white shadow-[0_20px_50px_rgba(220,20,60,0.3)] scale-[1.03]' 
-                                                : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] hover:border-[var(--border)]'}`}
+                                                ? 'text-white shadow-[0_20px_50px_rgba(220,20,60,0.3)]' 
+                                                : 'text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] hover:shadow-[inset_0_0_0_1px_var(--border)]'}`}
                                     >
                                         {activeSection === item.id && (
                                             <motion.div layoutId="userSidebarActive" className="absolute inset-0 rounded-[1.5rem] bg-gradient-to-r from-[#dc143c] to-[#9b0023]" style={{ zIndex: 0 }} transition={{ type: 'spring', stiffness: 400, damping: 30 }} />
@@ -533,7 +533,7 @@ const UserDashboard = () => {
                                 
                                 <button 
                                     onClick={openSupport}
-                                    className="w-full flex items-center gap-5 px-6 py-5 rounded-[1.5rem] transition-[background-color,color,transform,box-shadow,border-color] duration-300 font-black text-[10px] uppercase tracking-[0.25em] relative group text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] border border-transparent hover:border-[var(--border)]"
+                                    className="w-full flex items-center gap-5 px-6 py-5 rounded-[1.5rem] transition-[background-color,color,transform,box-shadow] duration-300 font-black text-[10px] uppercase tracking-[0.25em] relative group text-[var(--text-secondary)] hover:bg-[var(--bg-primary)] hover:text-[var(--text-primary)] hover:shadow-[inset_0_0_0_1px_var(--border)]"
                                 >
                                     <div className="p-2 rounded-xl transition-all duration-500 relative z-10 group-hover:bg-blue-500/10">
                                         <LifeBuoy className={`w-4 h-4 transition-all duration-500 group-hover:text-blue-500 group-hover:scale-110`} /> 
