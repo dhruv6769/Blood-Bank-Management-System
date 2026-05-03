@@ -767,73 +767,71 @@ const UserDashboard = () => {
 
                     {/* SECTION: HISTORY */}
                     {activeSection === 'history' && (
-                        <motion.div key="history" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-5xl mx-auto py-12">
-                            <div className="text-center mb-12">
-                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Bio-History Timeline<span className="text-[#dc143c]">.</span></h2>
+                        <motion.div key="history" variants={tabVars" initial="hidden" animate="visible" exit="exit" className="max-w-5xl mx-auto py-12">
+                            <div className="text-center mb-10">
+                                <h2 className="text-3xl lg:text-4xl font-black text-[var(--text-primary)] brand-font mb-3 tracking-tighter">Bio-History Timeline<span className="text-[#dc143c]">.</span></h2>
                                 <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">A chronological ledger of your life-saving operations</p>
                             </div>
                             
-                            <div className="space-y-16 relative before:absolute before:inset-0 before:left-1/2 before:-translate-x-1/2 before:w-px before:bg-gradient-to-b before:from-[#dc143c] before:via-[var(--border)] before:to-transparent before:h-full hidden md:block">
+                            <div className="space-y-12 relative before:absolute before:inset-0 before:left-1/2 before:-translate-x-1/2 before:w-px before:bg-gradient-to-b before:from-[#dc143c] before:via-[var(--border)] before:to-transparent before:h-full hidden md:block">
                                 {history.map((record, index) => (
                                     <motion.div key={record._id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1, type: 'spring' }}
-                                        className={`relative flex items-center gap-16 group ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                                        className={`relative flex items-center gap-12 group ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
                                         <div className={`flex-1 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
-                                            <div className="glass-premium p-12 rounded-[4rem] border-white/5 hover:border-[#dc143c]/40 transition-all group-hover:-translate-y-3 shadow-2xl relative overflow-hidden">
-                                                <div className="absolute top-0 right-0 w-40 h-40 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl" />
+                                            <div className="glass-premium p-10 rounded-[3rem] border-white/5 hover:border-[#dc143c]/40 transition-all group-hover:-translate-y-3 shadow-2xl relative overflow-hidden">
+                                                <div className="absolute top-0 right-0 w-32 h-32 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl" />
                                                 <div className="relative z-10">
-                                                    <div className={`flex items-center gap-6 mb-6 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
-                                                        <span className="px-6 py-2 rounded-full bg-white/5 border border-white/10 text-[#dc143c] text-[10px] font-black tracking-[0.4em] uppercase">{record.type}</span>
+                                                    <div className={`flex items-center gap-5 mb-5 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
+                                                        <span className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-[#dc143c] text-[9px] font-black tracking-[0.4em] uppercase">{record.type}</span>
                                                         <span className="text-[11px] font-black text-[var(--text-muted)] uppercase tracking-widest">{new Date(record.effectiveDate).toLocaleDateString()}</span>
                                                     </div>
-                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-6">{record.type === 'emergency' ? `Blood Request: ${record.patient}` : "Donation Session"}</h3>
-                                                    <div className={`flex items-center gap-8 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
-                                                        <div className="flex items-center gap-3"><Droplet className="w-5 h-5 text-[#dc143c]" /><span className="text-lg font-black text-[var(--text-primary)]">{record.group}</span></div>
+                                                    <h3 className="text-2xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-5">{record.type === 'emergency' ? `Blood Request: ${record.patient}` : "Donation Session"}</h3>
+                                                    <div className={`flex items-center gap-7 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
+                                                        <div className="flex items-center gap-2.5"><Droplet className="w-5 h-5 text-[#dc143c]" /><span className="text-lg font-black text-[var(--text-primary)]">{record.group}</span></div>
                                                         <div className="flex items-center gap-3">
-                                                            <div className={`w-3 h-3 rounded-full ${record.status === 'APPROVED' ? 'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.6)]' : record.status === 'REJECTED' ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]' : 'bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.6)] animate-pulse'}`} />
+                                                            <div className={`w-2.5 h-2.5 rounded-full ${record.status === 'APPROVED' ? 'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.6)]' : record.status === 'REJECTED' ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]' : 'bg-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.6)] animate-pulse'}`} />
                                                             <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">{record.status}</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-16 h-16 rounded-[2rem] glass-premium border-white/20 flex items-center justify-center shrink-0 z-10 shadow-2xl group-hover:scale-125 group-hover:bg-[#dc143c] group-hover:text-white transition-all duration-700">
-                                            {record.type === 'emergency' ? <Activity size={24} /> : <HandHeart size={24} />}
+                                        <div className="w-14 h-14 rounded-[1.5rem] glass-premium border-white/20 flex items-center justify-center shrink-0 z-10 shadow-2xl group-hover:scale-115 group-hover:bg-[#dc143c] group-hover:text-white transition-all duration-700">
+                                            {record.type === 'emergency' ? <Activity size={22} /> : <HandHeart size={22} />}
                                         </div>
                                         <div className="flex-1" />
                                     </motion.div>
                                 ))}
                             </div>
                         </motion.div>
-                    )}
-
-                    {/* SECTION: EDIT PROFILE */}
+                               {/* SECTION: EDIT PROFILE */}
                     {activeSection === 'edit-profile' && (
-                        <motion.div key="edit-profile" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-6xl mx-auto py-12">
-                            <div className="mb-12 text-center">
-                                <h2 className="text-4xl lg:text-5xl font-black text-[var(--text-primary)] brand-font mb-4 tracking-tighter">Edit Profile<span className="text-[#dc143c]">.</span></h2>
+                        <motion.div key="edit-profile" variants={tabVars} initial="hidden" animate="visible" exit="exit" className="max-w-5xl mx-auto py-10">
+                            <div className="mb-10 text-center">
+                                <h2 className="text-3xl lg:text-4xl font-black text-[var(--text-primary)] brand-font mb-3 tracking-tighter">Edit Profile<span className="text-[#dc143c]">.</span></h2>
                                 <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Propose modifications to your global User Profile profile</p>
                             </div>
                             
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                                <div className="glass-premium p-12 rounded-[4rem] border-white/5 shadow-2xl text-center group transition-all hover:border-[#dc143c]/30">
-                                    <div className="w-40 h-40 mx-auto rounded-[3rem] bg-[var(--bg-primary)] border border-white/10 shadow-2xl mb-10 overflow-hidden flex items-center justify-center relative">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                                <div className="glass-premium p-10 rounded-[3rem] border-white/5 shadow-2xl text-center group transition-all hover:border-[#dc143c]/30 h-fit">
+                                    <div className="w-32 h-32 mx-auto rounded-[2.5rem] bg-[var(--bg-primary)] border border-white/10 shadow-2xl mb-8 overflow-hidden flex items-center justify-center relative">
                                         {user?.avatar ? <img src={user.avatar} className="w-full h-full object-cover" alt="" /> : <AnimatedAvatar size="xl" user={user} />}
                                     </div>
-                                    <h3 className="text-4xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-2">{user?.name}</h3>
-                                    <p className="text-[11px] text-green-400 font-black uppercase tracking-[0.3em] mb-12 flex items-center justify-center gap-2">
+                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-2">{user?.name}</h3>
+                                    <p className="text-[10px] text-green-400 font-black uppercase tracking-[0.3em] mb-10 flex items-center justify-center gap-2">
                                         <span className="w-2 h-2 bg-green-400 rounded-full animate-ping"></span>Verified Bio-Signature
                                     </p>
-                                    <div className="space-y-8 text-left border-t border-white/5 pt-10">
+                                    <div className="space-y-8 text-left border-t border-white/5 pt-8">
                                         <div className="flex flex-col"><span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Comms Link</span><span className="text-sm font-bold text-[var(--text-primary)]">{user?.email}</span></div>
                                         <div className="flex flex-col"><span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Sector Location</span><span className="text-sm font-bold text-[var(--text-primary)]">{user?.city || 'Not Set'}, {user?.state || 'Not Set'}</span></div>
-                                        <div className="flex justify-between items-center bg-white/5 p-8 rounded-[2rem] border border-white/5 group-hover:border-[#dc143c]/30 transition-all">
+                                        <div className="flex justify-between items-center bg-white/5 p-6 rounded-[2rem] border border-white/5 group-hover:border-[#dc143c]/30 transition-all">
                                             <span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)]">Bio-Marker</span>
-                                            <span className="text-3xl font-black text-[#dc143c] leading-none">{user?.bloodGroup || 'NA'}</span>
+                                            <span className="text-2xl font-black text-[#dc143c] leading-none">{user?.bloodGroup || 'NA'}</span>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <div className="lg:col-span-2 glass-premium p-10 rounded-[2.5rem] border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.4)] relative overflow-hidden">
+                                <div className="lg:col-span-2 glass-premium p-8 rounded-[2rem] border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.4)] relative overflow-hidden h-fit">
                                     <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[100px]" />
                                     <form onSubmit={submitEditRequest} className="space-y-8 relative z-10">
                                         <div className="flex flex-col md:flex-row items-center gap-6 p-6 rounded-[1.5rem] bg-white/5 border border-white/5">
@@ -848,7 +846,7 @@ const UserDashboard = () => {
                                             <ModernInput label="City" value={editForm.city} onChange={e => setEditForm({...editForm, city: e.target.value})} />
                                         </div>
                                         <ModernInput label="State" value={editForm.state} onChange={e => setEditForm({...editForm, state: e.target.value})} />
-                                        <button disabled={isLoading} className="w-full py-5 bg-[#dc143c] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(220,20,60,0.4)]">
+                                        <button disabled={isLoading} className="w-full py-4 bg-[#dc143c] text-white rounded-xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_25px_50px_rgba(220,20,60,0.35)]">
                                             {isLoading ? 'Transmitting Data...' : 'Propose Identity Update'}
                                         </button>
                                     </form>
