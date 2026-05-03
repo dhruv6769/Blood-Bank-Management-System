@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+ 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom';
@@ -253,8 +253,11 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname]);
+    if (mobileOpen) {
+      const timer = setTimeout(() => setMobileOpen(false), 0);
+      return () => clearTimeout(timer);
+    }
+  }, [location.pathname, mobileOpen]);
 
   const navLinks = [
     { name: 'Home', path: '/' },
