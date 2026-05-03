@@ -5,7 +5,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import AnimatedAvatar from '../components/AnimatedAvatar';
 import CertificateGenerator from '../components/CertificateGenerator';
 import SupportPanel from '../components/SupportPanel';
-import { FileText, Hourglass, CheckCircle2, Activity, HandHeart, Clock, UserCheck, Droplet, CalendarDays, AlertCircle, ChevronDown, CheckCircle, Clock3, MapPin, ArrowRightLeft, Heart, LifeBuoy, Building2, Sparkles } from 'lucide-react';
+import { FileText, Hourglass, CheckCircle2, Activity, HandHeart, Clock, UserCheck, Droplet, CalendarDays, AlertCircle, ChevronDown, CheckCircle, Clock3, MapPin, ArrowRightLeft, Heart, LifeBuoy, Building2, Sparkles, LogOut } from 'lucide-react';
 
 import { useAuthStore } from '../context/authStore';
 import { useThemeStore } from '../context/themeStore';
@@ -458,9 +458,8 @@ const UserDashboard = () => {
                 </div>
             </motion.button>
 
-            {/* Floating Navigation Rail - Sidebar Navigation - Portalled to bypass parent transforms */}
-            {createPortal(
-                <motion.div 
+            {/* Sidebar Navigation */}
+            <motion.div 
                     initial={{ x: -120, opacity: 0 }} 
                     animate={{ x: isSidebarOpen ? 0 : (window.innerWidth < 1024 ? -400 : 0), opacity: 1 }}
                     transition={{ type: "spring", damping: 32, stiffness: 120 }}
@@ -563,9 +562,7 @@ const UserDashboard = () => {
                             </button>
                         </div>
                     </div>
-                </motion.div>,
-                document.getElementById('portal-root') || document.body
-            )}
+                </motion.div>
 
             {/* Main Content Area - Independent Scroll */}
             <div className="flex-1 px-6 md:px-16 pt-10 pb-32 z-10 w-full overflow-y-auto custom-scrollbar relative h-full">
