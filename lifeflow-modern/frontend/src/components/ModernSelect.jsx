@@ -11,7 +11,8 @@ const ModernSelect = ({
     icon: Icon,
     disabled = false,
     className = "",
-    placeholder = ""
+    placeholder = "",
+    name
 }) => {
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value && value.toString().length > 0;
@@ -42,6 +43,7 @@ const ModernSelect = ({
                 )}
                 
                 <select
+                    name={name}
                     value={value}
                     onChange={onChange}
                     onFocus={() => setIsFocused(true)}

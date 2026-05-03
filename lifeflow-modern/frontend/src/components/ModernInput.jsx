@@ -14,7 +14,8 @@ const ModernInput = ({
     readOnly = false,
     className = "",
     rows = null,
-    showPasswordToggle = false
+    showPasswordToggle = false,
+    name
 }) => {
     const [isFocused, setIsFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -51,6 +52,7 @@ const ModernInput = ({
                 
                 <InputTag
                     type={currentType}
+                    name={name}
                     value={value}
                     onChange={onChange}
                     onFocus={() => setIsFocused(true)}
