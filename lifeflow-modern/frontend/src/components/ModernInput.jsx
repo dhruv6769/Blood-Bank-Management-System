@@ -79,7 +79,7 @@ const ModernInput = ({
                         ${Icon ? 'pl-16' : 'px-6'} py-4 
                         ${(showPasswordToggle && isPasswordField) || suffix ? 'pr-28' : 'pr-6'}
                         ${rows ? 'resize-none min-h-[100px]' : ''}
-                        ${valueDisplay && !isFocused ? 'text-transparent' : 'text-[var(--text-primary)]'} font-bold outline-none transition-all duration-500 rounded-xl
+                        ${valueDisplay ? 'text-transparent' : 'text-[var(--text-primary)]'} font-bold outline-none transition-all duration-500 rounded-xl
                         hover:border-[var(--border-hover)]
                         focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10
                         disabled:opacity-50 disabled:cursor-not-allowed
@@ -105,7 +105,7 @@ const ModernInput = ({
                     </div>
                 )}
 
-                {valueDisplay && !isFocused && (
+                {valueDisplay && (
                     <div className={`absolute ${Icon ? 'left-16' : 'left-6'} right-6 top-1/2 -translate-y-1/2 z-10 pointer-events-none text-xl font-black text-[#dc143c] brand-font tracking-tight`}>
                         {valueDisplay}
                     </div>
