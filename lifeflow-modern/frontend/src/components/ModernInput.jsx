@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion as Motion } from 'framer-motion';
 import { Eye, EyeOff } from 'lucide-react';
 
@@ -15,10 +15,12 @@ const ModernInput = ({
     className = "",
     rows = null,
     showPasswordToggle = false,
-    name
+    name,
+    suffix
 }) => {
     const [isFocused, setIsFocused] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const inputRef = useRef(null);
     const hasValue = value && value.toString().length > 0;
     const isFloating = isFocused || hasValue;
 
@@ -43,7 +45,16 @@ const ModernInput = ({
             </Motion.label>
 
             {/* Input Wrapper */}
-            <div className="relative overflow-hidden rounded-2xl md:rounded-3xl">
+            <div 
+                className="relative overflow-hidden rounded-2xl md:rounded-3xl cursor-text"
+                onClick={() => {
+                    if (type === 'date' && inputRef.current?.showPicker) {
+                        inputRef.current.showPicker();
+                    } else {
+                        inputRef.current?.focus();
+                    }
+                }}
+            >
                 {Icon && (
                     <div className={`absolute left-6 top-1/2 -translate-y-1/2 z-20 transition-colors duration-300 pointer-events-none ${isFocused ? 'text-[var(--accent)]' : 'text-[var(--text-muted)]'}`}>
                         <Icon size={18} />
@@ -51,6 +62,7 @@ const ModernInput = ({
                 )}
                 
                 <InputTag
+                    ref={inputRef}
                     type={currentType}
                     name={name}
                     value={value}
@@ -64,7 +76,7 @@ const ModernInput = ({
                     className={`
                         w-full bg-[var(--bg-primary)] border-2 border-[var(--border)] 
                         ${Icon ? 'pl-16' : 'px-6'} py-4 
-                        ${showPasswordToggle && isPasswordField ? 'pr-16' : ''}
+                        ${(showPasswordToggle && isPasswordField) || suffix ? 'pr-28' : 'pr-6'}
                         ${rows ? 'resize-none min-h-[100px]' : ''}
                         text-[var(--text-primary)] font-bold outline-none transition-all duration-500 rounded-xl
                         hover:border-[var(--border-hover)]
@@ -75,14 +87,21 @@ const ModernInput = ({
                     placeholder={isFloating ? placeholder : ""}
                 />
 
-                {isPasswordField && showPasswordToggle && (
+                {isPasswordField && showPasswordToggle ? (
                     <button
                         type="button"
-                        onClick={() => setShowPassword(!showPassword)}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setShowPassword(!showPassword);
+                        }}
                         className="absolute right-6 top-1/2 -translate-y-1/2 z-20 text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors"
                     >
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
+                ) : suffix && (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 z-20 pointer-events-none">
+                        {suffix}
+                    </div>
                 )}
 
                 {/* Removed Background Glow for Visibility */}

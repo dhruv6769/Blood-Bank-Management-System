@@ -348,14 +348,21 @@ const Register = () => {
                             <ModernInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="mission@lifeflow.com" label="Email Address" required />
                             <div className="grid grid-cols-2 gap-6">
                               <ModernSelect icon={Droplet} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} label="Blood Type" required options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} />
-                                <div className="relative">
-                                  <ModernInput icon={CalendarDays} type="date" name="age" value={formData.age} onChange={handleChange} placeholder="Birth Date" label="Birth Date" required />
-                                  {formData.calculatedAge && (
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 z-30 px-3 py-1 bg-[var(--accent)]/10 border border-[var(--accent)]/20 rounded-full text-[10px] font-bold text-[var(--accent)] pointer-events-none">
-                                      {formData.calculatedAge} Years
-                                    </div>
-                                  )}
-                                </div>
+                              <ModernInput 
+                                icon={CalendarDays} 
+                                type="date" 
+                                name="age" 
+                                value={formData.age} 
+                                onChange={handleChange} 
+                                placeholder="Birth Date" 
+                                label="Birth Date" 
+                                required 
+                                suffix={formData.calculatedAge ? (
+                                  <div className="px-3 py-1 bg-[#dc143c]/10 border border-[#dc143c]/20 rounded-full text-[10px] font-bold text-[#dc143c]">
+                                    {formData.calculatedAge} Years
+                                  </div>
+                                ) : null}
+                              />
                             </div>
                           </>
                         ) : (
