@@ -55,6 +55,9 @@ const Register = () => {
   const handleChange = e => {
     const { name, value } = e.target;
     if (name === 'age') { // This is actually our DOB field now
+      // Auto-blur to remove focus and clear browser selection boxes
+      if (value) e.target.blur();
+      
       const birthDate = new Date(value);
       const today = new Date();
       let calculatedAge = today.getFullYear() - birthDate.getFullYear();
