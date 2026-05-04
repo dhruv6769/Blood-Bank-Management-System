@@ -357,11 +357,7 @@ const Register = () => {
                                 placeholder="Birth Date" 
                                 label="Birth Date" 
                                 required 
-                                suffix={formData.calculatedAge ? (
-                                  <div className="px-3 py-1 bg-[#dc143c]/10 border border-[#dc143c]/20 rounded-full text-[10px] font-bold text-[#dc143c]">
-                                    {formData.calculatedAge} Years
-                                  </div>
-                                ) : null}
+                                valueDisplay={formData.calculatedAge ? `${formData.calculatedAge} Years` : null}
                               />
                             </div>
                           </>
