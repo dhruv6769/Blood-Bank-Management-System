@@ -79,7 +79,7 @@ const ModernInput = ({
                         ${Icon ? 'pl-16' : 'px-6'} py-4 
                         ${(showPasswordToggle && isPasswordField) || suffix ? 'pr-28' : 'pr-6'}
                         ${rows ? 'resize-none min-h-[100px]' : ''}
-                        ${valueDisplay ? 'text-transparent' : 'text-[var(--text-primary)]'} font-bold outline-none transition-all duration-500 rounded-xl
+                        ${valueDisplay ? 'text-transparent caret-transparent selection:bg-transparent' : 'text-[var(--text-primary)]'} font-bold outline-none transition-all duration-500 rounded-xl
                         hover:border-[var(--border-hover)]
                         focus:border-[var(--accent)] focus:ring-4 focus:ring-[var(--accent)]/10
                         disabled:opacity-50 disabled:cursor-not-allowed
