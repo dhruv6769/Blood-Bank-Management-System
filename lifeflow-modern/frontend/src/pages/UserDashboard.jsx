@@ -256,8 +256,25 @@ const UserDashboard = () => {
         phone: user?.phone || '',
         city: user?.city || '',
         state: user?.state || '',
-        avatar: user?.avatar || ''
+        avatar: user?.avatar || '',
+        dob: user?.dob || '',
+        age: user?.age || ''
     });
+
+    // Synchronize editForm when user data is refreshed
+    useEffect(() => {
+        if (user) {
+            setEditForm({
+                name: user.name || '',
+                phone: user.phone || '',
+                city: user.city || '',
+                state: user.state || '',
+                avatar: user.avatar || '',
+                dob: user.dob || '',
+                age: user.age || ''
+            });
+        }
+    }, [user]);
 
     const checkSupportReplies = async () => {
         try {
@@ -289,7 +306,9 @@ const UserDashboard = () => {
                 phone: user.phone || '',
                 city: user.city || '',
                 state: user.state || '',
-                avatar: user.avatar || ''
+                avatar: user.avatar || '',
+                dob: user.dob || '',
+                age: user.age || ''
             });
         }
         checkSupportReplies();
@@ -338,7 +357,7 @@ const UserDashboard = () => {
         try {
             await api.post('/profile/request-edit', { proposedData: editForm });
             toast.success('Edit request submitted to Admin successfully!');
-            setEditForm({ name: '', phone: '', city: '', state: '', avatar: '' });
+            setEditForm({ name: '', phone: '', city: '', state: '', avatar: '', dob: '', age: '' });
         } catch (error) {
             toast.error(error.response?.data?.message || 'Failed to submit edit request');
         } finally {
@@ -820,6 +839,7 @@ const UserDashboard = () => {
                                 <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">A chronological ledger of your life-saving operations</p>
                             </div>
                             
+                            {/* DESKTOP TIMELINE */}
                             <div className="space-y-12 relative before:absolute before:inset-0 before:left-1/2 before:-translate-x-1/2 before:w-px before:bg-gradient-to-b before:from-[#dc143c] before:via-[var(--border)] before:to-transparent before:h-full hidden md:block">
                                 {history.map((record, index) => (
                                     <motion.div key={record._id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1, type: 'spring' }}
@@ -840,6 +860,17 @@ const UserDashboard = () => {
                                                             <span className="text-[11px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">{record.status}</span>
                                                         </div>
                                                     </div>
+
+                                                    {/* Certificate Download Action */}
+                                                    {record.type === 'donation' && record.status === 'APPROVED' && (
+                                                        <div className={`mt-8 flex ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>
+                                                            <CertificateGenerator 
+                                                                donorName={user?.name} 
+                                                                bloodGroup={record.group} 
+                                                                date={record.effectiveDate} 
+                                                            />
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -847,6 +878,44 @@ const UserDashboard = () => {
                                             {record.type === 'emergency' ? <Activity size={22} /> : <HandHeart size={22} />}
                                         </div>
                                         <div className="flex-1" />
+                                    </motion.div>
+                                ))}
+                            </div>
+
+                            {/* MOBILE HISTORY (Visible on small screens only) */}
+                            <div className="md:hidden space-y-8">
+                                {history.map((record, index) => (
+                                    <motion.div 
+                                        key={record._id} 
+                                        initial={{ opacity: 0, x: -20 }} 
+                                        animate={{ opacity: 1, x: 0 }} 
+                                        transition={{ delay: index * 0.1 }}
+                                        className="glass-premium p-8 rounded-[2.5rem] border-white/5 relative overflow-hidden shadow-xl"
+                                    >
+                                        <div className="absolute top-0 right-0 w-24 h-24 bg-[#dc143c]/5 rounded-bl-full blur-2xl" />
+                                        <div className="flex items-center justify-between mb-6">
+                                            <span className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[#dc143c] text-[8px] font-black tracking-[0.3em] uppercase">{record.type}</span>
+                                            <span className="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">{new Date(record.effectiveDate).toLocaleDateString()}</span>
+                                        </div>
+                                        <h3 className="text-xl font-black text-[var(--text-primary)] brand-font tracking-tight mb-6">{record.type === 'emergency' ? `Request: ${record.patient}` : "Donation Session"}</h3>
+                                        <div className="flex items-center justify-between mb-6">
+                                            <div className="flex items-center gap-2.5"><Droplet className="w-4 h-4 text-[#dc143c]" /><span className="text-base font-black text-[var(--text-primary)]">{record.group}</span></div>
+                                            <div className="flex items-center gap-3">
+                                                <div className={`w-2 h-2 rounded-full ${record.status === 'APPROVED' ? 'bg-green-500' : record.status === 'REJECTED' ? 'bg-red-500' : 'bg-yellow-500 animate-pulse'}`} />
+                                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[var(--text-muted)]">{record.status}</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Certificate Download - Mobile */}
+                                        {record.type === 'donation' && record.status === 'APPROVED' && (
+                                            <div className="mt-8 pt-6 border-t border-white/5 flex justify-center">
+                                                <CertificateGenerator 
+                                                    donorName={user?.name} 
+                                                    bloodGroup={record.group} 
+                                                    date={record.effectiveDate} 
+                                                />
+                                            </div>
+                                        )}
                                     </motion.div>
                                 ))}
                             </div>
@@ -873,6 +942,7 @@ const UserDashboard = () => {
                                     <div className="space-y-8 text-left border-t border-white/5 pt-8">
                                         <div className="flex flex-col"><span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Comms Link</span><span className="text-sm font-bold text-[var(--text-primary)]">{user?.email}</span></div>
                                         <div className="flex flex-col"><span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Sector Location</span><span className="text-sm font-bold text-[var(--text-primary)]">{user?.city || 'Not Set'}, {user?.state || 'Not Set'}</span></div>
+                                        <div className="flex flex-col"><span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Subject Birth Date</span><span className="text-sm font-bold text-[var(--text-primary)]">{user?.dob ? new Date(user.dob).toLocaleDateString('en-GB') : 'Not Configured'}</span></div>
                                         <div className="flex justify-between items-center bg-white/5 p-6 rounded-[2rem] border border-white/5 group-hover:border-[#dc143c]/30 transition-all">
                                             <span className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)]">Bio-Marker</span>
                                             <span className="text-2xl font-black text-[#dc143c] leading-none">{user?.bloodGroup || 'NA'}</span>
@@ -888,13 +958,43 @@ const UserDashboard = () => {
                                                 {editForm.avatar ? <img src={editForm.avatar} className="w-20 h-20 rounded-xl object-cover border-2 border-white/10 group-hover:border-[#dc143c] transition-all shadow-2xl" alt="" /> : <div className="w-20 h-20 rounded-xl border-2 border-dashed border-white/10 group-hover:border-[#dc143c] flex items-center justify-center bg-white/5 transition-all"><AnimatedAvatar size="md" user={user} /></div>}
                                                 <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handleImageChange} />
                                             </div>
-                                            <div className="flex-1 w-full"><ModernInput label="Full Name" required value={editForm.name} onChange={e => setEditForm({...editForm, name: e.target.value})} /></div>
+                                            <div className="flex-1 w-full"><ModernInput label="Full Name" value={editForm.name} onChange={e => setEditForm({...editForm, name: e.target.value})} /></div>
                                         </div>
                                         <div className="grid grid-cols-2 gap-6">
                                             <ModernInput label="Mobile Number" type="tel" value={editForm.phone} onChange={e => setEditForm({...editForm, phone: e.target.value})} />
                                             <ModernInput label="City" value={editForm.city} onChange={e => setEditForm({...editForm, city: e.target.value})} />
                                         </div>
-                                        <ModernInput label="State" value={editForm.state} onChange={e => setEditForm({...editForm, state: e.target.value})} />
+                                        <div className="grid grid-cols-2 gap-6">
+                                            <ModernInput label="State" value={editForm.state} onChange={e => setEditForm({...editForm, state: e.target.value})} />
+                                            <div className="relative">
+                                                <ModernInput 
+                                                    label="Date of Birth" 
+                                                    type="date" 
+                                                    value={editForm.dob} 
+                                                    disabled={!!user?.dob}
+                                                    onChange={e => {
+                                                        const dob = e.target.value;
+                                                        if (dob) {
+                                                            const birthDate = new Date(dob);
+                                                            const today = new Date();
+                                                            let age = today.getFullYear() - birthDate.getFullYear();
+                                                            const m = today.getMonth() - birthDate.getMonth();
+                                                            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                                                                age--;
+                                                            }
+                                                            setEditForm({ ...editForm, dob, age });
+                                                        } else {
+                                                            setEditForm({ ...editForm, dob });
+                                                        }
+                                                    }} 
+                                                />
+                                                {editForm.age && (
+                                                    <div className="absolute right-4 top-[3.2rem] px-3 py-1 bg-[#dc143c]/10 text-[#dc143c] rounded-full text-[10px] font-black border border-[#dc143c]/20 pointer-events-none">
+                                                        {editForm.age} Years
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                         <button disabled={isLoading} className="w-full py-4 bg-[#dc143c] text-white rounded-xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_25px_50px_rgba(220,20,60,0.35)]">
                                             {isLoading ? 'Transmitting Data...' : 'Propose Identity Update'}
                                         </button>

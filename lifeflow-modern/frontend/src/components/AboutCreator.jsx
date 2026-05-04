@@ -95,14 +95,20 @@ const AboutCreator = () => {
 
                     {/* SOCIALS - EXACT REPLICA */}
                     <div className="flex items-center gap-6 pt-4">
-                        {[Github, Linkedin, Instagram].map((Icon, i) => (
+                        {[
+                            { Icon: Github, url: "https://github.com/dhruv6769" },
+                            { Icon: Linkedin, url: "https://www.linkedin.com/in/dhruv-rajput-7b76603b9/" },
+                            { Icon: Instagram, url: "https://www.instagram.com/dhruv_19s/" }
+                        ].map((social, i) => (
                             <Motion.a
                                 key={i}
                                 whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.05)' }}
-                                href="#"
+                                href={social.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all"
                             >
-                                <Icon size={24} />
+                                <social.Icon size={24} />
                             </Motion.a>
                         ))}
                     </div>

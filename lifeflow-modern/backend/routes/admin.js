@@ -79,7 +79,7 @@ router.get('/donations/pending', verifyAdmin, async (req, res) => {
     try {
         const donations = await Donation.findAll({
             where: { status: 'PENDING' },
-            include: [{ model: User, as: 'user', attributes: ['name', 'email', 'bloodGroup', 'age'] }],
+            include: [{ model: User, as: 'user', attributes: ['name', 'email', 'bloodGroup', 'age', 'dob'] }],
             order: [['createdAt', 'DESC']]
         });
         res.json({ status: 'success', data: donations });
@@ -198,7 +198,7 @@ router.get('/profile-edits', verifyAdmin, async (req, res) => {
     try {
         const requests = await ProfileEditRequest.findAll({
             where: { status: 'PENDING' },
-            include: [{ model: User, as: 'user', attributes: ['id', 'name', 'email', 'avatar', 'phone', 'city', 'state'] }],
+            include: [{ model: User, as: 'user', attributes: ['id', 'name', 'email', 'avatar', 'phone', 'city', 'state', 'dob'] }],
             order: [['createdAt', 'DESC']]
         });
         res.json({ status: 'success', data: requests });
@@ -225,6 +225,10 @@ router.put('/profile-edits/:id', verifyAdmin, async (req, res) => {
                 if (typeof parsedData === 'string') {
                     try { parsedData = JSON.parse(parsedData); } catch(e) { console.error('Parse err:', e); }
                 }
+                // Ensure dob and age are correctly typed
+                if (parsedData.dob === '') parsedData.dob = null;
+                if (parsedData.age === '') parsedData.age = null;
+
                 await user.update(parsedData);
                 
                 await Notification.create({

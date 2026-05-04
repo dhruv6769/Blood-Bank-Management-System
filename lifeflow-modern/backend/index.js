@@ -156,7 +156,7 @@ app.use((req, res) => {
 const syncDatabase = async (retries = 3, delay = 5000) => {
     for (let i = 0; i < retries; i++) {
         try {
-            await sequelize.sync(); // Disabled alter to avoid MySQL index limit bugs
+            await sequelize.sync({ alter: true }); // Enabled alter to add new columns like 'dob'
             console.log('✅ Database connected and synchronized.');
             
             // Auto-seed admin if database is empty (for new deployments)

@@ -40,6 +40,7 @@ const User = sequelize.define('User', {
     password: { type: DataTypes.STRING, allowNull: false },
     bloodGroup: { type: DataTypes.STRING, allowNull: true },
     age: { type: DataTypes.INTEGER, allowNull: true },
+    dob: { type: DataTypes.DATEONLY, allowNull: true },
     city: { type: DataTypes.STRING, allowNull: true },         // For location-based matching
     state: { type: DataTypes.STRING, allowNull: true },        // For location-based matching
     phone: { type: DataTypes.STRING, allowNull: true },        // Contact for urgent requests

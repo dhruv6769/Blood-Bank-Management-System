@@ -17,7 +17,6 @@ router.post('/request-edit', verifyToken, async (req, res) => {
         // Strictly block sensitive fields
         if ('email' in proposedData) delete proposedData.email;
         if ('password' in proposedData) delete proposedData.password;
-        if ('age' in proposedData) delete proposedData.age;
         if ('role' in proposedData) delete proposedData.role;
         if ('points' in proposedData) delete proposedData.points;
         if ('badge' in proposedData) delete proposedData.badge;

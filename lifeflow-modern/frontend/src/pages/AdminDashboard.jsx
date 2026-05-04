@@ -247,7 +247,11 @@ const AdminDashboard = () => {
             setProfileEdits(prev => prev.filter(req => req.id !== id));
             await api.put(`/admin/profile-edits/${id}`, { status });
             toast.success(`Profile edit ${status.toLowerCase()}.`);
-            setTimeout(() => fetchDashboardData(), 800);
+            setTimeout(() => {
+                fetchDashboardData();
+                fetchProfileEdits();
+                fetchUsers();
+            }, 800);
         } catch { 
             toast.error('Action failed'); 
             fetchProfileEdits(); // Rollback if failed
@@ -769,6 +773,15 @@ const AdminDashboard = () => {
                                                                 )}
                                                             </div>
                                                         </div>
+                                                        <div className="bg-[var(--bg-secondary)]/50 p-4 rounded-2xl border border-[var(--border)]">
+                                                            <p className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-2">Subject DOB</p>
+                                                            <div className="flex flex-col gap-1">
+                                                                <p className="text-sm font-bold text-[var(--text-muted)] opacity-50">{req.user?.dob ? new Date(req.user.dob).toLocaleDateString() : 'NULL'}</p>
+                                                                {proposed.dob && proposed.dob !== req.user?.dob && (
+                                                                    <p className="text-sm font-black text-emerald-400 tracking-tight"> {new Date(proposed.dob).toLocaleDateString()}</p>
+                                                                )}
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -849,6 +862,10 @@ const AdminDashboard = () => {
                                                     <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
                                                         <MapPin className="w-3.5 h-3.5 text-[#dc143c]" />
                                                         <span className="opacity-50">Node:</span> {u.city || 'UNK'}, {u.state || 'UNK'}
+                                                    </div>
+                                                    <div className="flex items-center gap-4 text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.2em]">
+                                                        <Calendar className="w-3.5 h-3.5 text-[#dc143c]" />
+                                                        <span className="opacity-50">DOB:</span> {u.dob ? new Date(u.dob).toLocaleDateString('en-GB') : 'NOT_SET'}
                                                     </div>
                                                     <div className="grid grid-cols-2 gap-4 mt-6">
                                                         <div className="bg-white/5 p-4 rounded-2xl border border-white/5">

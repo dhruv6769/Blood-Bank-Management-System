@@ -88,7 +88,8 @@ const Register = () => {
     const submissionData = { 
       ...formData, 
       role,
-      age: formData.calculatedAge || formData.age 
+      dob: formData.age, // The date string
+      age: formData.calculatedAge || formData.age // The integer
     };
     const success = await register(submissionData);
     if (success) {

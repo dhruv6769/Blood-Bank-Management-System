@@ -47,6 +47,7 @@ router.post('/register', async (req, res) => {
             password: hashedPassword,
             bloodGroup,
             age,
+            dob: req.body.dob || (role === 'DONOR' ? age : null), // Handle if dob is passed explicitly or via age (which might be the date string)
             role: userRole,
             // Organization-specific fields
             orgName: userRole === 'ORGANIZATION' ? orgName : null,
@@ -76,7 +77,8 @@ router.post('/register', async (req, res) => {
             phone: newUser.phone,
             city: newUser.city,
             state: newUser.state,
-            avatar: newUser.avatar
+            avatar: newUser.avatar,
+            dob: newUser.dob
         };
 
         res.status(201).json({
@@ -136,7 +138,8 @@ router.post('/login', async (req, res) => {
             phone: user.phone,
             city: user.city,
             state: user.state,
-            avatar: user.avatar
+            avatar: user.avatar,
+            dob: user.dob
         };
 
         console.log('Login successful for user:', userResponse);
@@ -231,7 +234,8 @@ router.get('/me', verifyToken, async (req, res) => {
             phone: user.phone,
             city: user.city,
             state: user.state,
-            avatar: user.avatar
+            avatar: user.avatar,
+            dob: user.dob
         };
         
         res.json({ status: 'success', user: userResponse });
