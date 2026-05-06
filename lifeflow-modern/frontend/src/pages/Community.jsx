@@ -275,10 +275,10 @@ const Community = () => {
                             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span>
                             Urgent Community Pulse
                         </div>
-                        <h1 className="text-6xl md:text-8xl font-black text-white brand-font tracking-tighter mb-4">
+                        <h1 className="text-5xl md:text-8xl font-black text-white brand-font tracking-tighter mb-4">
                             The <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-300">Hub.</span>
                         </h1>
-                        <p className={`${isDark ? 'text-gray-400' : 'text-gray-200'} font-bold tracking-widest uppercase text-[10px]`}>Connecting Silent Heroes Worldwide</p>
+                        <p className={`${isDark ? 'text-gray-400' : 'text-gray-200'} font-bold tracking-widest uppercase text-[9px] md:text-[10px]`}>Connecting Silent Heroes Worldwide</p>
                     </Motion.div>
                 </div>
                 
@@ -379,7 +379,7 @@ const Community = () => {
                                         <div className={`absolute bottom-4 right-4 text-[10px] font-black ${isDark ? 'text-white/20' : 'text-gray-300'} uppercase tracking-widest`}>Inspiration Flow</div>
                                     </div>
                                 </div>
-                                <div className="flex justify-between items-center pl-20">
+                                <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:pl-20">
                                     <div className="flex gap-4 text-white/40">
                                         {/* Symbolic placeholders for media upload or other future features */}
                                         <div className="p-2 hover:text-white transition-colors cursor-pointer"><Share2 className="w-4 h-4" /></div>
@@ -458,32 +458,32 @@ const Community = () => {
                                         <p className={`${isDark ? 'text-white/80' : 'text-gray-700'} leading-relaxed font-medium text-[16px] mb-8 whitespace-pre-wrap relative z-10`}>{post.content}</p>
 
                                         {/* Post Actions */}
-                                        <div className={`flex items-center gap-8 pt-6 border-t border-[var(--border)] relative z-10`}>
+                                        <div className={`flex flex-wrap items-center gap-4 md:gap-8 pt-6 border-t border-[var(--border)] relative z-10`}>
                                             <button 
                                                 onClick={() => handleToggleLike(post.id)}
-                                                className={`flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] transition-all group/btn ${hasUserLiked(post.likes) ? 'text-red-500' : `${isDark ? 'text-white/40 hover:text-red-500' : 'text-gray-400 hover:text-red-500'}`}`}
+                                                className={`flex items-center gap-2.5 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] transition-all group/btn ${hasUserLiked(post.likes) ? 'text-red-500' : `${isDark ? 'text-white/40 hover:text-red-500' : 'text-gray-400 hover:text-red-500'}`}`}
                                             >
-                                                <div className={`p-2 rounded-xl transition-all ${hasUserLiked(post.likes) ? 'bg-red-500/20' : `${isDark ? 'bg-white/5 group-hover/btn:bg-red-500/10' : 'bg-gray-50 group-hover/btn:bg-red-50'}`}`}>
-                                                    <Heart className={`w-5 h-5 ${hasUserLiked(post.likes) ? 'fill-current' : ''} transition-all active:scale-75`} />
+                                                <div className={`p-1.5 md:p-2 rounded-xl transition-all ${hasUserLiked(post.likes) ? 'bg-red-500/20' : `${isDark ? 'bg-white/5 group-hover/btn:bg-red-500/10' : 'bg-gray-50 group-hover/btn:bg-red-50'}`}`}>
+                                                    <Heart className={`w-4 h-4 md:w-5 md:h-5 ${hasUserLiked(post.likes) ? 'fill-current' : ''} transition-all active:scale-75`} />
                                                 </div>
                                                 <span>{post.likes.length > 0 ? post.likes.length : ''} Like</span>
                                             </button>
                                             
                                             <button 
                                                 onClick={() => setActiveCommentPostId(activeCommentPostId === post.id ? null : post.id)}
-                                                className={`flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] transition-all group/btn ${activeCommentPostId === post.id ? 'text-blue-400' : `${isDark ? 'text-white/40 hover:text-white' : 'text-gray-400 hover:text-gray-900'}`}`}
+                                                className={`flex items-center gap-2.5 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] transition-all group/btn ${activeCommentPostId === post.id ? 'text-blue-400' : `${isDark ? 'text-white/40 hover:text-white' : 'text-gray-400 hover:text-gray-900'}`}`}
                                             >
-                                                <div className={`p-2 rounded-xl transition-all ${activeCommentPostId === post.id ? 'bg-blue-400/20' : `${isDark ? 'bg-white/5 group-hover/btn:bg-white/10' : 'bg-gray-50 group-hover/btn:bg-gray-100'}`}`}>
-                                                    <MessageCircle className="w-5 h-5 transition-transform active:scale-75" />
+                                                <div className={`p-1.5 md:p-2 rounded-xl transition-all ${activeCommentPostId === post.id ? 'bg-blue-400/20' : `${isDark ? 'bg-white/5 group-hover/btn:bg-white/10' : 'bg-gray-50 group-hover/btn:bg-gray-100'}`}`}>
+                                                    <MessageCircle className="w-4 h-4 md:w-5 md:h-5 transition-transform active:scale-75" />
                                                 </div>
                                                 <span>{post.comments.length > 0 ? post.comments.length : ''} Comment</span>
                                             </button>
                                             
-                                            <button className={`flex items-center gap-2.5 text-xs font-black uppercase tracking-[0.15em] ${isDark ? 'text-white/40 hover:text-white' : 'text-gray-400 hover:text-gray-900'} transition-all ml-auto group/btn`}>
-                                                <div className={`p-2 rounded-xl ${isDark ? 'bg-white/5' : 'bg-gray-50'} group-hover/btn:${isDark ? 'bg-white/10' : 'bg-gray-100'} transition-all`}>
-                                                    <Share2 className="w-4 h-4" />
+                                            <button className={`flex items-center gap-2.5 text-[10px] md:text-xs font-black uppercase tracking-[0.15em] ${isDark ? 'text-white/40 hover:text-white' : 'text-gray-400 hover:text-gray-900'} transition-all ml-auto group/btn`}>
+                                                <div className={`p-1.5 md:p-2 rounded-xl ${isDark ? 'bg-white/5' : 'bg-gray-50'} group-hover/btn:${isDark ? 'bg-white/10' : 'bg-gray-100'} transition-all`}>
+                                                    <Share2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                                 </div>
-                                                <span>Share</span>
+                                                <span className="hidden sm:inline">Share</span>
                                             </button>
                                         </div>
 

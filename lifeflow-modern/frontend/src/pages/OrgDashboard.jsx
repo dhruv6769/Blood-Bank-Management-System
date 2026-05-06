@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Building2, Plus, Clock, CheckCircle, XCircle, Calendar, MapPin, Users, Phone, FileText, Droplet, ChevronDown, Activity } from 'lucide-react';
+import { Building2, Plus, Clock, CheckCircle, XCircle, Calendar, MapPin, Users, Phone, FileText, Droplet, ChevronDown, Activity, Menu, X } from 'lucide-react';
 import { useAuthStore } from '../context/authStore';
 import api from '../lib/api';
 import Footer from '../components/Footer';
@@ -33,6 +33,7 @@ const emptyForm = {
 const OrgDashboard = () => {
     const { user } = useAuthStore();
     const [activeSection, setActiveSection] = useState('overview');
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [camps, setCamps] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [loadingCities, setLoadingCities] = useState(true);
@@ -128,12 +129,38 @@ const OrgDashboard = () => {
                 <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
             </div>
 
+            {/* Mobile Sidebar Toggle */}
+            <div className="lg:hidden fixed top-[100px] left-6 z-[60]">
+                <button 
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    className="p-4 rounded-2xl bg-[#dc143c] text-white shadow-[0_15px_35px_rgba(220,20,60,0.4)] border border-white/20 active:scale-90 transition-all"
+                >
+                    {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
+
+            {/* Sidebar Overlay */}
+            <AnimatePresence>
+                {sidebarOpen && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setSidebarOpen(false)}
+                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-20 lg:hidden"
+                    />
+                )}
+            </AnimatePresence>
+
             {/* Floating Navigation Rail - Sidebar */}
             <motion.div 
-                initial={{ x: -120, opacity: 0 }} 
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className="fixed lg:sticky top-0 left-0 w-[320px] shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-30 h-full pt-24 lg:pt-10 shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
+                initial={window.innerWidth < 1024 ? { x: -320 } : { x: -120, opacity: 0 }} 
+                animate={window.innerWidth < 1024 
+                    ? { x: sidebarOpen ? 0 : -320 } 
+                    : { x: 0, opacity: 1 }
+                }
+                transition={{ type: "spring", damping: 30, stiffness: 200 }}
+                className={`fixed lg:sticky top-0 left-0 w-[320px] shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] flex flex-col z-30 h-full pt-24 lg:pt-10 shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-opacity duration-300 ${window.innerWidth < 1024 && !sidebarOpen ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
             >
                 <div className="p-10 pt-4 flex flex-col h-full">
                     <div className="flex items-center gap-5 mb-10 group cursor-pointer">
@@ -173,7 +200,10 @@ const OrgDashboard = () => {
                         ].map(item => (
                             <button 
                                 key={item.id} 
-                                onClick={() => setActiveSection(item.id)}
+                                onClick={() => {
+                                    setActiveSection(item.id);
+                                    if (window.innerWidth < 1024) setSidebarOpen(false);
+                                }}
                                 className={`w-full flex items-center gap-5 px-4 py-3 rounded-xl transition-all duration-500 font-black text-[10px] uppercase tracking-[0.25em] relative group
                                     ${activeSection === item.id
                                         ? 'text-white shadow-[0_20px_50px_rgba(220,20,60,0.3)] scale-[1.02]' 

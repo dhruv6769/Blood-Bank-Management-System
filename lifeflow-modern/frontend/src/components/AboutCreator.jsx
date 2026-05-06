@@ -23,6 +23,14 @@ const AboutCreator = () => {
         mouseY.set((e.clientY - centerY) / 20);
     };
 
+    const [radius, setRadius] = useState(typeof window !== 'undefined' ? (window.innerWidth < 768 ? 170 : 425) : 425);
+
+    React.useEffect(() => {
+        const handleResize = () => setRadius(window.innerWidth < 768 ? 170 : 425);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     const techLogos = [
         { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", label: "JS" },
         { icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", label: "React" },
@@ -52,7 +60,7 @@ const AboutCreator = () => {
                             SYSTEM ARCHITECT
                         </div>
                         
-                        <h2 className="text-8xl md:text-[110px] font-black text-white leading-[0.85] tracking-tight">
+                        <h2 className="text-5xl md:text-[110px] font-black text-white leading-[0.85] tracking-tight">
                             The Core<br />
                             <span className="text-[#dc143c]">Developer.</span>
                         </h2>
@@ -138,7 +146,7 @@ const AboutCreator = () => {
                                         animate={{ opacity: [0.2, 0.8, 0.2] }}
                                         transition={{ duration: 2 + Math.random() * 2, repeat: Infinity }}
                                         style={{
-                                            transform: `rotate(${angle}deg) translateY(${425 + offset}px)`
+                                            transform: `rotate(${angle}deg) translateY(${radius + offset}px)`
                                         }}
                                     />
                                 );
@@ -173,7 +181,7 @@ const AboutCreator = () => {
                                         key={tech.label}
                                         className="absolute top-1/2 left-1/2 w-16 h-16 md:w-24 md:h-24 -ml-8 -mt-8 md:-ml-12 md:-mt-12"
                                         style={{
-                                            transform: `rotate(${angle}deg) translateY(425px) rotate(-${angle}deg)`
+                                            transform: `rotate(${angle}deg) translateY(${radius}px) rotate(-${angle}deg)`
                                         }}
                                     >
                                         <Motion.div 

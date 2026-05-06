@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import {
     Activity, Users, FileText, CheckCircle,
     Clock3, MapPin, Building2, Calendar, Trash2, Mail,
-    Phone, Droplet, User, HandHeart, UserCheck, MessageSquare, Send
+    Phone, Droplet, User, HandHeart, UserCheck, MessageSquare, Send, Menu, X
 } from 'lucide-react';
 
 import api from '../lib/api';
@@ -51,6 +51,7 @@ const StatCard = ({ label, value, icon: Icon, color, glowColor, trend }) => (
 
 const AdminDashboard = () => {
     const [searchParams] = useSearchParams();
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     
     useEffect(() => {
         // Lock body scroll to ensure internal dashboard scrolling only
@@ -327,12 +328,38 @@ const AdminDashboard = () => {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,_#dc143c15,_transparent)]"></div>
             </div>
 
+            {/* Mobile Sidebar Toggle */}
+            <div className="lg:hidden fixed top-[100px] left-6 z-[60]">
+                <button 
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    className="p-4 rounded-2xl bg-[#dc143c] text-white shadow-[0_15px_35px_rgba(220,20,60,0.4)] border border-white/20 active:scale-90 transition-all"
+                >
+                    {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
+
+            {/* Sidebar Overlay */}
+            <AnimatePresence>
+                {sidebarOpen && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setSidebarOpen(false)}
+                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-20 lg:hidden"
+                    />
+                )}
+            </AnimatePresence>
+
             {/* Sidebar - Sidebar Navigation */}
             <motion.div 
-                initial={{ x: -120, opacity: 0 }} 
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                className="fixed lg:sticky top-0 left-0 w-[320px] h-full shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 pt-24 lg:pt-10 flex flex-col z-30 overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)]"
+                initial={window.innerWidth < 1024 ? { x: -320 } : { x: -120, opacity: 0 }} 
+                animate={window.innerWidth < 1024 
+                    ? { x: sidebarOpen ? 0 : -320 } 
+                    : { x: 0, opacity: 1 }
+                }
+                transition={{ type: "spring", damping: 30, stiffness: 200 }}
+                className={`fixed lg:sticky top-0 left-0 w-[320px] h-full shrink-0 bg-[var(--bg-card)] backdrop-blur-[50px] border-r border-[var(--border)] p-8 pt-24 lg:pt-10 flex flex-col z-30 overflow-y-auto custom-scrollbar shadow-[20px_0_100px_rgba(0,0,0,0.4)] transition-opacity duration-300 ${window.innerWidth < 1024 && !sidebarOpen ? 'pointer-events-none opacity-0' : 'opacity-100'}`}
             >
                 {/* Global Brand Header */}
                 <div className="mb-8 px-2">
@@ -362,7 +389,10 @@ const AdminDashboard = () => {
                         return (
                             <button 
                                 key={item.id} 
-                                onClick={() => setActiveSection(item.id)}
+                                onClick={() => {
+                                    setActiveSection(item.id);
+                                    if (window.innerWidth < 1024) setSidebarOpen(false);
+                                }}
                                 className={`flex items-center justify-between p-3 px-4 rounded-xl transition-all duration-500 group relative
                                     ${isActive 
                                         ? 'text-white shadow-[0_20px_50px_rgba(220,20,60,0.3)] scale-[1.02]' 
@@ -489,11 +519,11 @@ const AdminDashboard = () => {
                                                     <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)] mt-2">Factor</span>
                                                 </div>
                                                 <div className="space-y-4">
-                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight leading-none group-hover:text-[#dc143c] transition-colors">{req.hospitalName}</h3>
+                                                    <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tight leading-none group-hover:text-[#dc143c] transition-colors">{req.patientName || req.user?.name || 'Unknown Patient'}</h3>
                                                     <div className="flex flex-wrap gap-6 items-center">
                                                         <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
                                                             <MapPin className="w-3.5 h-3.5 text-[#dc143c]" />
-                                                            <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest">{req.city} Sector</span>
+                                                            <span className="text-[9px] text-[var(--text-muted)] font-black uppercase tracking-widest truncate max-w-[200px]">{req.hospitalName} - {req.city} Sector</span>
                                                         </div>
                                                         <div className="flex items-center gap-2 px-4 py-2 bg-[#dc143c]/10 rounded-full border border-[#dc143c]/20">
                                                             <Droplet className="w-3.5 h-3.5 text-[#dc143c]" />

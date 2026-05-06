@@ -228,13 +228,23 @@ const UserDashboard = () => {
     // Handle section parameter from URL
     useEffect(() => {
         const section = searchParams.get('section');
-        if (section && ['main', 'request', 'donate', 'history', 'edit-profile'].includes(section)) {
-            setActiveSection(section);
+        let targetSection = section;
+        if (section === 'request') targetSection = 'blood-request';
+        if (section === 'donate') targetSection = 'donation-request';
+
+        if (targetSection && ['main', 'blood-request', 'donation-request', 'history', 'edit-profile'].includes(targetSection)) {
+            setActiveSection(targetSection);
         }
         
         const preselectCampId = searchParams.get('campId');
         if (preselectCampId) {
             setDonForm(prev => ({ ...prev, campId: preselectCampId }));
+        }
+
+        const preselectHospital = searchParams.get('hospitalName');
+        const preselectCity = searchParams.get('city');
+        if (preselectHospital) {
+            setReqForm(prev => ({ ...prev, hospitalName: preselectHospital, city: preselectCity || '' }));
         }
     }, [searchParams]);
 
@@ -310,6 +320,8 @@ const UserDashboard = () => {
                 dob: user.dob || '',
                 age: user.age || ''
             });
+            setReqForm(prev => ({ ...prev, patientName: user.name || '', bloodGroup: user.bloodGroup || '', contactPhone: user.phone || '', city: '' }));
+            setDonForm(prev => ({ ...prev, bloodGroup: user.bloodGroup || '' }));
         }
         checkSupportReplies();
     }, [user]);
@@ -432,7 +444,7 @@ const UserDashboard = () => {
         }
     };
 
-    const [reqForm, setReqForm] = useState({ patientName: '', bloodGroup: '', units: 1, hospitalName: '', city: '', contactPhone: user?.phone || '', briefing: '' });
+    const [reqForm, setReqForm] = useState({ patientName: user?.name || '', bloodGroup: user?.bloodGroup || '', units: 1, hospitalName: '', contactPhone: user?.phone || '', briefing: '', city: '' });
     const [donForm, setDonForm] = useState({ bloodGroup: user?.bloodGroup || '', condition: 'None', campId: '' });
 
     const submitDonation = async (e) => {
@@ -487,13 +499,29 @@ const UserDashboard = () => {
                 </div>
             </motion.button>
 
+            {/* Mobile Sidebar Overlay */}
+            <AnimatePresence>
+                {isSidebarOpen && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setIsSidebarOpen(false)}
+                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[55] lg:hidden"
+                    />
+                )}
+            </AnimatePresence>
+
             {/* Sidebar Navigation */}
             <motion.div 
-                    initial={{ x: -120, opacity: 0 }} 
-                    animate={{ x: isSidebarOpen ? 0 : (window.innerWidth < 1024 ? -400 : 0), opacity: 1 }}
-                    transition={{ type: "spring", damping: 32, stiffness: 120 }}
-                    className={`fixed lg:sticky top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[60px] border-r border-[var(--border)] flex flex-col z-[60] h-full shadow-[30px_0_100px_rgba(0,0,0,0.5)] transition-transform duration-500 shrink-0 pt-32 lg:pt-10 p-8 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}
-                >
+                initial={false}
+                animate={{ 
+                    x: (isSidebarOpen || window.innerWidth >= 1024) ? 0 : -320,
+                    opacity: 1 
+                }}
+                transition={{ type: "spring", damping: 25, stiffness: 120 }}
+                className={`fixed lg:sticky top-0 left-0 w-[320px] bg-[var(--bg-card)] backdrop-blur-[60px] border-r border-[var(--border)] flex flex-col z-[60] h-full shadow-[30px_0_100px_rgba(0,0,0,0.5)] shrink-0 pt-32 lg:pt-10 p-8`}
+            >
                         <div className="flex flex-col h-full justify-between">
                         <div className="flex flex-col">
                             {/* Global Brand Header */}
@@ -647,7 +675,7 @@ const UserDashboard = () => {
                                                 <AnimatedAvatar size="lg" user={user} />
                                             )}
                                             <div className="text-left">
-                                                <h1 className="text-4xl lg:text-5xl font-black brand-font tracking-tighter text-[var(--text-primary)] leading-[0.8]">
+                                                <h1 className="text-3xl lg:text-5xl font-black brand-font tracking-tighter text-[var(--text-primary)] leading-[0.8]">
                                                     Hello, {user?.name?.split(' ')[0]}<span className="text-[#dc143c]">.</span>
                                                 </h1>
                                                 <p className="text-[9px] font-black uppercase tracking-[0.5em] text-[var(--text-muted)] mt-4">User ID: {user?._id?.slice(-8).toUpperCase()}</p>
@@ -672,7 +700,7 @@ const UserDashboard = () => {
                                                     Donor Points <AlertCircle className="w-3 h-3 text-[#dc143c]" />
                                                 </div>
                                                 <div className="text-2xl font-black text-[#dc143c] brand-font tracking-tight">{dashboardData.points} Points</div>
-                                                <div className="absolute top-full left-0 mt-6 w-80 glass-premium text-[12px] text-[var(--text-secondary)] p-8 rounded-[2rem] border-white/10 opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 shadow-[0_50px_100px_rgba(0,0,0,0.6)] translate-y-2 group-hover:translate-y-0">
+                                                <div className="absolute bottom-full left-0 mb-6 w-80 glass-premium text-[12px] text-[var(--text-secondary)] p-8 rounded-[2rem] border-white/10 opacity-0 group-hover:opacity-100 transition-all pointer-events-none z-50 shadow-[0_50px_100px_rgba(0,0,0,0.6)] translate-y-2 group-hover:translate-y-0">
                                                     Points are calculated upon successful intake and admin verification. High Points unlocks higher Hero Tiers and exclusive rewards.
                                                 </div>
                                             </motion.div>
@@ -700,7 +728,7 @@ const UserDashboard = () => {
                                                 <stat.icon className="w-8 h-8" />
                                             </div>
                                             <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em] mb-3">{stat.title}</p>
-                                            <h2 className="text-6xl font-black brand-font tracking-tight text-[var(--text-primary)]">{stat.value}</h2>
+                                            <h2 className="text-4xl lg:text-6xl font-black brand-font tracking-tight text-[var(--text-primary)]">{stat.value}</h2>
                                         </div>
                                         <div className="absolute -right-8 -bottom-8 opacity-[0.03] group-hover:opacity-[0.1] group-hover:scale-125 transition-all duration-1000 transform rotate-12">
                                             <stat.icon className="w-56 h-56" />
@@ -779,25 +807,21 @@ const UserDashboard = () => {
                             <div className="glass-premium p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[100px]" />
                                 <form onSubmit={submitRequest} className="space-y-8 relative z-10">
-                                    <ModernInput label="Patient Name" required value={reqForm.patientName} onChange={e => setReqForm({...reqForm, patientName: e.target.value})} placeholder="Full Medical Name" />
+                                    <ModernInput label="Patient Name" required value={reqForm.patientName} onChange={() => {}} disabled={true} placeholder="Full Medical Name" />
                                     <div className="grid grid-cols-2 gap-6">
-                                        <ModernSelect label="Blood Group" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={reqForm.bloodGroup} onChange={val => setReqForm({...reqForm, bloodGroup: val})} />
+                                        <ModernSelect label="Blood Group" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={reqForm.bloodGroup} onChange={() => {}} disabled={true} />
                                         <ModernInput label="Units Needed" type="number" value={reqForm.units} onChange={e => setReqForm({...reqForm, units: e.target.value})} />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-6">
-                                        <ModernSelect 
-                                            label="Deployment Sector" 
-                                            options={[...new Set(availableCamps.map(c => c.name))]} 
-                                            value={reqForm.hospitalName} 
-                                            onChange={val => setReqForm({...reqForm, hospitalName: val})} 
-                                        />
-                                        <ModernSelect 
-                                            label="City Node" 
-                                            options={[...new Set(availableCamps.map(c => c.city))]} 
-                                            value={reqForm.city} 
-                                            onChange={val => setReqForm({...reqForm, city: val})} 
-                                        />
-                                    </div>
+                                    <ModernSelect 
+                                        label="Deployment Sector" 
+                                        options={[...new Set(availableCamps.map(c => c.name))]} 
+                                        value={reqForm.hospitalName} 
+                                        onChange={e => {
+                                            const campName = e.target.value;
+                                            const camp = availableCamps.find(c => c.name === campName);
+                                            setReqForm({...reqForm, hospitalName: campName, city: camp ? camp.city : ''});
+                                        }} 
+                                    />
                                     <ModernInput label="Message" value={reqForm.briefing} onChange={e => setReqForm({...reqForm, briefing: e.target.value})} rows={3} placeholder="Describe the medical situation..." />
                                     <button disabled={isLoading} className="w-full py-5 bg-[#dc143c] text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(220,20,60,0.4)]">
                                         {isLoading ? 'Transmitting...' : 'Initiate Broadcast'}
@@ -818,10 +842,10 @@ const UserDashboard = () => {
                             <div className="glass-premium p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-600/5 rounded-bl-full z-0 blur-[100px]" />
                                 <form onSubmit={submitDonation} className="space-y-8 relative z-10">
-                                    <ModernSelect label="Select Camp" options={availableCamps.map(c => ({ value: c.id, label: `${c.name} (${c.city})` }))} value={donForm.campId} onChange={val => setDonForm({...donForm, campId: val})} />
+                                    <ModernSelect label="Select Camp" options={availableCamps.map(c => ({ value: c.id, label: `${c.name} (${c.city})` }))} value={donForm.campId} onChange={e => setDonForm({...donForm, campId: e.target.value})} />
                                     <div className="grid grid-cols-2 gap-6">
-                                        <ModernSelect label="Your Blood Group" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={donForm.bloodGroup} onChange={val => setDonForm({...donForm, bloodGroup: val})} />
-                                        <ModernSelect label="Health Condition" options={['None', 'Diabetes', 'Hypertension', 'Other']} value={donForm.condition} onChange={val => setDonForm({...donForm, condition: val})} />
+                                        <ModernSelect label="Your Blood Group" options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} value={donForm.bloodGroup} onChange={() => {}} disabled={true} />
+                                        <ModernSelect label="Health Condition" options={['None', 'Diabetes', 'Hypertension', 'Other']} value={donForm.condition} onChange={e => setDonForm({...donForm, condition: e.target.value})} />
                                     </div>
                                     <button disabled={isLoading} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all hover:scale-[1.02] active:scale-95 shadow-[0_30px_60px_rgba(79,70,229,0.4)]">
                                         {isLoading ? 'Processing...' : 'Register Deployment'}

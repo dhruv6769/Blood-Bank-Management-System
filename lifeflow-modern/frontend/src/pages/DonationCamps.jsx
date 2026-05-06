@@ -205,10 +205,10 @@ const DonationCamps = () => {
                                 <div className="flex items-center gap-2 text-[var(--accent)] font-black text-xs uppercase tracking-[0.4em] mb-4">
                                     <Sparkles size={14} /> Active Operations
                                 </div>
-                                <h1 className="text-5xl md:text-7xl font-black brand-font tracking-tight text-[var(--text-primary)] mb-6">
+                                <h1 className="text-4xl md:text-7xl font-black brand-font tracking-tight text-[var(--text-primary)] mb-4 md:mb-6 leading-tight">
                                     Safe Lives <br/>Near You<span className="text-[var(--accent)]">.</span>
                                 </h1>
-                                <p className="text-[var(--text-secondary)] text-xl font-medium leading-relaxed opacity-80">
+                                <p className="text-[var(--text-secondary)] text-lg md:text-xl font-medium leading-relaxed opacity-80">
                                     Connect with the nexus network of verified donation camps. Every drop creates a ripple of life.
                                 </p>
                             </div>
@@ -286,9 +286,9 @@ const DonationCamps = () => {
                                 exit={{ opacity: 0, x: -30 }}
                                 className="w-full lg:w-[450px] shrink-0 px-6 pb-20"
                             >
-                                <div className="space-y-6">
-                                    <div className="flex items-center justify-between px-2 mb-4">
-                                        <h2 className="text-sm font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">
+                                <div className="space-y-4 md:space-y-6">
+                                    <div className="flex items-center justify-between px-2 mb-2 md:mb-4">
+                                        <h2 className="text-xs md:text-sm font-black uppercase tracking-[0.3em] text-[var(--text-muted)]">
                                             Found <span className="text-[var(--text-primary)]">{filtered.length}</span> Results
                                         </h2>
                                     </div>
@@ -354,12 +354,20 @@ const DonationCamps = () => {
                                                         {c.slots - c.filled} LEFT
                                                     </div>
                                                 </div>
-                                                <button 
-                                                    onClick={() => navigate(`/dashboard?section=donate&campId=${c.id}`)}
-                                                    className="w-full py-2 bg-[var(--accent)] text-white text-[10px] font-black uppercase tracking-widest rounded-lg"
-                                                >
-                                                    Secure Spot
-                                                </button>
+                                                <div className="flex gap-2 mt-2">
+                                                    <button 
+                                                        onClick={() => navigate(`/dashboard?section=donate&campId=${c.id}`)}
+                                                        className="flex-1 py-2 bg-[var(--accent)] text-white text-[9px] font-black uppercase tracking-widest rounded-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-1"
+                                                    >
+                                                        Donate
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => navigate(`/dashboard?section=request&hospitalName=${encodeURIComponent(c.name)}&city=${encodeURIComponent(c.city)}`)}
+                                                        className="flex-1 py-2 bg-[var(--bg-secondary)] text-[var(--text-primary)] border border-[var(--border)] text-[9px] font-black uppercase tracking-widest rounded-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-1"
+                                                    >
+                                                        Request
+                                                    </button>
+                                                </div>
                                             </div>
                                         </Popup>
                                     </Marker>
@@ -428,9 +436,15 @@ const DonationCamps = () => {
                                                 </a>
                                                 <button 
                                                     onClick={() => navigate(`/dashboard?section=donate&campId=${selectedCamp.id}`)}
-                                                    className="px-10 py-5 bg-[var(--accent)] text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-[0_15px_35px_rgba(220,20,60,0.3)] transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+                                                    className="px-8 py-4 bg-[var(--accent)] text-white font-black text-[10px] lg:text-xs uppercase tracking-widest rounded-2xl shadow-[0_15px_35px_rgba(220,20,60,0.3)] transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
                                                 >
-                                                    <Heart size={16} /> Book Appointment
+                                                    <Heart size={16} /> Donate Blood
+                                                </button>
+                                                <button 
+                                                    onClick={() => navigate(`/dashboard?section=request&hospitalName=${encodeURIComponent(selectedCamp.name)}&city=${encodeURIComponent(selectedCamp.city)}`)}
+                                                    className="px-8 py-4 bg-[var(--bg-primary)] text-[var(--text-primary)] border border-[var(--border)] font-black text-[10px] lg:text-xs uppercase tracking-widest rounded-2xl transition-all hover:bg-[var(--bg-secondary)] hover:scale-105 active:scale-95 flex items-center gap-2"
+                                                >
+                                                    <AlertCircle size={16} className="text-[#dc143c]" /> Request Blood
                                                 </button>
                                             </div>
                                         </div>

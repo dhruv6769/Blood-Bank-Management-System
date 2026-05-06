@@ -9,7 +9,7 @@ import AnimatedAvatar from './AnimatedAvatar';
 import logoImg from '../assets/logo.png';
 
 const SOCIAL = [
-    { label: 'Instagram', href: 'https://www.instagram.com/lifeflowdonation', icon: Instagram, brandColor: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)' },
+    { label: 'Instagram', href: 'https://www.instagram.com/dhruv_19s/', icon: Instagram, brandColor: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)' },
     { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=100051987066419', icon: Facebook, brandColor: '#1877F2' },
     { label: 'Twitter', href: 'https://x.com/DRajput31590', icon: Twitter, brandColor: '#000000' },
 ];
@@ -41,25 +41,25 @@ const Footer = () => {
                         transition={{ duration: 0.6, ease: [0.16,1,0.3,1] }}
                         className="lg:col-span-4 space-y-10"
                     >
-                        <div className="flex items-center gap-5 group cursor-pointer">
+                        <div className="flex flex-col items-center lg:items-start gap-5 group cursor-pointer">
                             <div className="w-14 h-14 rounded-2.5xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center shadow-[0_0_30px_rgba(220,20,60,0.1)] group-hover:scale-110 transition-all duration-500 overflow-hidden p-0">
                                 <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
                             </div>
-                            <div>
+                            <div className="text-center lg:text-left">
                                 <h3 className="text-3xl font-black text-[var(--text-primary)] brand-font tracking-tighter uppercase leading-none">LifeFlow</h3>
                                 <p className="text-[10px] text-[var(--text-muted)] font-black tracking-[0.4em] uppercase mt-2">Nexus Network</p>
                             </div>
                         </div>
 
-                        <p className="text-lg text-[var(--text-secondary)] leading-relaxed font-medium max-w-sm">
+                        <p className="text-lg text-[var(--text-secondary)] leading-relaxed font-medium max-w-sm text-center lg:text-left">
                             The definitive blood donation nexus. Engineered for life-safety, transparency, and clinical excellence.
                         </p>
 
-                        <div className="flex gap-4">
+                        <div className="flex justify-center lg:justify-start gap-4">
                             {SOCIAL.map((s, i) => (
                                 <motion.div key={s.label} whileHover={{ rotateX: 15, rotateY: -15, scale: 1.1 }} style={{ perspective: 1000 }}>
-                                    <Link 
-                                        to={s.href} 
+                                    <a 
+                                        href={s.href} 
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="w-12 h-12 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-all duration-300 shadow-sm group/icon"
@@ -68,7 +68,7 @@ const Footer = () => {
                                         onMouseLeave={(e) => e.currentTarget.style.background = 'var(--bg-card)'}
                                     >
                                         <s.icon size={18} className="transition-transform group-hover/icon:scale-110" />
-                                    </Link>
+                                    </a>
                                 </motion.div>
                             ))}
                         </div>
@@ -161,7 +161,7 @@ const Footer = () => {
                         </p>
                     </div>
 
-                    <div className="flex items-center gap-8">
+                    <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
                         {['Network Status', 'API Documentation', 'Operator Login'].map((l) => (
                             <a key={l} href="#" className="text-[10px] font-black text-[var(--text-muted)] hover:text-[var(--text-primary)] uppercase tracking-widest transition-colors">{l}</a>
                         ))}

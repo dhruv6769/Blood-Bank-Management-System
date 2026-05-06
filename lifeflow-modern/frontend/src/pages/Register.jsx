@@ -55,9 +55,6 @@ const Register = () => {
   const handleChange = e => {
     const { name, value } = e.target;
     if (name === 'age') { // This is actually our DOB field now
-      // Auto-blur to remove focus and clear browser selection boxes
-      if (value) e.target.blur();
-      
       const birthDate = new Date(value);
       const today = new Date();
       let calculatedAge = today.getFullYear() - birthDate.getFullYear();
@@ -349,7 +346,7 @@ const Register = () => {
                           <>
                             <ModernInput icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="First, Last Name" label="Full Identity" required />
                             <ModernInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="mission@lifeflow.com" label="Email Address" required />
-                            <div className="grid grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                               <ModernSelect icon={Droplet} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} label="Blood Type" required options={['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']} />
                               <ModernInput 
                                 icon={CalendarDays} 
@@ -369,7 +366,7 @@ const Register = () => {
                             <ModernInput icon={User} type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Authorized Personnel" label="Contact Name" required />
                             <ModernInput icon={Building2} type="text" name="orgName" value={formData.orgName} onChange={handleChange} placeholder="Clinical / Civic Institution" label="Organization Name" required />
                             <ModernInput icon={Mail} type="email" name="email" value={formData.email} onChange={handleChange} placeholder="ops@institution.org" label="Operational Email" required />
-                            <div className="grid grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                               <ModernInput icon={Phone} type="tel" name="orgPhone" value={formData.orgPhone} onChange={handleChange} placeholder="+91..." label="Comm Link" />
                               <ModernInput icon={MapPin} type="text" name="orgAddress" value={formData.orgAddress} onChange={handleChange} placeholder="City, State" label="Location" />
                             </div>
@@ -428,7 +425,7 @@ const Register = () => {
                             whileHover={{ x: -4 }}
                             whileTap={{ scale: 0.98 }}
                             type="button" 
-                            className="h-20 px-10 rounded-[2rem] font-black text-sm uppercase tracking-widest transition-all flex items-center gap-3 bg-white/5 border border-white/10 hover:bg-white/10" 
+                            className="h-16 sm:h-20 px-10 rounded-[2rem] font-black text-sm uppercase tracking-widest transition-all flex items-center gap-3 bg-white/5 border border-white/10 hover:bg-white/10" 
                             style={{ color: 'var(--text-primary)' }} 
                             onClick={goBack}
                           >
@@ -439,7 +436,7 @@ const Register = () => {
                             whileTap={{ scale: 0.98 }}
                             type="submit" 
                             disabled={isLoading} 
-                            className="btn-modern flex-1 h-20 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all"
+                            className="btn-modern flex-1 h-16 sm:h-20 bg-gradient-to-r from-[#dc143c] to-[#9b0023] text-white rounded-[2rem] font-black text-sm uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(220,20,60,0.3)] flex items-center justify-center gap-4 group transition-all"
                           >
                              {isLoading ? <div className="w-8 h-8 border-[4px] border-white/30 border-t-white rounded-full animate-spin" /> : <>Complete Registration <Plus size={20} /></>}
                           </motion.button>

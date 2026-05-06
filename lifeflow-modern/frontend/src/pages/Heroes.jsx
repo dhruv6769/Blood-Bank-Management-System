@@ -120,7 +120,7 @@ const Heroes = () => {
                     </motion.div>
 
                     {/* Navigation Tabs */}
-                    <div className="flex flex-wrap gap-4 mt-12 bg-[var(--bg-secondary)]/50 p-2 rounded-[2rem] w-fit border border-[var(--border)] backdrop-blur-xl">
+                    <div className="flex flex-nowrap overflow-x-auto no-scrollbar gap-2 md:gap-4 mt-12 bg-[var(--bg-secondary)]/50 p-2 rounded-[2rem] w-full md:w-fit border border-[var(--border)] backdrop-blur-xl">
                         {[
                             { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
                             { id: 'achievements', label: 'My Achievements', icon: Award },
@@ -129,13 +129,13 @@ const Heroes = () => {
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`flex items-center gap-3 px-8 py-4 rounded-[1.5rem] font-black text-xs uppercase tracking-[0.2em] transition-all duration-500 ${
+                                className={`flex items-center gap-2 md:gap-3 px-4 md:px-8 py-3 md:py-4 rounded-[1.5rem] font-black text-[10px] md:text-xs uppercase tracking-[0.1em] md:tracking-[0.2em] transition-all duration-500 whitespace-nowrap ${
                                     activeTab === tab.id
                                         ? 'bg-[var(--text-primary)] text-[var(--bg-primary)] shadow-2xl shadow-black/40 -translate-y-1'
                                         : 'text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-primary)]'
                                 }`}
                             >
-                                <tab.icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-[var(--accent)]' : ''}`} />
+                                <tab.icon className={`w-3.5 h-3.5 md:w-4 h-4 ${activeTab === tab.id ? 'text-[var(--accent)]' : ''}`} />
                                 {tab.label}
                             </button>
                         ))}
@@ -160,7 +160,7 @@ const Heroes = () => {
                                     <div className="flex items-center gap-6">
                                         <h2 className="text-[var(--text-primary)] text-3xl font-black brand-font uppercase tracking-tight">Top Donors</h2>
                                     </div>
-                                    <div className="flex gap-3 bg-[var(--bg-primary)]/50 p-1.5 rounded-2xl border border-[var(--border)]">
+                                    <div className="flex flex-nowrap overflow-x-auto no-scrollbar gap-2 bg-[var(--bg-primary)]/50 p-1.5 rounded-2xl border border-[var(--border)] w-full md:w-auto">
                                         {[
                                             { value: 'all', label: 'All Time' },
                                             { value: 'month', label: 'This Month' },
@@ -169,7 +169,7 @@ const Heroes = () => {
                                             <button
                                                 key={option.value}
                                                 onClick={() => setTimeframe(option.value)}
-                                                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                                                className={`px-4 md:px-6 py-2 md:py-2.5 rounded-xl text-[9px] md:text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap ${
                                                     timeframe === option.value
                                                         ? 'bg-[var(--text-primary)] text-[var(--bg-primary)]'
                                                         : 'text-[var(--text-muted)] hover:text-[var(--text-primary)]'

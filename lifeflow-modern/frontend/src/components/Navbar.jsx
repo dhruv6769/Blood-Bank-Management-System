@@ -253,11 +253,8 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    if (mobileOpen) {
-      const timer = setTimeout(() => setMobileOpen(false), 0);
-      return () => clearTimeout(timer);
-    }
-  }, [location.pathname, mobileOpen]);
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -307,7 +304,7 @@ const Navbar = () => {
           justify-content: space-between;
           padding: 0 40px;
           height: 90px;
-          transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .lf-nav.scrolled .lf-nav-inner {
           height: 80px;
@@ -617,9 +614,38 @@ const Navbar = () => {
         }
 
         @media (max-width: 768px) {
-          .lf-nav { width: calc(100% - 24px); top: 6px; border-radius: 16px; }
+          .lf-nav { width: calc(100% - 24px); top: 12px; border-radius: 1.5rem; }
+          .lf-nav-inner { padding: 0 20px; height: 70px !important; }
+          .lf-nav-logo-text { font-size: 1.2rem; }
+          .lf-nav-logo-icon { width: 36px; height: 36px; border-radius: 12px; }
           .lf-nav-links { display: none; }
           .lf-nav-actions.desktop { display: none; }
+          
+          .lf-mobile-menu {
+            top: calc(100% + 16px);
+            padding: 32px 24px;
+            border-radius: 2.5rem;
+            max-height: calc(100vh - 140px);
+            overflow-y: auto;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+          }
+          .lf-mobile-link {
+            font-size: 1rem;
+            padding: 16px;
+            border-radius: 1.25rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+          }
+          .lf-mobile-btn {
+            padding: 16px;
+            border-radius: 1.25rem;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+          }
         }
         @media (min-width: 769px) {
           .lf-mobile-trigger { display: none; }
@@ -741,6 +767,11 @@ const Navbar = () => {
               transition={{ duration: 0.2 }}
               className="lf-mobile-menu"
             >
+              {/* Branding in Menu */}
+              <div className="mb-6 pt-2">
+                <h2 className="text-3xl font-black brand-font tracking-tighter text-[var(--text-primary)]">LifeFlow<span className="text-[#dc143c]">.</span></h2>
+                <div className="h-1 w-8 bg-[#dc143c] mx-auto rounded-full mt-2 opacity-50"></div>
+              </div>
               {isAuthenticated && (
                 <div className="flex items-center gap-3 p-4 mb-2 bg-black/5 dark:bg-white/5 rounded-xl">
                   <AnimatedAvatar size="sm" user={user} />

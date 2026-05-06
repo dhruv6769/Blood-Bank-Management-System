@@ -47,7 +47,7 @@ const LiquidHero = () => {
                         rotate: [0, 90, -90, 0]
                     }} 
                     transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                    className="mesh-blob w-[1000px] h-[1000px] -top-[400px] -left-[400px] bg-[#dc143c]" 
+                    className="mesh-blob w-[600px] h-[600px] md:w-[1000px] md:h-[1000px] -top-[300px] md:-top-[400px] -left-[300px] md:-left-[400px] bg-[#dc143c]" 
                 />
                 <Motion.div 
                     animate={{ 
@@ -57,7 +57,7 @@ const LiquidHero = () => {
                         rotate: [0, -90, 90, 0]
                     }} 
                     transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                    className="mesh-blob w-[800px] h-[800px] -bottom-[200px] -right-[200px] bg-indigo-600" 
+                    className="mesh-blob w-[500px] h-[500px] md:w-[800px] md:h-[800px] -bottom-[150px] md:-bottom-[200px] -right-[150px] md:-right-[200px] bg-indigo-600" 
                 />
             </div>
             
@@ -172,7 +172,7 @@ const Home = () => {
                   SAVE LIVES TODAY
                 </Motion.div>
                 
-                <h1 className="text-7xl md:text-9xl lg:text-[10rem] font-black mb-12 tracking-tighter leading-[0.9] text-white">
+                <h1 className="text-4xl sm:text-7xl md:text-9xl lg:text-[10rem] font-black mb-12 tracking-tighter leading-[0.9] text-white px-4 md:px-0">
                    <Motion.span 
                     initial={{ opacity: 0, x: -50 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -270,7 +270,7 @@ const Home = () => {
       <EmergencyTicker />
 
       {/* Stats Section — Ultra Premium Glassmorphism */}
-      <section className="relative z-20 py-32 px-6">
+      <section className="relative z-20 py-20 md:py-32 px-6">
          <div className="container mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                 {[
@@ -319,7 +319,7 @@ const Home = () => {
 
       <LifePath />
       {/* Editorial 'How it Works' Cards */}
-      <section className="py-40 relative">
+      <section className="py-20 md:py-40 relative">
          <div className="container mx-auto px-6">
             <Motion.div 
               initial={{ opacity: 0, y: 30 }}
@@ -328,7 +328,7 @@ const Home = () => {
               className="text-center max-w-4xl mx-auto mb-32"
             >
                <h2 className="text-[10px] font-black tracking-[0.5em] uppercase mb-6 inline-block px-6 py-2 rounded-full text-[#dc143c] bg-[#dc143c]/10 border border-[#dc143c]/20">The Protocol</h2>
-               <h3 className="text-6xl md:text-8xl font-black tracking-tighter mt-4 text-glow" style={{ color: 'var(--text-primary)' }}>
+               <h3 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter mt-4 text-glow" style={{ color: 'var(--text-primary)' }}>
                  Nexus <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#dc143c] to-[#ff8080]">Synchronization.</span>
                </h3>
             </Motion.div>
@@ -368,7 +368,7 @@ const Home = () => {
          </div>
       </section>
       {/* THE LEGACY OF KARL LANDSTEINER */}
-      <section className="py-40 relative overflow-hidden">
+      <section className="py-20 md:py-40 relative overflow-hidden">
          <div className="container mx-auto px-6">
             <div className="flex flex-col lg:flex-row items-center gap-24">
                {/* Image Side */}
@@ -381,7 +381,7 @@ const Home = () => {
                >
                   <div className="relative group perspective-1000">
                      <div className="absolute -inset-10 rounded-[5rem] blur-3xl opacity-20" style={{ background: '#dc143c' }}></div>
-                     <div className="relative rounded-[4rem] overflow-hidden border border-white/10 shadow-2xl">
+                     <div className="relative rounded-[2rem] md:rounded-[4rem] overflow-hidden border border-white/10 shadow-2xl">
                         <img 
                           src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Karl_Landsteiner_nobel.jpg" 
                           alt="Karl Landsteiner" 
@@ -398,10 +398,10 @@ const Home = () => {
                      <Motion.div 
                        animate={{ y: [0, -20, 0] }}
                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                       className="absolute -top-12 -right-12 w-40 h-40 rounded-full flex flex-col items-center justify-center p-8 text-center z-10 glass-premium"
+                       className="absolute -top-6 -right-6 md:-top-12 md:-right-12 w-32 h-32 md:w-40 md:h-40 rounded-full flex flex-col items-center justify-center p-6 md:p-8 text-center z-10 glass-premium"
                      >
-                        <span className="text-4xl font-black mb-1 text-[#dc143c]">1930</span>
-                        <span className="text-[9px] font-black uppercase tracking-widest opacity-60">Nobel Prize</span>
+                        <span className="text-2xl md:text-4xl font-black mb-1 text-[#dc143c]">1930</span>
+                        <span className="text-[7px] md:text-[9px] font-black uppercase tracking-widest opacity-60">Nobel Prize</span>
                      </Motion.div>
                   </div>
                </Motion.div>
@@ -418,7 +418,7 @@ const Home = () => {
                         <Activity className="w-4 h-4" />
                         Father of Transfusion Medicine
                      </div>
-                     <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-10">
+                     <h2 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-10">
                         The ABO <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#dc143c] to-[#ff8080]">Blood Matrix.</span>
                      </h2>
@@ -465,7 +465,7 @@ const Home = () => {
          </div>
       </section>
       {/* THE LEGACY OF CHARLES R. DREW */}
-      <section className="py-40 relative overflow-hidden bg-white/5">
+      <section className="py-20 md:py-40 relative overflow-hidden bg-white/5">
          <div className="container mx-auto px-6 text-left">
             <div className="flex flex-col-reverse lg:flex-row items-center gap-24">
                
@@ -481,7 +481,7 @@ const Home = () => {
                         <Droplets className="w-4 h-4" />
                         Father of Blood Banks
                      </div>
-                     <h2 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-10">
+                     <h2 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-10">
                         Innovating <br/>
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#dc143c] to-[#ff8080]">Storage Systems.</span>
                      </h2>
@@ -548,7 +548,7 @@ const Home = () => {
          </div>
       </section>
       {/* AI Compatibility CTA */}
-      <section className="py-40 relative overflow-hidden">
+      <section className="py-20 md:py-40 relative overflow-hidden">
          <div className="container mx-auto px-6 relative z-10">
             <div className="flex flex-col lg:flex-row items-center gap-24 p-16 md:p-24 rounded-[4rem] glass-premium relative">
                <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 blur-[120px] rounded-full" />
@@ -564,7 +564,7 @@ const Home = () => {
                    <Droplets className="w-4 h-4 animate-pulse" />
                    Neural Matrix Active
                  </Motion.div>
-                 <h2 className="text-6xl md:text-8xl font-black mb-10 leading-[0.9] tracking-tighter">
+                 <h2 className="text-4xl sm:text-6xl md:text-8xl font-black mb-10 leading-[0.9] tracking-tighter">
                    Sync Your <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-[#dc143c] via-[#ff3b5c] to-indigo-500">Compatibility.</span>
                  </h2>
                  <p className="text-2xl font-bold mb-16 max-w-xl leading-relaxed opacity-80 tracking-tight" style={{ color: 'var(--text-secondary)' }}>

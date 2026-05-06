@@ -46,8 +46,8 @@ router.post('/register', async (req, res) => {
             email,
             password: hashedPassword,
             bloodGroup,
-            age,
-            dob: req.body.dob || (role === 'DONOR' ? age : null), // Handle if dob is passed explicitly or via age (which might be the date string)
+            age: age === '' ? null : age,
+            dob: (req.body.dob === '' ? null : req.body.dob) || (role === 'DONOR' ? (age === '' ? null : age) : null), // Handle if dob is passed explicitly or via age (which might be the date string)
             role: userRole,
             // Organization-specific fields
             orgName: userRole === 'ORGANIZATION' ? orgName : null,
