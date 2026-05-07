@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Navbar from './components/Navbar';
-import LiveTicker from './components/LiveTicker';
 import Footer from './components/Footer';
 import EmergencyFAB from './components/EmergencyFAB';
 import EnhancedChatBot from './components/EnhancedChatBot';
@@ -46,10 +45,9 @@ function App() {
     <div className={`min-h-screen flex flex-col font-sans transition-all duration-500 bg-[var(--bg-primary)] text-[var(--text-primary)] relative`}>
       <ScrollToTop />
       {isDark && <NeuralBackground />}
-      <LiveTicker />
       <Navbar />
       
-      <main className="flex-grow flex flex-col pt-32 lg:pt-[122px]">
+      <main className="flex-grow flex flex-col pt-24 lg:pt-[100px]">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<AnimatedPage><Home /></AnimatedPage>} />

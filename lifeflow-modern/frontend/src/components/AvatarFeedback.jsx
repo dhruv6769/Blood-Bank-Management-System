@@ -10,7 +10,7 @@ const LifeBotLogo = ({ status }) => {
   const isError = status === 'error';
 
   return (
-    <div className="relative w-80 h-80 flex items-center justify-center">
+    <div className="relative w-64 h-64 flex items-center justify-center">
       {/* Dynamic Aura Glow */}
       <Motion.div
         animate={{
@@ -234,7 +234,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
             }}
             exit={{ scale: 1.2, opacity: 0 }}
             transition={{ duration: warpActive ? 0.8 : 0.5, ease: "backOut" }}
-            className="flex flex-col items-center gap-16 relative z-20"
+            className="flex flex-col items-center gap-8 relative z-20"
           >
             {/* The LifeBot Mascot */}
             <LifeBotLogo status={status} />
@@ -252,7 +252,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                 minWidth: '500px'
               }}
             >
-              <div className="bg-[var(--bg-card)] rounded-[3.8rem] p-12 flex flex-col items-center relative overflow-hidden">
+              <div className="bg-[var(--bg-card)] rounded-[3.8rem] p-10 flex flex-col items-center relative overflow-hidden">
                 {/* Holographic Scanline */}
                 <Motion.div 
                   className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-400/10 to-transparent pointer-events-none"
@@ -265,11 +265,11 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ delay: 0.6, type: "spring" }}
-                  className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-8 shadow-lg ${
+                  className={`w-16 h-16 rounded-3xl flex items-center justify-center mb-6 shadow-lg ${
                     isSuccess ? 'bg-sky-400/10 text-sky-400 shadow-sky-500/20' : 'bg-red-500/10 text-red-500 shadow-red-500/20'
                   }`}
                 >
-                  {isSuccess ? <ShieldCheck size={40} /> : <ShieldAlert size={40} />}
+                  {isSuccess ? <ShieldCheck size={32} /> : <ShieldAlert size={32} />}
                 </Motion.div>
 
                 <div className="text-center space-y-4">
@@ -280,7 +280,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                     </span>
                   </div>
                   
-                  <h2 className="text-5xl font-black tracking-tight brand-font text-[var(--text-primary)]">
+                  <h2 className="text-4xl font-black tracking-tight brand-font text-[var(--text-primary)]">
                     {isSuccess ? 'Authorized' : 'Restricted'}
                   </h2>
                   
@@ -291,21 +291,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                   </p>
                 </div>
 
-                {/* Footer Stats / Micro-info */}
-                <div className="mt-10 pt-10 border-t border-[var(--border)] w-full grid grid-cols-3 gap-8">
-                  <div className="text-center">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Latency</p>
-                    <p className="text-xs font-black text-[var(--text-primary)]">14ms</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Protocol</p>
-                    <p className="text-xs font-black text-[var(--text-primary)]">v3.1</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-[9px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Region</p>
-                    <p className="text-xs font-black text-[var(--text-primary)]">Global</p>
-                  </div>
-                </div>
+
 
                 {/* Processing Bar */}
                 {isSuccess && (

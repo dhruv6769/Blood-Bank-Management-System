@@ -426,7 +426,7 @@ const AdminDashboard = () => {
                 <div className="mt-auto pt-10 border-t border-[var(--border)]">
                     <button className="w-full p-6 rounded-[2rem] bg-[#dc143c]/5 border border-[#dc143c]/20 text-[#dc143c] hover:bg-[#dc143c] hover:text-white transition-all duration-500 text-[10px] font-black uppercase tracking-[0.4em] shadow-xl group">
                         <span className="flex items-center justify-center gap-3">
-                            Emergency Sync <Activity className="w-4 h-4 group-hover:animate-spin" />
+                            Emergency Sync <Activity className="w-4 h-4 animate-[spin_4s_linear_infinite]" />
                         </span>
                     </button>
                 </div>
@@ -448,8 +448,8 @@ const AdminDashboard = () => {
                                  <StatCard label="Donors" value={stats.totalUsers} icon={Users} color="bg-blue-600" glowColor="bg-blue-500" trend="+12% Vol" />
                                  <StatCard label="Orgs" value={stats.totalOrgs} icon={Building2} color="bg-indigo-600" glowColor="bg-indigo-500" trend="Stable" />
                                  <StatCard label="Requests" value={stats.pendingRequests} icon={Clock3} color="bg-amber-600" glowColor="bg-amber-500" trend="Critical" />
-                                 <StatCard label="Camps" value={stats.pendingCamps} icon={MapPin} color="bg-[#dc143c]" glowColor="bg-[#dc143c]" trend="Deploying" />
-                                 <StatCard label="Verified" value={stats.approvedCamps} icon={CheckCircle} color="bg-emerald-600" glowColor="bg-emerald-500" trend="Active" />
+                                 <StatCard label="Pending Camps" value={stats.pendingCamps} icon={MapPin} color="bg-[#dc143c]" glowColor="bg-[#dc143c]" trend="Deploying" />
+                                 <StatCard label="Active Camps" value={stats.approvedCamps} icon={CheckCircle} color="bg-emerald-600" glowColor="bg-emerald-500" trend="Active" />
                              </div>
                              
                              <div className="flex items-center gap-6 mb-8">
@@ -642,7 +642,7 @@ const AdminDashboard = () => {
                                                 animate={{ opacity: 1, x: 0 }}
                                                 exit={{ opacity: 0, x: 20, scale: 0.95 }}
                                                 whileHover={{ scale: 1.01, y: -8 }}
-                                                className="bg-[var(--bg-card)]/60 backdrop-blur-3xl p-12 rounded-[4rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500"
+                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 md:p-12 rounded-[3rem] md:rounded-[4rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500"
                                             >
                                             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                                             <div className="relative z-10">
@@ -654,7 +654,7 @@ const AdminDashboard = () => {
                                                             </div>
                                                             <span className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.4em]">Sector Deployment</span>
                                                         </div>
-                                                        <h3 className="text-5xl font-black text-[var(--text-primary)] brand-font tracking-tighter mb-4 group-hover:text-[#dc143c] transition-colors">{camp.name}</h3>
+                                                        <h3 className="text-3xl md:text-5xl font-black text-[var(--text-primary)] brand-font tracking-tighter mb-4 group-hover:text-[#dc143c] transition-colors">{camp.name}</h3>
                                                         <div className="flex items-center gap-4">
                                                             <div className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_12px_#10b981]"></div>
                                                             <p className="text-[11px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">

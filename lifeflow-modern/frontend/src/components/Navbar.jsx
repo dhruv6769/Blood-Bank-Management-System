@@ -274,7 +274,7 @@ const Navbar = () => {
       <style>{`
         .lf-nav {
           position: fixed;
-          top: 32px;
+          top: 12px;
           left: 50%;
           transform: translateX(-50%);
           width: calc(100% - 64px);
@@ -292,7 +292,7 @@ const Navbar = () => {
         }
         .lf-nav.scrolled {
           background: var(--bg-card);
-          top: 20px;
+          top: 8px;
           width: calc(100% - 32px);
           border: 1px solid var(--glass-border);
           box-shadow: var(--shadow), var(--inner-glow);

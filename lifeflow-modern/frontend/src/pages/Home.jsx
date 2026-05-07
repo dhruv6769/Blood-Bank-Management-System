@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion as Motion, useScroll, useTransform, AnimatePresence, useMotionValue, useSpring } from 'framer-motion';
-import { Heart, Activity, Users, ShieldCheck, ArrowRightLeft, ArrowRight, Navigation, Play, ChevronRight, Droplets } from 'lucide-react';
+import { motion as Motion, useScroll, useTransform } from 'framer-motion';
+import { Heart, Activity, Users, ShieldCheck, ArrowRight, Navigation, Droplets } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../context/authStore';
 import api from '../lib/api';
@@ -251,7 +251,7 @@ const Home = () => {
                </div>
                <div>
                   <p className="text-[10px] font-black text-white/40 uppercase tracking-widest mb-1">TRUSTED NETWORK</p>
-                  <p className="text-xl font-black text-white">50+ Verified Hospitals</p>
+                  <p className="text-xl font-black text-white">{stats.verifiedCenters} Verified Hospitals</p>
                </div>
             </Motion.div>
          </div>

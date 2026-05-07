@@ -412,9 +412,9 @@ const DonationCamps = () => {
                                         initial={{ opacity: 0, y: 100 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0, y: 100 }}
-                                        className="absolute bottom-10 left-10 right-10 z-[800]"
+                                        className="absolute bottom-4 left-4 right-4 md:bottom-10 md:left-10 md:right-10 z-[800]"
                                     >
-                                        <div className="bg-[var(--bg-card)]/90 backdrop-blur-3xl border border-white/20 p-8 rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.3)] flex flex-col md:flex-row items-center gap-8">
+                                        <div className="bg-[var(--bg-card)] backdrop-blur-3xl border border-[var(--border)] p-6 md:p-8 rounded-[2.5rem] md:rounded-[3rem] shadow-[0_40px_100px_rgba(0,0,0,0.3)] flex flex-col md:flex-row items-center gap-6 md:gap-8">
                                             <div className="flex-grow">
                                                 <div className="flex items-center gap-3 mb-3">
                                                     <span className="px-3 py-1 bg-[var(--accent)]/10 text-[var(--accent)] text-[10px] font-black uppercase tracking-widest rounded-full">
@@ -424,8 +424,8 @@ const DonationCamps = () => {
                                                         <MapPin size={12} /> {selectedCamp.city}
                                                     </span>
                                                 </div>
-                                                <h2 className="text-4xl font-black text-[var(--text-primary)] mb-2">{selectedCamp.name}</h2>
-                                                <p className="text-[var(--text-secondary)] text-sm leading-relaxed max-w-xl opacity-70 italic">
+                                                <h2 className="text-3xl md:text-4xl font-black text-[var(--text-primary)] mb-2 tracking-tight">{selectedCamp.name}</h2>
+                                                <p className="text-[var(--text-secondary)] text-sm leading-relaxed max-w-xl italic">
                                                     "{selectedCamp.description}"
                                                 </p>
                                             </div>

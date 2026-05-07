@@ -15,7 +15,26 @@ router.get('/dashboard', verifyAdmin, async (req, res) => {
         const pendingRequests = await Request.count({ where: { status: 'PENDING' } });
         const pendingDonations = await Donation.count({ where: { status: 'PENDING' } });
         const pendingCamps = await Camp.count({ where: { status: 'PENDING' } });
-        const approvedCamps = await Camp.count({ where: { status: 'APPROVED' } });
+        
+        const now = new Date();
+        const todayStr = now.toISOString().split('T')[0];
+        const currentTimeStr = now.toTimeString().slice(0, 5);
+
+        // Get all approved camps from today onwards
+        const campsDb = await Camp.findAll({
+            where: { 
+                status: 'APPROVED',
+                date: { [Op.gte]: todayStr }
+            }
+        });
+
+        // Apply same filtering logic as public/camps to count truly "Active" ones
+        const approvedCampsCount = campsDb.filter(camp => {
+            if (camp.date > todayStr) return true;
+            if (camp.date === todayStr) return camp.endTime >= currentTimeStr;
+            return false;
+        }).length;
+
         const pendingProfileEdits = await ProfileEditRequest.count({ where: { status: 'PENDING' } });
         const pendingSupport = await SupportMessage.count({ where: { isReadByAdmin: false } });
 
@@ -26,7 +45,17 @@ router.get('/dashboard', verifyAdmin, async (req, res) => {
 
         res.json({
             status: 'success',
-            data: { totalUsers, totalOrgs, pendingRequests, pendingDonations, pendingCamps, approvedCamps, pendingProfileEdits, pendingSupport, stock }
+            data: { 
+                totalUsers, 
+                totalOrgs, 
+                pendingRequests, 
+                pendingDonations, 
+                pendingCamps, 
+                approvedCamps: approvedCampsCount, 
+                pendingProfileEdits, 
+                pendingSupport, 
+                stock 
+            }
         });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });

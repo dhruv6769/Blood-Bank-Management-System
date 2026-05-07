@@ -67,7 +67,7 @@ app.get('/api/public-stats', async (req, res) => {
                 where: { status: { [Op.in]: ['COMPLETED', 'APPROVED'] } } 
             }),
             User.count({ where: { role: 'DONOR' } }),
-            Camp.count({ where: { status: 'APPROVED' } })
+            User.count({ where: { role: 'ORGANIZATION' } })
         ]);
 
         res.json({
@@ -156,7 +156,9 @@ app.use((req, res) => {
 const syncDatabase = async (retries = 3, delay = 5000) => {
     for (let i = 0; i < retries; i++) {
         try {
-            await sequelize.sync({ alter: true }); // Enabled alter to add new columns like 'dob'
+            // Disable alter over remote DB connections to prevent very slow backend startups
+            const shouldAlter = !process.env.DATABASE_URL;
+            await sequelize.sync({ alter: shouldAlter }); 
             console.log('✅ Database connected and synchronized.');
             
             // Auto-seed admin if database is empty (for new deployments)

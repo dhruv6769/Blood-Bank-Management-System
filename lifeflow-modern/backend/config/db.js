@@ -27,6 +27,12 @@ if (process.env.DATABASE_URL) {
       port: process.env.DB_PORT || 3307,
       dialect: 'mysql',
       logging: false,
+      pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+      }
     }
   );
 }
