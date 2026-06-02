@@ -108,7 +108,7 @@ const LifePulseMap = () => {
 
                     {/* Map Area */}
                     <div className="flex-[1.5] w-full relative">
-                        <div className="aspect-square md:aspect-[4/3] lg:aspect-[16/9] rounded-[3rem] bg-[var(--bg-secondary)] border border-[var(--border)] overflow-hidden relative group shadow-2xl shadow-red-500/5">
+                        <div className="w-full h-[400px] md:h-[500px] lg:h-[650px] xl:h-[750px] rounded-[3rem] bg-[var(--bg-secondary)] border border-[var(--border)] overflow-hidden relative group shadow-2xl shadow-red-500/5">
                             {/* Stylized Map SVG Backdrop */}
                             <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none scale-110 group-hover:scale-105 transition-transform duration-1000" viewBox="0 0 800 450">
                                 <path 
