@@ -156,8 +156,8 @@ app.use((req, res) => {
 const syncDatabase = async (retries = 3, delay = 5000) => {
     for (let i = 0; i < retries; i++) {
         try {
-            // Disable alter over remote DB connections to prevent very slow backend startups
-            const shouldAlter = !process.env.DATABASE_URL;
+            // Always alter to ensure Render database schema is updated correctly
+            const shouldAlter = true;
             await sequelize.sync({ alter: shouldAlter }); 
             console.log('✅ Database connected and synchronized.');
             
