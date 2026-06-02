@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion as Motion, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { 
   Github, Linkedin, Instagram, 
   Code2, Medal, Zap, Terminal
@@ -73,7 +73,7 @@ const AboutCreator = () => {
                     {/* CARDS - INTERACTIVE REPLICA */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl">
                         {/* WEB ARCHITECT CARD */}
-                        <Motion.div 
+                        <motion.div 
                             whileHover={{ scale: 1.03, y: -5, borderColor: 'rgba(59, 130, 246, 0.3)' }}
                             className="bg-[#0a0a0a] p-8 rounded-[2.5rem] border border-white/5 flex items-center gap-6 shadow-2xl transition-colors cursor-pointer group"
                         >
@@ -84,10 +84,10 @@ const AboutCreator = () => {
                                 <div className="text-white font-black text-lg uppercase group-hover:text-blue-400 transition-colors">Web Architect</div>
                                 <div className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">TUVOC TECHNOLOGIES</div>
                             </div>
-                        </Motion.div>
+                        </motion.div>
 
                         {/* CLINICAL LOGIC CARD */}
-                        <Motion.div 
+                        <motion.div 
                             whileHover={{ scale: 1.03, y: -5, borderColor: 'rgba(220, 20, 60, 0.3)' }}
                             className="bg-[#0a0a0a] p-8 rounded-[2.5rem] border border-white/5 flex items-center gap-6 shadow-2xl transition-colors cursor-pointer group"
                         >
@@ -98,7 +98,7 @@ const AboutCreator = () => {
                                 <div className="text-white font-black text-lg uppercase group-hover:text-[#dc143c] transition-colors">Clinical Logic</div>
                                 <div className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold">GOKUL GLOBAL UNIVERSITY</div>
                             </div>
-                        </Motion.div>
+                        </motion.div>
                     </div>
 
                     {/* SOCIALS - EXACT REPLICA */}
@@ -108,7 +108,7 @@ const AboutCreator = () => {
                             { Icon: Linkedin, url: "https://www.linkedin.com/in/dhruv-rajput-7b76603b9/" },
                             { Icon: Instagram, url: "https://www.instagram.com/dhruv_19s/" }
                         ].map((social, i) => (
-                            <Motion.a
+                            <motion.a
                                 key={i}
                                 whileHover={{ scale: 1.1, backgroundColor: 'rgba(255,255,255,0.05)' }}
                                 href={social.url}
@@ -117,7 +117,7 @@ const AboutCreator = () => {
                                 className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all"
                             >
                                 <social.Icon size={24} />
-                            </Motion.a>
+                            </motion.a>
                         ))}
                     </div>
                 </div>
@@ -127,7 +127,7 @@ const AboutCreator = () => {
                     
                     {/* THE SATURN RING SYSTEM */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
-                        <Motion.div
+                        <motion.div
                             animate={{ rotate: 360 }}
                             transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                             className="relative w-[340px] h-[340px] md:w-[850px] md:h-[850px] flex items-center justify-center"
@@ -140,7 +140,7 @@ const AboutCreator = () => {
                                 const angle = Math.random() * 360;
                                 const offset = (Math.random() - 0.5) * 15;
                                 return (
-                                    <Motion.div
+                                    <motion.div
                                         key={`dust-${i}`}
                                         className="absolute w-[2px] h-[2px] bg-yellow-300 rounded-full opacity-60"
                                         animate={{ opacity: [0.2, 0.8, 0.2] }}
@@ -161,7 +161,7 @@ const AboutCreator = () => {
                                         <stop offset="100%" stopColor="#fbbf24" stopOpacity="0" />
                                     </linearGradient>
                                 </defs>
-                                <Motion.circle 
+                                <motion.circle 
                                     cx="50" cy="50" r="48.5" 
                                     fill="none" 
                                     stroke="url(#saturnSweep)" 
@@ -184,7 +184,7 @@ const AboutCreator = () => {
                                             transform: `rotate(${angle}deg) translateY(${radius}px) rotate(-${angle}deg)`
                                         }}
                                     >
-                                        <Motion.div 
+                                        <motion.div 
                                             animate={{ rotate: -360 }}
                                             transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                                             className="w-full h-full glass-premium border-[#fbbf24]/80 border-2 flex items-center justify-center rounded-[2rem] shadow-[0_0_50px_rgba(251,191,36,0.3)] relative overflow-hidden"
@@ -195,15 +195,15 @@ const AboutCreator = () => {
                                             ) : (
                                                 <img src={tech.icon} className="w-12 h-12 md:w-16 md:h-16 brightness-125 relative z-10" alt={tech.label} />
                                             )}
-                                        </Motion.div>
+                                        </motion.div>
                                     </div>
                                 );
                             })}
-                        </Motion.div>
+                        </motion.div>
                     </div>
 
                     {/* IMAGE CORE */}
-                    <Motion.div 
+                    <motion.div 
                         style={{ rotateX: y, rotateY: x }}
                         className="relative z-20 rounded-[3rem] overflow-hidden glass-premium border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.8)]"
                     >
@@ -237,7 +237,7 @@ const AboutCreator = () => {
                                 </div>
                             </div>
                         </div>
-                    </Motion.div>
+                    </motion.div>
                 </div>
             </div>
         </section>

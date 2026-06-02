@@ -156,8 +156,28 @@ app.use((req, res) => {
 const syncDatabase = async (retries = 3, delay = 5000) => {
     for (let i = 0; i < retries; i++) {
         try {
-            // Always alter to ensure Render database schema is updated correctly
             const shouldAlter = true;
+            
+            // First sync without alter to ensure tables exist
+            await sequelize.sync({ alter: false });
+            
+            // Fix Postgres Enum and missing columns manually to bypass Sequelize alter bugs
+            if ((process.env.DB_DIALECT || 'postgres') === 'postgres') {
+                try {
+                    await sequelize.query(`ALTER TYPE "enum_Users_role" ADD VALUE IF NOT EXISTS 'ORGANIZATION';`);
+                } catch (e) { /* Ignore if it fails */ }
+                
+                try {
+                    await sequelize.query(`ALTER TABLE "Users" ADD COLUMN IF NOT EXISTS "dob" DATE;`);
+                    await sequelize.query(`ALTER TABLE "Users" ADD COLUMN IF NOT EXISTS "orgName" VARCHAR(255);`);
+                    await sequelize.query(`ALTER TABLE "Users" ADD COLUMN IF NOT EXISTS "orgPhone" VARCHAR(255);`);
+                    await sequelize.query(`ALTER TABLE "Users" ADD COLUMN IF NOT EXISTS "orgAddress" VARCHAR(255);`);
+                    await sequelize.query(`ALTER TABLE "Users" ADD COLUMN IF NOT EXISTS "avatar" TEXT;`);
+                    await sequelize.query(`ALTER TABLE "Users" ADD COLUMN IF NOT EXISTS "age" INTEGER;`);
+                } catch (e) { console.log('Manual column add skipped:', e.message); }
+            }
+
+            // Now alter to catch any other updates
             await sequelize.sync({ alter: shouldAlter }); 
             console.log('✅ Database connected and synchronized.');
             

@@ -9,10 +9,25 @@ if (process.env.DATABASE_URL) {
   const isLocal = process.env.DATABASE_URL.includes('localhost') || process.env.DATABASE_URL.includes('127.0.0.1');
   const isPostgres = (process.env.DB_DIALECT || 'postgres') === 'postgres';
   
+  let needsSSL = false;
+  if (isPostgres && !isLocal) {
+    try {
+      const hostname = new URL(process.env.DATABASE_URL).hostname;
+      // Render internal URLs (e.g., dpg-xyz-a) do not have dots and do not support SSL
+      if (hostname.startsWith('dpg-') && !hostname.includes('.')) {
+        needsSSL = false;
+      } else {
+        needsSSL = true; // External connections require SSL
+      }
+    } catch (e) {
+      needsSSL = true;
+    }
+  }
+
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: process.env.DB_DIALECT || 'postgres',
     logging: false,
-    dialectOptions: (isPostgres && !isLocal) ? {
+    dialectOptions: needsSSL ? {
       ssl: {
         require: true,
         rejectUnauthorized: false
@@ -61,7 +76,7 @@ const User = sequelize.define('User', {
     orgPhone: { type: DataTypes.STRING, allowNull: true },     // Organization contact
     orgAddress: { type: DataTypes.STRING, allowNull: true },   // Organization address
     lastDonationDate: { type: DataTypes.DATEONLY, allowNull: true }, // Track donation eligibility
-    avatar: { type: DataTypes.TEXT('long'), allowNull: true }, // Add avatar field for images
+    avatar: { type: DataTypes.TEXT, allowNull: true }, // Add avatar field for images
 }, {
     tableName: 'Users'
 });

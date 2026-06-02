@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { motion as Motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 
 const pageVariants = {
@@ -33,7 +33,7 @@ const AnimatedPage = ({ children }) => {
   }, [pathname]);
 
   return (
-    <Motion.div
+    <motion.div
       variants={pageVariants}
       initial="initial"
       animate="animate"
@@ -42,7 +42,7 @@ const AnimatedPage = ({ children }) => {
       style={{ willChange: 'clip-path, opacity, transform, filter' }}
     >
       {children}
-    </Motion.div>
+    </motion.div>
   );
 };
 

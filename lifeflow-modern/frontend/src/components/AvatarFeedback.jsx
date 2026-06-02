@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion as Motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, ShieldAlert, Zap, Globe, Cpu } from 'lucide-react';
 
 /** 
@@ -12,7 +12,7 @@ const LifeBotLogo = ({ status }) => {
   return (
     <div className="relative w-64 h-64 flex items-center justify-center">
       {/* Dynamic Aura Glow */}
-      <Motion.div
+      <motion.div
         animate={{
           scale: isSuccess ? [1, 1.2, 1.1] : isError ? [1, 1.05, 1] : [1, 1.1, 1],
           opacity: isSuccess ? [0.3, 0.6, 0.4] : 0.2
@@ -43,7 +43,7 @@ const LifeBotLogo = ({ status }) => {
         </defs>
 
         {/* FLOATING BODY */}
-        <Motion.g
+        <motion.g
           animate={
             isSuccess ? { 
                 y: [0, -15, 0],
@@ -68,40 +68,40 @@ const LifeBotLogo = ({ status }) => {
           <g transform="translate(100, 95)">
              <AnimatePresence mode="wait">
                 {isSuccess ? (
-                  <Motion.g key="success" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
+                  <motion.g key="success" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
                     <path d="M -30 5 L -20 -5 L -10 5" fill="none" stroke="#38bdf8" strokeWidth="6" strokeLinecap="round" filter="url(#glow)" />
                     <path d="M 10 5 L 20 -5 L 30 5" fill="none" stroke="#38bdf8" strokeWidth="6" strokeLinecap="round" filter="url(#glow)" />
-                  </Motion.g>
+                  </motion.g>
                 ) : isError ? (
-                  <Motion.g key="error" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
+                  <motion.g key="error" initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
                     <path d="M -25 -5 L -10 10 M -25 10 L -10 -5" fill="none" stroke="#ef4444" strokeWidth="6" strokeLinecap="round" filter="url(#glow)" />
                     <path d="M 10 -5 L 25 10 M 10 10 L 25 -5" fill="none" stroke="#ef4444" strokeWidth="6" strokeLinecap="round" filter="url(#glow)" />
-                  </Motion.g>
+                  </motion.g>
                 ) : (
-                  <Motion.g key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-                    <Motion.rect x="-30" y="0" width="20" height="6" rx="3" fill="#38bdf8" animate={{ scaleY: [1, 0.1, 1] }} transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1] }} />
-                    <Motion.rect x="10" y="0" width="20" height="6" rx="3" fill="#38bdf8" animate={{ scaleY: [1, 0.1, 1] }} transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], delay: 0.2 }} />
-                  </Motion.g>
+                  <motion.g key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                    <motion.rect x="-30" y="0" width="20" height="6" rx="3" fill="#38bdf8" animate={{ scaleY: [1, 0.1, 1] }} transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1] }} />
+                    <motion.rect x="10" y="0" width="20" height="6" rx="3" fill="#38bdf8" animate={{ scaleY: [1, 0.1, 1] }} transition={{ duration: 4, repeat: Infinity, times: [0, 0.05, 0.1], delay: 0.2 }} />
+                  </motion.g>
                 )}
              </AnimatePresence>
           </g>
 
           {/* Core Reactant */}
-          <Motion.circle
+          <motion.circle
             cx="100" cy="155" r="8"
             fill={isSuccess ? "#38bdf8" : isError ? "#ef4444" : "#94a3b8"}
             animate={{ scale: [1, 1.5, 1], opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 1.5, repeat: Infinity }}
             filter="url(#glow)"
           />
-        </Motion.g>
+        </motion.g>
       </svg>
 
       {/* Orbiting Particles */}
       {isSuccess && (
         <div className="absolute inset-0">
           {[...Array(3)].map((_, i) => (
-            <Motion.div
+            <motion.div
               key={i}
               className="absolute w-2 h-2 rounded-full bg-sky-400"
               animate={{
@@ -154,14 +154,14 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
   return (
     <AnimatePresence>
       {show && (
-        <Motion.div
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-[10000] flex flex-col items-center justify-center pointer-events-none"
         >
           {/* Cinematic Background */}
-          <Motion.div 
+          <motion.div 
             className="absolute inset-0 z-0"
             animate={{ 
               backgroundColor: warpActive ? '#fff' : 'rgba(2, 6, 23, 0.95)',
@@ -180,13 +180,13 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
           {/* Warp Speed Effect */}
           <AnimatePresence>
             {warpActive && (
-              <Motion.div
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="absolute inset-0 z-10 overflow-hidden"
               >
                 {[...Array(50)].map((_, i) => (
-                  <Motion.div
+                  <motion.div
                     key={i}
                     className="absolute bg-white"
                     initial={{ 
@@ -211,7 +211,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                     }}
                   />
                 ))}
-              </Motion.div>
+              </motion.div>
             )}
           </AnimatePresence>
 
@@ -225,7 +225,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
             />
           )}
 
-          <Motion.div
+          <motion.div
             initial={{ scale: 0.8, opacity: 0, y: 50 }}
             animate={{ 
               scale: warpActive ? 2 : 1, 
@@ -240,7 +240,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
             <LifeBotLogo status={status} />
 
             {/* Premium Result Card */}
-            <Motion.div
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
@@ -254,14 +254,14 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
             >
               <div className="bg-[var(--bg-card)] rounded-[3.8rem] p-10 flex flex-col items-center relative overflow-hidden">
                 {/* Holographic Scanline */}
-                <Motion.div 
+                <motion.div 
                   className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-400/10 to-transparent pointer-events-none"
                   animate={{ y: ['-100%', '100%'] }}
                   transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
                 />
 
                 {/* Status Icon */}
-                <Motion.div
+                <motion.div
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
                   transition={{ delay: 0.6, type: "spring" }}
@@ -270,7 +270,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                   }`}
                 >
                   {isSuccess ? <ShieldCheck size={32} /> : <ShieldAlert size={32} />}
-                </Motion.div>
+                </motion.div>
 
                 <div className="text-center space-y-4">
                   <div className="flex items-center justify-center gap-3 mb-2">
@@ -296,7 +296,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                 {/* Processing Bar */}
                 {isSuccess && (
                   <div className="absolute bottom-0 left-0 right-0 h-2 bg-slate-900">
-                    <Motion.div 
+                    <motion.div 
                       initial={{ x: '-100%' }}
                       animate={{ x: '0%' }}
                       transition={{ duration: 2.5, ease: "linear" }}
@@ -305,21 +305,21 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                   </div>
                 )}
               </div>
-            </Motion.div>
+            </motion.div>
 
             {/* Bottom Slogan */}
             {!warpActive && (
-              <Motion.p 
+              <motion.p 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 0.4 }}
                 transition={{ delay: 1 }}
                 className="text-[10px] font-black uppercase tracking-[0.4em] text-white"
               >
                 LifeFlow Global Operations // 2026
-              </Motion.p>
+              </motion.p>
             )}
-          </Motion.div>
-        </Motion.div>
+          </motion.div>
+        </motion.div>
       )}
     </AnimatePresence>
   );

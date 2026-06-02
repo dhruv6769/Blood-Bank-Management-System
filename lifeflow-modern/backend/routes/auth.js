@@ -46,8 +46,8 @@ router.post('/register', async (req, res) => {
             email,
             password: hashedPassword,
             bloodGroup,
-            age: age === '' ? null : age,
-            dob: (req.body.dob === '' ? null : req.body.dob) || (role === 'DONOR' ? (age === '' ? null : age) : null), // Handle if dob is passed explicitly or via age (which might be the date string)
+            age: (age === '' || isNaN(parseInt(age))) ? null : parseInt(age),
+            dob: (req.body.dob === '' ? null : req.body.dob) || null, // Ensure dob is only taken from dob, not age string
             role: userRole,
             // Organization-specific fields
             orgName: userRole === 'ORGANIZATION' ? orgName : null,
@@ -89,7 +89,7 @@ router.post('/register', async (req, res) => {
         });
     } catch (error) {
         console.error('Registration Error:', error);
-        res.status(500).json({ status: 'error', message: 'Internal server error during registration' });
+        res.status(500).json({ status: 'error', message: 'Internal server error during registration', error: error.message });
     }
 });
 
@@ -151,7 +151,7 @@ router.post('/login', async (req, res) => {
         });
     } catch (error) {
         console.error('Login Error:', error);
-        res.status(500).json({ status: 'error', message: 'Internal server error during login' });
+        res.status(500).json({ status: 'error', message: 'Internal server error during login', error: error.message });
     }
 });
 
