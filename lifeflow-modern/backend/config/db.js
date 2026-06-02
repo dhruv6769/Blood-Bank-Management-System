@@ -6,10 +6,13 @@ let sequelize;
 
 if (process.env.DATABASE_URL) {
   // Cloud environment (PostgreSQL/MySQL/etc via URL)
+  const isLocal = process.env.DATABASE_URL.includes('localhost') || process.env.DATABASE_URL.includes('127.0.0.1');
+  const isPostgres = (process.env.DB_DIALECT || 'postgres') === 'postgres';
+  
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: process.env.DB_DIALECT || 'postgres',
     logging: false,
-    dialectOptions: process.env.DATABASE_URL.includes('render.com') ? {
+    dialectOptions: (isPostgres && !isLocal) ? {
       ssl: {
         require: true,
         rejectUnauthorized: false
