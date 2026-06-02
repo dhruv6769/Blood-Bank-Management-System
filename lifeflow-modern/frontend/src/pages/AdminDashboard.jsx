@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useCallback } from 'react';
+import toast from 'react-hot-toast';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSearchParams } from 'react-router-dom';
 import {
@@ -433,7 +434,7 @@ const AdminDashboard = () => {
             </motion.div>
 
             {/* Main Content Deck - Independent Scroll */}
-            <div className="flex-1 p-8 lg:p-14 z-10 relative h-full overflow-y-auto custom-scrollbar">
+            <div className="flex-1 p-4 lg:p-14 z-10 relative h-full overflow-y-auto custom-scrollbar">
                 <AnimatePresence mode="wait">
 
                     {/* MONITOR */}
@@ -510,10 +511,10 @@ const AdminDashboard = () => {
                                                 animate={{ opacity: 1, x: 0 }}
                                                 exit={{ opacity: 0, x: 20, scale: 0.95 }}
                                                 whileHover={{ scale: 1.01, y: -4 }}
-                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
+                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-6 md:gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
                                             >
                                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                            <div className="flex items-center gap-10 relative z-10 w-full md:w-auto">
+                                            <div className="flex items-center gap-6 md:gap-10 relative z-10 w-full md:w-auto">
                                                 <div className="w-24 h-24 bg-[var(--bg-primary)] rounded-[2.5rem] flex flex-col items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_30px_rgba(220,20,60,0.2)] shadow-2xl transition-all shrink-0">
                                                     <span className="text-[#dc143c] font-black text-4xl leading-none tracking-tighter drop-shadow-[0_0_12px_rgba(220,20,60,0.5)] group-hover:scale-110 transition-transform">{req.bloodGroup}</span>
                                                     <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)] mt-2">Factor</span>
@@ -576,10 +577,10 @@ const AdminDashboard = () => {
                                                 animate={{ opacity: 1, x: 0 }}
                                                 exit={{ opacity: 0, x: 20, scale: 0.95 }}
                                                 whileHover={{ scale: 1.01, y: -4 }}
-                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
+                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-6 md:gap-10 hover:border-[#dc143c]/40 transition-all group shadow-2xl relative overflow-hidden"
                                             >
                                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                            <div className="flex items-center gap-10 relative z-10 w-full md:w-auto">
+                                            <div className="flex items-center gap-6 md:gap-10 relative z-10 w-full md:w-auto">
                                                 <div className="w-24 h-24 bg-[var(--bg-primary)] rounded-[2.5rem] flex flex-col items-center justify-center border border-[var(--border)] group-hover:border-[#dc143c] group-hover:shadow-[0_0_30px_rgba(220,20,60,0.2)] shadow-2xl transition-all shrink-0">
                                                     <span className="text-[#dc143c] font-black text-4xl leading-none tracking-tighter drop-shadow-[0_0_12px_rgba(220,20,60,0.5)] group-hover:scale-110 transition-transform">{don.bloodGroup}</span>
                                                     <span className="text-[9px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)] mt-2">Type</span>
@@ -621,7 +622,7 @@ const AdminDashboard = () => {
                             <h1 className="text-4xl font-black text-[var(--text-primary)] brand-font mb-2">Camp Operations<span className="text-[#dc143c]">.</span></h1>
                             <p className="text-[var(--text-muted)] mb-12 font-bold uppercase tracking-[0.3em] text-[10px]">Coordinate and authorize regional donation infrastructure</p>
                             
-                            <div className="grid gap-10">
+                            <div className="grid gap-6 md:gap-10">
                                 {isLoading ? (
                                     <div className="py-20 text-center text-[var(--text-muted)] font-black uppercase tracking-[0.5em] text-[10px] animate-pulse">Locating Camps...</div>
                                 ) : pendingCamps.length === 0 ? (
@@ -642,7 +643,7 @@ const AdminDashboard = () => {
                                                 animate={{ opacity: 1, x: 0 }}
                                                 exit={{ opacity: 0, x: 20, scale: 0.95 }}
                                                 whileHover={{ scale: 1.01, y: -8 }}
-                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 md:p-12 rounded-[3rem] md:rounded-[4rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500"
+                                                className="bg-[var(--bg-card)] backdrop-blur-3xl p-6 md:p-12 rounded-[2rem] md:rounded-[4rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.4)] relative overflow-hidden group transition-all duration-500"
                                             >
                                             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[120px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                                             <div className="relative z-10">

@@ -253,7 +253,7 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
+    setTimeout(() => setMobileOpen(false), 0);
   }, [location.pathname]);
 
   const navLinks = [
@@ -479,6 +479,7 @@ const Navbar = () => {
         .nb-panel {
           position: absolute; right: 0; top: calc(100% + 15px);
           width: 360px;
+          max-width: calc(100vw - 40px);
           background: var(--bg-card);
           border: 1px solid var(--glass-border);
           border-radius: 2rem;
@@ -646,9 +647,12 @@ const Navbar = () => {
             letter-spacing: 0.1em;
             text-transform: uppercase;
           }
+          .lf-mobile-trigger {
+            display: flex;
+          }
         }
         @media (min-width: 769px) {
-          .lf-mobile-trigger { display: none; }
+          .lf-mobile-trigger, .lf-mobile-actions { display: none; }
         }
       `}</style>
 
@@ -743,18 +747,21 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Mobile hamburger */}
-          <button
-            className="lf-mobile-trigger flex md:hidden"
-            style={{
-              width: 36, height: 36, borderRadius: 10, border: '1px solid var(--border)',
-              background: 'var(--bg-card)', color: 'var(--text-secondary)', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer',
-            }}
-            onClick={() => setMobileOpen(v => !v)}
-          >
-            {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
+          {/* Mobile actions */}
+          <div className="lf-mobile-actions flex md:hidden items-center gap-3">
+            {showBell && <NotificationBell />}
+            <button
+              className="lf-mobile-trigger flex"
+              style={{
+                width: 36, height: 36, borderRadius: 10, border: '1px solid var(--border)',
+                background: 'var(--bg-card)', color: 'var(--text-secondary)', alignItems: 'center', justifyContent: 'center',
+                cursor: 'pointer',
+              }}
+              onClick={() => setMobileOpen(v => !v)}
+            >
+              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile menu */}

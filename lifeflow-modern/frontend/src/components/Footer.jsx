@@ -75,7 +75,7 @@ const Footer = () => {
                     </motion.div>
 
                     {/* Navigation Columns */}
-                    <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-12">
+                    <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-12">
                         <motion.div 
                             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: 0.1, duration: 0.6, ease: [0.16,1,0.3,1] }}
                             className="space-y-8"
@@ -122,7 +122,7 @@ const Footer = () => {
 
                         <motion.div 
                             initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ delay: 0.3, duration: 0.6, ease: [0.16,1,0.3,1] }}
-                            className="space-y-8 col-span-2 md:col-span-1"
+                            className="space-y-8 sm:col-span-2 md:col-span-1"
                         >
                             <h4 className="text-[10px] font-black text-[var(--text-muted)] opacity-50 uppercase tracking-[0.4em]">Pulse Point</h4>
                             <div className="p-6 rounded-[2rem] bg-[var(--bg-card)] border border-[var(--border)] space-y-6">
@@ -151,7 +151,7 @@ const Footer = () => {
 
                 {/* Status Bar */}
                 <div className="pt-12 border-t border-[var(--border)] flex flex-col md:flex-row justify-between items-center gap-8">
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
                         <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#dc143c]/10 border border-[#dc143c]/20">
                             <div className="w-2 h-2 rounded-full bg-[#dc143c] animate-ping" />
                             <span className="text-[9px] font-black text-[#dc143c] uppercase tracking-[0.2em]">Zero Protocol Active</span>

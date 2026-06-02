@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck, ShieldAlert, Zap, Globe, Cpu } from 'lucide-react';
+
+const warpParticles = [...Array(50)].map((_, i) => ({
+  id: i,
+  top: `${Math.random() * 100}%`,
+  left: `${Math.random() * 100}%`,
+  delay: Math.random() * 0.5
+}));
 
 /** 
  * LifeFlow "LifeBot" High-Fidelity Mascot
@@ -185,9 +193,9 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                 animate={{ opacity: 1 }}
                 className="absolute inset-0 z-10 overflow-hidden"
               >
-                {[...Array(50)].map((_, i) => (
+                {warpParticles.map((particle) => (
                   <motion.div
-                    key={i}
+                    key={particle.id}
                     className="absolute bg-white"
                     initial={{ 
                       top: '50%', 
@@ -197,8 +205,8 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                       opacity: 0 
                     }}
                     animate={{ 
-                      top: `${Math.random() * 100}%`, 
-                      left: `${Math.random() * 100}%`,
+                      top: particle.top, 
+                      left: particle.left,
                       width: [2, 100],
                       height: [2, 4],
                       opacity: [0, 1, 0],
@@ -206,7 +214,7 @@ const AvatarFeedback = ({ status = 'idle', onDismiss }) => {
                     }}
                     transition={{ 
                       duration: 0.6, 
-                      delay: Math.random() * 0.5,
+                      delay: particle.delay,
                       ease: "circIn"
                     }}
                   />

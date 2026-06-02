@@ -202,7 +202,7 @@ const Community = () => {
                             {/* Panel Background Elements */}
                             <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-red-600/10 to-transparent pointer-events-none"></div>
 
-                            <div className="p-10 pb-8 relative z-10">
+                            <div className="p-6 md:p-10 pb-6 md:pb-8 relative z-10">
                                 <div className="flex items-start justify-between mb-8">
                                     <span className={`text-[10px] font-black uppercase tracking-[0.3em] px-4 py-2 rounded-lg border ${selectedNews.tagColor.replace('bg-', 'bg-').replace('-100', '-500/10').replace('text-', 'text-')} ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
                                         {selectedNews.tag}
@@ -225,7 +225,7 @@ const Community = () => {
                             <div className={`h-px bg-[var(--border)] mx-10`} />
 
                             {/* Article Body */}
-                            <div className="p-10 space-y-10 relative z-10">
+                            <div className="p-6 md:p-10 space-y-6 md:space-y-10 relative z-10">
                                 {selectedNews.body.map((section, idx) => (
                                     <Motion.div
                                         key={idx}
@@ -244,7 +244,7 @@ const Community = () => {
 
                             {/* CTA Footer */}
                             <div className="px-10 pb-12 relative z-10">
-                                <div className={`bg-[var(--bg-secondary)] border-[var(--border)] rounded-[2rem] p-8 border backdrop-blur-3xl shadow-2xl overflow-hidden relative group`}>
+                                <div className={`bg-[var(--bg-secondary)] border-[var(--border)] rounded-[2rem] p-6 md:p-8 border backdrop-blur-3xl shadow-2xl overflow-hidden relative group`}>
                                     <div className="absolute -top-10 -right-10 w-32 h-32 bg-red-500/20 rounded-full blur-[50px] pointer-events-none"></div>
                                     <p className={`text-[10px] font-black ${isDark ? 'text-white/30' : 'text-gray-400'} uppercase tracking-[0.3em] mb-6`}>Join the movement</p>
                                     <a href="/dashboard?section=donate" className="flex items-center justify-between w-full bg-red-600 text-white px-8 py-5 rounded-2xl font-black uppercase text-xs tracking-[0.2em] hover:bg-red-500 transition-all shadow-2xl shadow-red-600/40 hover:-translate-y-1">
@@ -338,7 +338,7 @@ const Community = () => {
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="bg-gradient-to-br from-red-600 to-red-900 rounded-[2.5rem] p-10 text-white shadow-2xl shadow-red-950/50 overflow-hidden relative group cursor-pointer hover:scale-[1.02] transition-all duration-500"
+                            className="bg-gradient-to-br from-red-600 to-red-900 rounded-[2.5rem] p-6 md:p-10 text-white shadow-2xl shadow-red-950/50 overflow-hidden relative group cursor-pointer hover:scale-[1.02] transition-all duration-500"
                         >
                             <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-[60px] z-0 group-hover:scale-150 transition-transform duration-1000"></div>
                             <div className="relative z-10">

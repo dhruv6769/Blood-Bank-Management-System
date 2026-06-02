@@ -89,7 +89,7 @@ const Login = () => {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="hidden lg:flex flex-[1.2] relative flex-col justify-center px-16 xl:px-24 z-10"
       >
-        <Link to="/" className="absolute top-12 left-16 flex items-center gap-4 no-underline group z-30">
+        <Link to="/" className="absolute top-6 left-6 md:top-12 md:left-16 flex items-center gap-4 no-underline group z-30">
           <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 group-hover:scale-110 transition-transform duration-500 overflow-hidden">
             <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
           </div>
@@ -107,7 +107,7 @@ const Login = () => {
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc143c]/10 border border-[#dc143c]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-[#dc143c] mb-8">
               <Activity className="w-3 h-3" /> Advanced Clinical Network
             </span>
-            <h1 className="text-6xl xl:text-7xl font-black leading-[1.05] tracking-tighter mb-8" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-5xl md:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tighter mb-8" style={{ color: 'var(--text-primary)' }}>
               Empowering the <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#dc143c] to-[#ff6b6b]">Future of Giving.</span>
             </h1>
@@ -144,7 +144,7 @@ const Login = () => {
         className="flex-1 flex items-center justify-center p-6 lg:p-12 z-10"
       >
         <div className="w-full max-w-[480px]">
-          <div className="glass-premium p-8 lg:p-12 rounded-[3rem] relative overflow-hidden group hover:shadow-[0_40px_80px_rgba(220,20,60,0.12)] transition-all duration-700">
+          <div className="glass-premium p-6 md:p-8 lg:p-12 rounded-[3rem] relative overflow-hidden group hover:shadow-[0_40px_80px_rgba(220,20,60,0.12)] transition-all duration-700">
             {/* Border Beam Technology */}
             <div className="border-beam opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
             
@@ -161,7 +161,7 @@ const Login = () => {
                     LifeFlow<span className="text-[#dc143c]">.</span>
                   </span>
                 </div>
-                <h2 className="text-5xl font-black tracking-tight mb-4 text-glow" style={{ color: 'var(--text-primary)' }}>Welcome Back</h2>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-glow" style={{ color: 'var(--text-primary)' }}>Welcome Back</h2>
                 <p className="text-base font-bold opacity-60" style={{ color: 'var(--text-secondary)' }}>Continue your life-saving mission today.</p>
               </div>
  

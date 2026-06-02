@@ -63,6 +63,7 @@ const OrgDashboard = () => {
         return () => {
             document.body.style.overflow = 'unset';
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchSupportedCities = async () => {
@@ -325,11 +326,11 @@ const OrgDashboard = () => {
                                 <p className="font-bold uppercase tracking-[0.4em] text-[9px] ml-2" style={{ color: 'var(--text-muted)' }}>Configuring Regional Bio-Capture Protocol</p>
                             </div>
 
-                            <div className="bg-[var(--bg-card)] backdrop-blur-3xl p-10 lg:p-14 rounded-[2.5rem] border border-[var(--border)] shadow-[0_50px_100px_rgba(0,0,0,0.5)] relative overflow-hidden group transition-all duration-700" style={{ backgroundColor: 'var(--bg-card)' }}>
+                            <div className="bg-[var(--bg-card)] backdrop-blur-3xl p-6 md:p-10 lg:p-14 rounded-[2.5rem] border border-[var(--border)] shadow-[0_50px_100px_rgba(0,0,0,0.5)] relative overflow-hidden group transition-all duration-700" style={{ backgroundColor: 'var(--bg-card)' }}>
                                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[150px] opacity-40 group-hover:opacity-100 transition-opacity duration-1000"></div>
                                 
                                 <form className="space-y-10 relative z-10" onSubmit={submitCamp}>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12">
                                         <div className="md:col-span-2">
                                             <ModernInput
                                                 label="Mission Designation"
@@ -473,14 +474,14 @@ const OrgDashboard = () => {
                                     </button>
                                 </motion.div>
                             ) : (
-                                <div className="grid gap-12">
+                                <div className="grid gap-6 md:gap-12">
                                     {camps.map((camp, idx) => (
                                         <motion.div 
                                             key={camp.id} 
                                             initial={{ opacity: 0, y: 30 }}
                                             animate={{ opacity: 1, y: 0, transition: { delay: idx * 0.1 } }}
                                             whileHover={{ y: -6, backgroundColor: 'var(--bg-secondary)' }}
-                                            className="bg-[var(--bg-card)] backdrop-blur-[60px] p-8 lg:p-10 rounded-[2.5rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.3)] group transition-all duration-500 relative overflow-hidden"
+                                            className="bg-[var(--bg-card)] backdrop-blur-[60px] p-6 md:p-8 lg:p-10 rounded-[2.5rem] border border-[var(--border)] shadow-[0_40px_80px_rgba(0,0,0,0.3)] group transition-all duration-500 relative overflow-hidden"
                                         >
                                             <div className="absolute top-0 right-0 w-96 h-96 bg-[#dc143c]/5 rounded-bl-full z-0 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                             
@@ -513,12 +514,12 @@ const OrgDashboard = () => {
                                                     </div>
                                                 </div>
 
-                                                <div className="flex items-center gap-12 p-8 lg:px-12 rounded-[3.5rem] bg-[var(--bg-primary)] border border-[var(--border)] shadow-inner group-hover:border-[#dc143c]/20 transition-colors">
+                                                <div className="flex flex-col sm:flex-row items-center sm:items-start lg:items-center gap-6 md:gap-12 p-6 md:p-8 lg:px-12 rounded-[2rem] md:rounded-[3.5rem] bg-[var(--bg-primary)] border border-[var(--border)] shadow-inner group-hover:border-[#dc143c]/20 transition-colors">
                                                     <div className="text-center">
                                                         <p className="text-[9px] font-black uppercase tracking-[0.5em] mb-2" style={{ color: 'var(--text-muted)' }}>Throughput</p>
                                                         <p className="text-4xl font-black tracking-tighter" style={{ color: 'var(--text-primary)' }}>{camp.totalSlots}</p>
                                                     </div>
-                                                    <div className="w-px h-16 bg-[var(--border)] opacity-50"></div>
+                                                    <div className="w-px h-16 bg-[var(--border)] opacity-50 hidden sm:block"></div>
                                                     <div className="text-center group/icon">
                                                         <p className="text-[9px] font-black uppercase tracking-[0.5em] mb-2" style={{ color: 'var(--text-muted)' }}>Bio-Factor</p>
                                                         <Droplet className="w-8 h-8 text-[#dc143c] mx-auto group-hover/icon:scale-125 transition-transform duration-500 drop-shadow-[0_0_15px_rgba(220,20,60,0.5)]" />
@@ -530,7 +531,8 @@ const OrgDashboard = () => {
                                                 <motion.div 
                                                     initial={{ height: 0, opacity: 0 }}
                                                     animate={{ height: 'auto', opacity: 1 }}
-                                                    className="mt-12 p-12 rounded-[3.5rem] bg-[var(--bg-primary)] border border-[var(--border)] relative overflow-hidden group-hover:border-[#dc143c]/10 transition-colors"
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    className="mt-8 md:mt-12 p-6 md:p-12 rounded-[2rem] md:rounded-[3.5rem] bg-[var(--bg-primary)] border border-[var(--border)] relative overflow-hidden group-hover:border-[#dc143c]/10 transition-colors"
                                                 >
                                                     <div className="absolute top-0 left-0 w-2 h-full bg-[#dc143c]/40"></div>
                                                     <div className="flex items-center gap-4 mb-6">

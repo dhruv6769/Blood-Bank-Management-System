@@ -64,7 +64,7 @@ const LifePulseMap = () => {
             }}></div>
             
             <div className="container mx-auto px-6 relative z-10">
-                <div className="flex flex-col lg:flex-row items-center gap-16">
+                <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
                     {/* Text Area */}
                     <div className="flex-1 space-y-8">
                         <Motion.div
@@ -77,7 +77,7 @@ const LifePulseMap = () => {
                             Live Network Pulse
                         </Motion.div>
                         
-                        <h2 className="text-5xl md:text-7xl font-black brand-font tracking-tight text-[var(--text-primary)] leading-tight">
+                        <h2 className="text-4xl md:text-5xl lg:text-7xl font-black brand-font tracking-tight text-[var(--text-primary)] leading-tight">
                             The Heartbeat of <br/>
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-red-400">Global Giving.</span>
                         </h2>
@@ -97,7 +97,7 @@ const LifePulseMap = () => {
                             </div>
                         </div>
 
-                        <div className="p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border)] backdrop-blur-xl group hover:border-red-500/30 transition-colors">
+                        <div className="p-6 md:p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border)] backdrop-blur-xl group hover:border-red-500/30 transition-colors">
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[var(--text-muted)] mb-2 block">System Status</span>
                             <div className="flex items-center gap-4 text-green-400 font-black brand-font text-2xl uppercase">
                                 <ShieldCheck className="w-8 h-8" />
@@ -138,7 +138,7 @@ const LifePulseMap = () => {
                             </AnimatePresence>
 
                             {/* Glass Statistics Overlay */}
-                            <div className="absolute top-8 left-8 p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] backdrop-blur-md pointer-events-none">
+                            <div className="absolute top-4 left-4 md:top-8 md:left-8 p-4 md:p-6 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] backdrop-blur-md pointer-events-none">
                                 <div className="space-y-4">
                                     <div>
                                         <p className="text-[10px] font-black uppercase tracking-widest text-[var(--text-muted)] mb-1">Impact Velocity</p>

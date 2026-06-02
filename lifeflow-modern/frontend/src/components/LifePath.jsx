@@ -64,7 +64,7 @@ const LifePath = () => {
                         <ShieldCheck className="w-4 h-4 text-emerald-500" />
                         Education First
                     </Motion.div>
-                    <h2 className="text-5xl md:text-7xl font-black brand-font tracking-tight text-[var(--text-primary)] leading-tight">
+                    <h2 className="text-4xl md:text-5xl lg:text-7xl font-black brand-font tracking-tight text-[var(--text-primary)] leading-tight">
                         The <span className="text-red-600">Life Path.</span> <br/>
                         A Journey of Hope.
                     </h2>
@@ -74,7 +74,7 @@ const LifePath = () => {
                 </div>
 
                 {/* Interactive Path UI */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-start">
                     {/* Step Selectors */}
                     <div className="lg:col-span-4 space-y-4">
                         {steps.map((step, idx) => (
@@ -122,7 +122,7 @@ const LifePath = () => {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
                                 transition={{ duration: 0.5, ease: "easeOut" }}
-                                className="bg-[var(--bg-card)] p-12 md:p-16 rounded-[4rem] shadow-[var(--shadow)] border border-[var(--border)] relative overflow-hidden h-full"
+                                className="bg-[var(--bg-card)] p-6 md:p-12 lg:p-16 rounded-[4rem] shadow-[var(--shadow)] border border-[var(--border)] relative overflow-hidden h-full"
                             >
                                 {/* Liquid Graphic Overlay */}
                                 <div className={`absolute -top-32 -right-32 w-64 h-64 rounded-full blur-[80px] opacity-20 ${steps[activeStep].color}`}></div>
@@ -133,7 +133,7 @@ const LifePath = () => {
                                     </div>
 
                                     <div className="space-y-6">
-                                        <h3 className="text-4xl md:text-6xl font-black brand-font tracking-tight text-[var(--text-primary)]">
+                                        <h3 className="text-3xl md:text-5xl lg:text-6xl font-black brand-font tracking-tight text-[var(--text-primary)]">
                                             {steps[activeStep].title}
                                         </h3>
                                         <p className="text-2xl text-[var(--text-secondary)] font-medium leading-relaxed">
@@ -141,7 +141,7 @@ const LifePath = () => {
                                         </p>
                                     </div>
 
-                                    <div className="p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border)] flex items-start gap-6 group hover:border-red-500/10 transition-colors">
+                                    <div className="p-6 md:p-8 rounded-3xl bg-[var(--bg-secondary)] border border-[var(--border)] flex flex-col sm:flex-row items-start gap-4 sm:gap-6 group hover:border-red-500/10 transition-colors">
                                         <div className="mt-1">
                                             <div className="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600">
                                                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

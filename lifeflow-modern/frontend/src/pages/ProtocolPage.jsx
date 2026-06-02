@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ShieldCheck, FileText, HelpCircle, Lock, Activity, ArrowLeft } from 'lucide-react';
+// eslint-disable-next-line no-unused-vars
 import { motion } from 'framer-motion';
 
 const PROTOCOL_DATA = {

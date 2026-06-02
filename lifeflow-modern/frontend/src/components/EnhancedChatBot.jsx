@@ -110,7 +110,7 @@ const EnhancedChatBot = () => {
                         className="w-full max-w-[440px] h-[650px] pointer-events-auto bg-[var(--bg-primary)]/80 backdrop-blur-3xl rounded-[3rem] border border-white/20 shadow-[0_50px_100px_rgba(0,0,0,0.3)] flex flex-col overflow-hidden relative"
                     >
                         {/* Premium Header */}
-                        <div className="p-8 bg-gradient-to-br from-red-600 to-red-800 relative overflow-hidden">
+                        <div className="p-5 md:p-8 bg-gradient-to-br from-red-600 to-red-800 relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                             <div className="flex items-center justify-between relative z-10">
                                 <div className="flex items-center gap-5">
@@ -140,7 +140,7 @@ const EnhancedChatBot = () => {
                         </div>
 
                         {/* Message Feed */}
-                        <div className="flex-1 overflow-y-auto p-8 space-y-8 scrollbar-hide">
+                        <div className="flex-1 overflow-y-auto p-5 md:p-8 space-y-6 md:space-y-8 scrollbar-hide">
                             {messages.map((msg) => (
                                 <motion.div
                                     key={msg.id}
@@ -228,7 +228,7 @@ const EnhancedChatBot = () => {
                         </div>
 
                         {/* Input Area */}
-                        <div className="p-8 pt-0">
+                        <div className="p-5 md:p-8 pt-0">
                             <div className="bg-[var(--bg-secondary)] border border-[var(--border)] rounded-[2.5rem] p-3 flex items-center gap-3 shadow-2xl focus-within:border-red-500/50 focus-within:ring-4 ring-red-500/5 transition-all">
                                 <div className="w-12 h-12 rounded-2xl bg-[var(--bg-primary)] flex items-center justify-center text-red-500 shrink-0">
                                     <MessageSquare className="w-6 h-6" />

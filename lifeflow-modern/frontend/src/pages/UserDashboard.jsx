@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useState, useEffect } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
 import AnimatedAvatar from '../components/AnimatedAvatar';
@@ -9,7 +9,6 @@ import Footer from '../components/Footer';
 import { FileText, Hourglass, CheckCircle2, Activity, HandHeart, Clock, UserCheck, Droplet, CalendarDays, AlertCircle, ChevronDown, CheckCircle, Clock3, MapPin, ArrowRightLeft, Heart, LifeBuoy, Building2, Sparkles, LogOut } from 'lucide-react';
 
 import { useAuthStore } from '../context/authStore';
-import { useThemeStore } from '../context/themeStore';
 import api from '../lib/api';
 import logoImg from '../assets/logo.png';
 import toast from 'react-hot-toast';
@@ -18,6 +17,7 @@ import ModernInput from '../components/ModernInput';
 import ModernSelect from '../components/ModernSelect';
 
 
+// eslint-disable-next-line no-unused-vars
 const StatCard = ({ title, value, colorClass, Icon, delay }) => (
     <motion.div 
         initial={{ opacity: 0, y: 20 }}
@@ -207,12 +207,12 @@ const HealthInsights = ({ bloodGroup }) => {
 const UserDashboard = () => {
 
     const { user, refreshUser } = useAuthStore();
-    const { isDark } = useThemeStore();
+    // const isDark = useThemeStore(state => state.isDark);
 
     useEffect(() => {
         if (refreshUser) refreshUser();
     }, [refreshUser]);
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const [activeSection, setActiveSection] = useState('main');
     const [isSupportOpen, setIsSupportOpen] = useState(false);
     useEffect(() => {
@@ -641,7 +641,7 @@ const UserDashboard = () => {
                 </motion.div>
 
             {/* Main Content Area - Independent Scroll */}
-            <div className="flex-1 px-6 md:px-16 pt-10 pb-32 z-10 w-full overflow-y-auto custom-scrollbar relative h-full">
+            <div className="flex-1 px-4 md:px-16 pt-8 md:pt-10 pb-32 z-10 w-full overflow-y-auto custom-scrollbar relative h-full">
                 <AnimatePresence mode="wait">
                     {/* SECTION: MAIN OVERVIEW */}
                     {activeSection === 'main' && (
@@ -657,7 +657,7 @@ const UserDashboard = () => {
                                     <div className="absolute inset-0 bg-gradient-to-tr from-[var(--bg-primary)] via-[var(--bg-primary)]/60 to-transparent" />
                                 </div>
                                 
-                                <div className="relative z-10 p-16 w-full flex flex-col lg:flex-row items-center justify-between gap-12">
+                                <div className="relative z-10 p-6 sm:p-10 md:p-16 w-full flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12">
                                     <div className="flex-grow text-center lg:text-left max-w-2xl">
                                         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
                                             className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/5 backdrop-blur-2xl border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.4em] mb-8 shadow-2xl">
@@ -707,22 +707,22 @@ const UserDashboard = () => {
                                         </div>
                                     </div>
                                     
-                                    <div className="shrink-0 p-12 rounded-[4rem] glass-premium border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.4)] transform hover:scale-105 transition-transform duration-1000">
+                                    <div className="shrink-0 p-8 sm:p-12 rounded-[4rem] glass-premium border-white/10 shadow-[0_50px_100px_rgba(0,0,0,0.4)] transform hover:scale-105 transition-transform duration-1000">
                                         <EligibilityRing date={dashboardData.nextEligibilityDate} />
                                     </div>
                                 </div>
                             </div>
 
                             {/* CORE STATS */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
                                 {[
                                     { title: "Total Requests", value: dashboardData.total, icon: Activity, delay: 0.1, color: "blue" },
                                     { title: "Pending", value: dashboardData.pending, icon: Hourglass, delay: 0.2, color: "yellow" },
                                     { title: "Lives Saved", value: dashboardData.livesSaved, icon: Droplet, delay: 0.3, color: "red" },
                                     { title: "Points", value: dashboardData.points, icon: Activity, delay: 0.4, color: "emerald" }
-                                ].map((stat, idx) => (
+                                ].map((stat) => (
                                     <motion.div key={stat.title} initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: stat.delay, type: 'spring', damping: 20 }}
-                                        className="glass-premium p-12 rounded-[3.5rem] border-white/5 hover:border-[#dc143c]/40 group transition-all cursor-pointer relative overflow-hidden shadow-2xl">
+                                        className="glass-premium p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] border-white/5 hover:border-[#dc143c]/40 group transition-all cursor-pointer relative overflow-hidden shadow-2xl">
                                         <div className="relative z-10">
                                             <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center mb-10 bg-white/5 border border-white/10 group-hover:scale-110 group-hover:bg-[#dc143c] group-hover:text-white transition-all duration-700`}>
                                                 <stat.icon className="w-8 h-8" />
@@ -738,7 +738,7 @@ const UserDashboard = () => {
                             </div>
 
                             {/* DONATION JOURNEY & HEALTH INSIGHTS */}
-                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-12">
                                 <div className="lg:col-span-2">
                                     <HealthInsights bloodGroup={user?.bloodGroup} />
                                 </div>
@@ -751,8 +751,8 @@ const UserDashboard = () => {
                             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
                                 className="glass-premium p-14 rounded-[4rem] border-white/5 shadow-[0_50px_100px_rgba(0,0,0,0.3)] relative overflow-hidden group">
                                 <div className="absolute top-0 right-0 w-[500px] h-full bg-red-600/5 -skew-x-12 translate-x-64 group-hover:translate-x-48 transition-transform duration-[3s]"></div>
-                                <div className="flex flex-col md:flex-row items-center justify-between gap-16 relative z-10">
-                                    <div className="flex items-center gap-10">
+                                <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16 relative z-10">
+                                    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 text-center md:text-left">
                                         <div className="w-24 h-24 rounded-[2rem] bg-[#dc143c] flex items-center justify-center text-white shadow-[0_30px_60px_rgba(220,20,60,0.4)] group-hover:rotate-12 transition-all duration-700">
                                             <Heart className="w-12 h-12" />
                                         </div>
@@ -804,7 +804,7 @@ const UserDashboard = () => {
                                 <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Broadcast a medical requirement to the global donor network</p>
                             </div>
                             
-                            <div className="glass-premium p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
+                            <div className="glass-premium p-6 sm:p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#dc143c]/5 rounded-bl-full z-0 blur-[100px]" />
                                 <form onSubmit={submitRequest} className="space-y-8 relative z-10">
                                     <ModernInput label="Patient Name" required value={reqForm.patientName} onChange={() => {}} disabled={true} placeholder="Full Medical Name" />
@@ -839,7 +839,7 @@ const UserDashboard = () => {
                                 <p className="text-[10px] text-[var(--text-muted)] font-black uppercase tracking-[0.3em]">Pledge a bio-donation and secure regional life-lines</p>
                             </div>
                             
-                            <div className="glass-premium p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
+                            <div className="glass-premium p-6 sm:p-10 lg:p-12 rounded-[2.5rem] border-white/5 shadow-[0_80px_150px_rgba(0,0,0,0.5)] relative overflow-hidden">
                                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-indigo-600/5 rounded-bl-full z-0 blur-[100px]" />
                                 <form onSubmit={submitDonation} className="space-y-8 relative z-10">
                                     <ModernSelect label="Select Camp" options={availableCamps.map(c => ({ value: c.id, label: `${c.name} (${c.city})` }))} value={donForm.campId} onChange={e => setDonForm({...donForm, campId: e.target.value})} />
@@ -867,9 +867,9 @@ const UserDashboard = () => {
                             <div className="space-y-12 relative before:absolute before:inset-0 before:left-1/2 before:-translate-x-1/2 before:w-px before:bg-gradient-to-b before:from-[#dc143c] before:via-[var(--border)] before:to-transparent before:h-full hidden md:block">
                                 {history.map((record, index) => (
                                     <motion.div key={record._id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.1, type: 'spring' }}
-                                        className={`relative flex items-center gap-12 group ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                                        className={`relative flex flex-col md:flex-row items-center gap-8 md:gap-12 group ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
                                         <div className={`flex-1 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
-                                            <div className="glass-premium p-10 rounded-[3rem] border-white/5 hover:border-[#dc143c]/40 transition-all group-hover:-translate-y-3 shadow-2xl relative overflow-hidden">
+                                            <div className="glass-premium p-6 md:p-10 rounded-[3rem] border-white/5 hover:border-[#dc143c]/40 transition-all group-hover:-translate-y-3 shadow-2xl relative overflow-hidden">
                                                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#dc143c]/5 rounded-bl-full z-0 blur-3xl" />
                                                 <div className="relative z-10">
                                                     <div className={`flex items-center gap-5 mb-5 ${index % 2 === 0 ? 'justify-end' : 'justify-start'}`}>

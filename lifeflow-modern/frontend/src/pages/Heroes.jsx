@@ -198,7 +198,7 @@ const Heroes = () => {
                                             whileInView={{ opacity: 1, y: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ delay: idx * 0.1, type: "spring", stiffness: 100 }}
-                                            className={`backdrop-blur-2xl rounded-[3rem] p-10 text-center border-2 transition-all duration-700 hover:-translate-y-5 group shadow-2xl relative overflow-hidden flex flex-col items-center justify-between min-h-[400px] ${
+                                            className={`backdrop-blur-2xl rounded-[3rem] p-6 md:p-10 text-center border-2 transition-all duration-700 hover:-translate-y-5 group shadow-2xl relative overflow-hidden flex flex-col items-center justify-between min-h-[400px] ${
                                                 name === user?.badge 
                                                     ? 'bg-[var(--accent)]/15 border-[var(--accent)] shadow-[0_30px_60px_rgba(239,68,68,0.3)] scale-110 z-10' 
                                                     : 'bg-[var(--bg-secondary)]/80 border border-[var(--border)] hover:border-[var(--accent)]/50'
@@ -245,8 +245,8 @@ const Heroes = () => {
                     >
                         <div className="container mx-auto max-w-6xl">
                             {/* User Progress */}
-                            <div className="bg-[var(--bg-secondary)] backdrop-blur-sm rounded-2xl p-8 mb-8 border border-[var(--border)]">
-                                <div className="grid md:grid-cols-2 gap-8">
+                            <div className="bg-[var(--bg-secondary)] backdrop-blur-sm rounded-2xl p-4 md:p-8 mb-8 border border-[var(--border)]">
+                                <div className="grid md:grid-cols-2 gap-4 md:gap-8">
                                     <div>
                                         <h3 className="text-[var(--text-primary)] text-xl font-black uppercase tracking-widest mb-6">Your Progress</h3>
                                         <div className="space-y-4">

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+// eslint-disable-next-line no-unused-vars
+import { motion } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 
 const pageVariants = {

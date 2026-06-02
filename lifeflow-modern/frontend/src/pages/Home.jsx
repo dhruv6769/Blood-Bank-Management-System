@@ -272,7 +272,7 @@ const Home = () => {
       {/* Stats Section — Ultra Premium Glassmorphism */}
       <section className="relative z-20 py-20 md:py-32 px-6">
          <div className="container mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-10">
                 {[
                   { icon: Heart, label: "Neural Lives Saved", value: stats.livesSaved, suffix: "+", color: "#ff3b5c", glowColor: "rgba(255,59,92,0.3)" },
                   { icon: Users, label: "Active Network Nodes", value: stats.activeDonors, suffix: "+", color: "#6366f1", glowColor: "rgba(99,102,241,0.3)" },
@@ -286,7 +286,7 @@ const Home = () => {
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     whileHover={{ y: -12, scale: 1.05 }}
-                    className="glass-premium p-10 rounded-[2.5rem] relative overflow-hidden cursor-pointer group"
+                    className="glass-premium p-6 md:p-10 rounded-[2.5rem] relative overflow-hidden cursor-pointer group"
                   >
                     <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{ background: stat.glowColor }} />
                     <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6" style={{ backgroundColor: `${stat.color}15`, color: stat.color, border: `1px solid ${stat.color}30` }}>
@@ -333,7 +333,7 @@ const Home = () => {
                </h3>
             </Motion.div>
  
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
                 {[
                   { img: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&q=80&w=800", title: "Sterile Node Prep", desc: "Equipped with state-of-the-art sterile tools, the synchronization takes merely 10 minutes in a high-fidelity clinical environment.", num: "01" },
                   { img: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800", title: "Neural Vitals Scan", desc: "Every participant receives a complimentary advanced clinical diagnostic, tracking vital metrics and hemoglobin levels.", num: "02" },
@@ -350,7 +350,7 @@ const Home = () => {
                      <img src={card.img} alt={card.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] group-hover:scale-110 blur-[2px] group-hover:blur-0" />
                      <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)]/40 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-700"></div>
                      
-                     <div className="absolute inset-0 p-10 flex flex-col justify-end text-left">
+                     <div className="absolute inset-0 p-6 md:p-10 flex flex-col justify-end text-left">
                         <span className="text-[var(--text-primary)] opacity-10 font-black text-9xl absolute -top-10 -right-5 transform group-hover:translate-x-10 transition-transform duration-1000">{card.num}</span>
                         <div className="relative z-10 transform group-hover:-translate-y-4 transition-transform duration-700">
                           <h4 className="text-4xl font-black text-[var(--text-primary)] mb-4 leading-[1.1]">{card.title}</h4>

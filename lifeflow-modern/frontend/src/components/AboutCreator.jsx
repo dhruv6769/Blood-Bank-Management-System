@@ -1,9 +1,17 @@
 import React, { useState, useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { 
   Github, Linkedin, Instagram, 
   Code2, Medal, Zap, Terminal
 } from 'lucide-react';
+
+const goldenDust = [...Array(100)].map((_, i) => ({
+    id: i,
+    angle: Math.random() * 360,
+    offset: (Math.random() - 0.5) * 15,
+    duration: 2 + Math.random() * 2
+}));
 
 const AboutCreator = () => {
     const containerRef = useRef(null);
@@ -60,7 +68,7 @@ const AboutCreator = () => {
                             SYSTEM ARCHITECT
                         </div>
                         
-                        <h2 className="text-5xl md:text-[110px] font-black text-white leading-[0.85] tracking-tight">
+                        <h2 className="text-4xl sm:text-5xl md:text-[110px] font-black text-white leading-[0.85] tracking-tight">
                             The Core<br />
                             <span className="text-[#dc143c]">Developer.</span>
                         </h2>
@@ -75,7 +83,7 @@ const AboutCreator = () => {
                         {/* WEB ARCHITECT CARD */}
                         <motion.div 
                             whileHover={{ scale: 1.03, y: -5, borderColor: 'rgba(59, 130, 246, 0.3)' }}
-                            className="bg-[#0a0a0a] p-8 rounded-[2.5rem] border border-white/5 flex items-center gap-6 shadow-2xl transition-colors cursor-pointer group"
+                            className="bg-[#0a0a0a] p-6 md:p-8 rounded-[2.5rem] border border-white/5 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-2xl transition-colors cursor-pointer group text-center sm:text-left"
                         >
                             <div className="w-16 h-16 rounded-2xl bg-[#1e293b]/50 border border-blue-500/10 flex items-center justify-center text-blue-400 group-hover:bg-blue-500/20 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all duration-500">
                                 <Code2 size={28} className="group-hover:scale-110 transition-transform" />
@@ -89,7 +97,7 @@ const AboutCreator = () => {
                         {/* CLINICAL LOGIC CARD */}
                         <motion.div 
                             whileHover={{ scale: 1.03, y: -5, borderColor: 'rgba(220, 20, 60, 0.3)' }}
-                            className="bg-[#0a0a0a] p-8 rounded-[2.5rem] border border-white/5 flex items-center gap-6 shadow-2xl transition-colors cursor-pointer group"
+                            className="bg-[#0a0a0a] p-6 md:p-8 rounded-[2.5rem] border border-white/5 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 shadow-2xl transition-colors cursor-pointer group text-center sm:text-left"
                         >
                             <div className="w-16 h-16 rounded-2xl bg-[#dc143c]/10 border border-[#dc143c]/10 flex items-center justify-center text-[#dc143c] group-hover:bg-[#dc143c]/20 group-hover:shadow-[0_0_20px_rgba(220,20,60,0.3)] transition-all duration-500">
                                 <Medal size={28} className="group-hover:scale-110 transition-transform" />
@@ -136,21 +144,17 @@ const AboutCreator = () => {
                             <div className="absolute inset-0 rounded-full border-[12px] border-[#fbbf24]/30 shadow-[0_0_100px_rgba(251,191,36,0.2)]" />
                             
                             {/* GOLDEN DUST */}
-                            {[...Array(100)].map((_, i) => {
-                                const angle = Math.random() * 360;
-                                const offset = (Math.random() - 0.5) * 15;
-                                return (
-                                    <motion.div
-                                        key={`dust-${i}`}
-                                        className="absolute w-[2px] h-[2px] bg-yellow-300 rounded-full opacity-60"
-                                        animate={{ opacity: [0.2, 0.8, 0.2] }}
-                                        transition={{ duration: 2 + Math.random() * 2, repeat: Infinity }}
-                                        style={{
-                                            transform: `rotate(${angle}deg) translateY(${radius + offset}px)`
-                                        }}
-                                    />
-                                );
-                            })}
+                            {goldenDust.map((dust) => (
+                                <motion.div
+                                    key={`dust-${dust.id}`}
+                                    className="absolute w-[2px] h-[2px] bg-yellow-300 rounded-full opacity-60"
+                                    animate={{ opacity: [0.2, 0.8, 0.2] }}
+                                    transition={{ duration: dust.duration, repeat: Infinity }}
+                                    style={{
+                                        transform: `rotate(${dust.angle}deg) translateY(${radius + dust.offset}px)`
+                                    }}
+                                />
+                            ))}
 
                             {/* LIGHT SWEEP */}
                             <svg className="absolute inset-0 w-full h-full scale-[1.01] -rotate-90" viewBox="0 0 100 100">
@@ -216,7 +220,7 @@ const AboutCreator = () => {
                             
                             {/* OVERLAYS */}
                             <div className="absolute inset-0 pointer-events-none">
-                                <div className="absolute top-8 right-8 flex flex-col items-center">
+                                <div className="absolute top-4 right-4 md:top-8 md:right-8 flex flex-col items-center">
                                     <div className="w-3 h-3 rounded-full bg-[#dc143c] animate-pulse mb-2 shadow-[0_0_15px_#dc143c]" />
                                     <div className="text-[10px] font-black text-[#dc143c] uppercase tracking-[0.3em] bg-black/40 px-4 py-1 rounded-full border border-[#dc143c]/30">
                                         Clinical Precision

@@ -183,7 +183,7 @@ const Register = () => {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className="hidden lg:flex flex-[1] relative flex-col justify-center px-16 xl:px-24 z-10"
       >
-        <Link to="/" className="absolute top-12 left-16 flex items-center gap-4 no-underline group">
+        <Link to="/" className="absolute top-6 left-6 md:top-12 md:left-16 flex items-center gap-4 no-underline group z-30">
           <div className="w-12 h-12 bg-gradient-to-br from-[#dc143c] to-[#8b0000] rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 group-hover:scale-110 transition-transform duration-500 overflow-hidden">
             <img src={logoImg} alt="LifeFlow Logo" className="w-full h-full object-cover scale-[1.6]" />
           </div>
@@ -201,7 +201,7 @@ const Register = () => {
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#dc143c]/10 border border-[#dc143c]/20 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-[#dc143c] mb-8">
               <Sparkles className="w-3 h-3" /> Get Started
             </span>
-            <h1 className="text-6xl xl:text-7xl font-black leading-[1.05] tracking-tighter mb-8" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-5xl md:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tighter mb-8" style={{ color: 'var(--text-primary)' }}>
               Be the reason <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#dc143c] to-[#ff6b6b]">someone lives.</span>
             </h1>
@@ -211,7 +211,7 @@ const Register = () => {
             </p>
           </motion.div>
           
-          <div className="mt-16 backdrop-blur-xl p-8 rounded-[2rem] flex items-center gap-6 group hover:border-[#dc143c]/30 transition-all duration-300" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+          <div className="mt-8 md:mt-16 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] flex items-center gap-4 md:gap-6 group hover:border-[#dc143c]/30 transition-all duration-300" style={{ background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
             <div className="p-4 bg-[#dc143c]/10 rounded-2xl text-[#dc143c]">
               <Activity size={32} />
             </div>
@@ -231,7 +231,7 @@ const Register = () => {
         className="flex-1 flex items-center justify-center p-6 lg:p-12 z-10"
       >
         <div className="w-full max-w-[540px]">
-          <div className="glass-premium p-8 lg:p-12 rounded-[3.5rem] relative overflow-hidden group hover:shadow-[0_40px_80px_rgba(220,20,60,0.12)] transition-all duration-700">
+          <div className="glass-premium p-6 md:p-8 lg:p-12 rounded-[3.5rem] relative overflow-hidden group hover:shadow-[0_40px_80px_rgba(220,20,60,0.12)] transition-all duration-700">
             {/* Border Beam Technology */}
             <div className="border-beam opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
             
@@ -406,7 +406,7 @@ const Register = () => {
                           showPasswordToggle
                         />
                         
-                        <div className="p-8 glass-premium rounded-[2.5rem] flex items-start gap-6 relative overflow-hidden">
+                        <div className="p-6 md:p-8 glass-premium rounded-[2.5rem] flex flex-col sm:flex-row items-start gap-4 md:gap-6 relative overflow-hidden">
                           <div className="absolute top-0 right-0 w-24 h-24 bg-[#dc143c]/5 blur-3xl rounded-full" />
                           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#dc143c] to-[#8b0000] flex items-center justify-center text-white shadow-xl shadow-red-500/30 shrink-0">
                             <ShieldCheck size={28} />

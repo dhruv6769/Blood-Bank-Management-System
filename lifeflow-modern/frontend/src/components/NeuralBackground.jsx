@@ -1,5 +1,14 @@
 import React, { useEffect, useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { motion, useScroll, useTransform } from 'framer-motion';
+
+const nodes = [...Array(15)].map((_, i) => ({
+  id: i,
+  x: Math.random() * 100 + '%',
+  y: Math.random() * 100 + '%',
+  duration: 15 + Math.random() * 10,
+  delay: Math.random() * 5
+}));
 
 const NeuralBackground = () => {
   const containerRef = useRef(null);
@@ -114,12 +123,12 @@ const NeuralBackground = () => {
       ))}
 
       {/* 9. Floating Life Nodes (Subtle Particles) */}
-      {[...Array(15)].map((_, i) => (
+      {nodes.map((node) => (
         <motion.div
-          key={`node-${i}`}
+          key={`node-${node.id}`}
           initial={{ 
-            x: Math.random() * 100 + '%', 
-            y: Math.random() * 100 + '%',
+            x: node.x, 
+            y: node.y,
             opacity: 0 
           }}
           animate={{ 
@@ -127,9 +136,9 @@ const NeuralBackground = () => {
             opacity: [0, 0.15, 0]
           }}
           transition={{ 
-            duration: 15 + Math.random() * 10, 
+            duration: node.duration, 
             repeat: Infinity, 
-            delay: Math.random() * 5 
+            delay: node.delay 
           }}
           className="absolute w-1 h-1 bg-[#dc143c] rounded-full blur-[1px]"
         />
